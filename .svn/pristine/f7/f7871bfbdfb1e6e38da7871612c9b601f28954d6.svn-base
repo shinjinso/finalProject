@@ -1,0 +1,11 @@
+package kr.or.ddit.salary.service.Impl;
+
+import org.springframework.stereotype.Service;
+
+import kr.or.ddit.salary.service.SalaryService;
+
+@Service
+public class SalaryServiceImpl implements SalaryService {
+	
+	
+}

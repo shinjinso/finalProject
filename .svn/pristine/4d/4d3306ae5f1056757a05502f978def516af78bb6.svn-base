@@ -1,0 +1,29 @@
+package kr.or.ddit.controller;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+
+@RequestMapping("/salary")
+@Controller
+public class SalaryController {
+
+	@GetMapping("/home")
+	public String home() {
+		return "salary/salaryHome";
+	}
+	
+	@GetMapping("/pastPayroll")
+	public String pastPayroll() {
+		return "salary/pastPayroll";
+	}
+	
+	@GetMapping("/tmpList")
+	public String tmpList() {
+		return "salary/tmpList";
+	}
+	
+	
+	
+}

@@ -1,0 +1,31 @@
+package kr.or.ddit.vo;
+
+import java.util.Date;
+
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
+@Getter
+@Setter
+@ToString
+public class CnthxVO {
+	private int cnthxNo;
+	private String empNo;
+	private String cntWriter;
+	private Date blctSdate;
+	private Date blctEdate;
+	private String blCase;
+	private Date bwctSdate;
+	private Date bwctEdate;
+	private int bcntAmt;
+	private int bfex;
+	private String bincClf;
+	private Date cngDate;
+	private String cngMm;
+	private Date prSdate;
+	private Date prEdate;
+	private String cntEditor;
+	private Date editDate;
+	private String delyn;
+}

@@ -1,0 +1,31 @@
+package kr.or.ddit.salary.service.Impl;
+
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import kr.or.ddit.common.vo.EmpVO;
+import kr.or.ddit.salary.mapper.PayDedMapper;
+import kr.or.ddit.salary.mapper.dataManagementMapper;
+import kr.or.ddit.salary.service.PayDedService;
+import kr.or.ddit.salary.service.dataManagementService;
+import kr.or.ddit.salary.vo.PayDedVO;
+
+@Service
+public class dataManagementServiceImpl implements dataManagementService {
+	
+	@Autowired
+	dataManagementMapper dataManagementMapper;
+
+	@Override
+	public List<EmpVO> empList(String name) {
+		return this.dataManagementMapper.empList(name);
+	}
+	
+	
+
+
+
+}

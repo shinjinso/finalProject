@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.ddit.personnel.mapper.MemberMapper">
+
+	<resultMap type="empVO" id="empMap">
+		<result property="empNo" column="EMP_NO"/>
+		<result property="empNm" column="EMP_NM"/>
+		<result property="empPass" column="EMP_PASS"/>
+		<result property="genCode" column="GEN_CODE"/>
+		<result property="empMail" column="EMP_MAIL"/>
+		<result property="empAddr1" column="EMP_ADDR1"/>
+		<result property="empAddr2" column="EMP_ADDR2"/>
+		<result property="empAddr3" column="EMP_ADDR3"/>
+		<result property="empBrdt" column="EMP_BRDT"/>
+		<result property="regn" column="REGN"/>
+		<result property="cpNo" column="CP_NO"/>
+		<result property="ofcNo" column="OFC_NO"/>
+		<result property="empImg" column="EMP_IMG"/>
+		<result property="bankCode" column="BANK_CODE"/>
+		<result property="acctNo" column="ACCT_NO"/>
+		<result property="owner" column="OWNER"/>
+		<result property="entDate" column="ENT_DATE"/>
+		<result property="outDate" column="OUT_DATE"/>
+		<result property="empMm" column="EMP_MM"/>
+		<result property="ctrtCaseCode" column="CTRT_CASE_CODE"/>
+		<result property="entCaseCode" column="ENT_CASE_CODE"/>
+		<result property="bsWktime" column="BS_WKTIME"/>
+		<result property="dtcode" column="DTCODE"/>
+		<result property="ptnCode" column="PTN_CODE"/>
+		<result property="jcode" column="JCODE"/>
+		<result property="grdCode" column="GRD_CODE"/>
+		<result property="enabled" column="ENABLED"/>
+		<result property="stClfCd" column="ST_CLF_CD"/>
+		<result property="empSalary" column="EMP_SALARY"/>
+		<result property="profileFileNo" column="PROFILE_FILE_NO"/>
+		<result property="signFileNo" column="SIGN_FILE_NO"/>
+		<collection property="authoAlwncVOList" resultMap="authMap" />
+	</resultMap>
+
+	<resultMap type="authorAlwncVO" id="authMap">
+		<result property="authrtId" column="AUTHRT_ID"/>
+		<result property="empNo" column="EMP_NO"/>
+	</resultMap>
+	
+	<select id="read" resultMap="empMap" parameterType="EmpVO">
+		select A.EMP_NO, A.EMP_NM, A.EMP_PASS, A.GEN_CODE, A.EMP_MAIL
+	       , A.EMP_ADDR1, A.EMP_ADDR2, A.EMP_ADDR3, A.EMP_BRDT, A.REGN
+	       , A.CP_NO, A.OFC_NO, A.EMP_IMG, A.BANK_CODE, A.ACCT_NO
+	       , A.OWNER, A.ENT_DATE, A.OUT_DATE, A.EMP_MM, A.CTRT_CASE_CODE
+	       , A.ENT_CASE_CODE, A.BS_WKTIME, A.DTCODE, A.PTN_CODE, A.JCODE
+	       , A.GRD_CODE, A.ENABLED, A.ST_CLF_CD, A.EMP_SALARY, A.PROFILE_FILE_NO, A.SIGN_FILE_NO
+	       
+	       , B.AUTHRT_ID
+		from EMP A , AUTHOR_ALWNC B 
+		where A.EMP_NO = #{empNo} and A.EMP_NO = B.EMP_NO
+	</select>
+	
+	<!-- 전체 사원정보 가져오기 -->
+	<select id="memberList" resultMap="empMap" >
+		select * from emp 
+	</select>
+	
+	
+	
+	<insert id="insertMember" parameterType="MemberVO">
+				insert into users(userid,username,password) values(#{userid},#{username},#{userpw})
+	</insert>
+	
+	<insert id="insertAuth" parameterType="AuthVO">
+				insert into authorities (userid, authority) values(#{userid},#{auth})
+	</insert>
+	
+	
+	
+	<!-- 부서정보(본부정보) 가져오기 -->
+	<select id="Acenter" resultType="DeptVO" >
+		select * from dept
+		where LENGTH(dcode) = 1
+	</select>
+	
+	<!-- 부서정보(부서정보) 가져오기 -->
+	<select id="Adept" resultType="DeptVO" parameterType="String">
+		select * from dept
+		where  dcode like ${Anum} || '_'
+	</select>
+	<!-- 부서정보(팀정보) 가져오기 -->
+	<select id="Ateam" resultType="DeptVO" parameterType="String">
+		select * from dept
+		where  dcode like ${Anum2} || '_'
+	</select>
+	
+	
+	
+	
+	
+</mapper>

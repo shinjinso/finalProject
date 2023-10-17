@@ -1,0 +1,160 @@
+package kr.or.ddit.personnel.controller;
+
+import java.security.Principal;
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
+import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import kr.or.ddit.common.vo.CnthxVO;
+import kr.or.ddit.common.vo.EmpVO;
+import kr.or.ddit.personnel.service.MemberService;
+import kr.or.ddit.vo.AsgmtVO;
+import kr.or.ddit.vo.DeptVO;
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
+@RequestMapping("/personnel")
+@Controller
+public class PpController {
+	
+	@Autowired
+	MemberService ppservice;
+	// 사원 리스트 조회 컨트롤러
+	@GetMapping("/emp")
+	public String ph(Model model) {
+		
+		//EmpVO empVO = ppservice.read(empNo);
+		//log.info("empVO : " + empVO);
+		//model.addAttribute("empVO",empVO);
+		
+		List<EmpVO> emplist = ppservice.empList();
+		
+		model.addAttribute("emplist",emplist);
+		log.info("리스트"+emplist);
+		
+		return"hrm/personnelHome";
+	}
+	
+	// 사원추가화면 컨트롤러
+	@GetMapping("/octree")
+	public String empAdd(Model model) {
+		
+		return"hrm/ocTree";
+	}
+	
+	//사원추가하기 컨트롤러
+	@ResponseBody
+	@PostMapping("/empadd")
+	public String empAdd2(EmpVO empVO) {
+		log.info("empAdd2->empVO : " + empVO);
+		
+		CnthxVO cnthxVO = empVO.getCnthxVO();
+		cnthxVO.setEmpNo(empVO.getEmpNo());
+		
+	    log.info("EmpVO야 제발 데이터야 들어와 : " + empVO, cnthxVO);
+
+	    int result = this.ppservice.insertEMP(empVO, cnthxVO);
+	    log.info("empAdd2 제대로 맵핑좀 되라 : " + result);
+
+	    String rslt = "success";
+	    if(result == 0) {
+	    	rslt = "fail";
+	    }
+	    
+	    //forwarding
+
+	    return rslt; // 여기에서 적절한 응답을 반환하도록 수정
+	}
+	
+	//인사발령 페이지 이동
+	@GetMapping("/Appointments")
+	public String Appointments(Principal principal, Model model) {
+	        log.info("쳌쳌, 사용자 이름: " + principal.getName());
+	        String empNo  = principal.getName();
+	        
+	        List<AsgmtVO> asgmtVOlist = ppservice.asgmtlist();
+
+	        log.info("체크리스트 " + asgmtVOlist );
+	        
+	        model.addAttribute("asgmtVOlist", asgmtVOlist);
+
+		return "hrm/Appointments";
+	}
+	
+	//인사발령 수정 페이지 이동
+	@PostMapping("/Appointmentset")
+	public String Appointmentset(Model model, @RequestParam String team, @RequestParam String promotion, @RequestParam String date,@RequestParam String note, @RequestParam String rsn) {
+		// 로그인한 정보 가져오기!!
+		List<EmpVO> memberlist = ppservice.memberList();
+		// 작성자 정보를 넣을꺼임
+		// 로그인한 정보 가져오기!!
+		
+		
+		//부서정보(본부) 가져오기
+		List<DeptVO> Acenterlist = ppservice.Acenter();
+
+		//부서정보 가져오기
+		model.addAttribute("Acenterlist", Acenterlist );
+		model.addAttribute("memberList",memberlist);
+		model.addAttribute("team", team);
+		model.addAttribute("promotion", promotion);
+		model.addAttribute("date", date);
+		model.addAttribute("note", note);
+		model.addAttribute("rsn", rsn);
+		
+		
+		
+
+		//forwarding
+		return "hrm/Appointmentset";
+		
+	}
+	
+	@ResponseBody
+	@GetMapping("/pDpm/{Anum}") //본부 ajax시
+	public List<DeptVO> pDpm(@PathVariable String Anum) { 
+		
+		//부서정보(부서) 가져오기
+		List<DeptVO> deptlist = ppservice.Adept(Anum);
+		log.info("deptlist : " + deptlist);
+		
+		return deptlist;
+	}
+	
+	@ResponseBody
+	@GetMapping("/pDpm2/{Anum2}")  // 부서 ajax시
+	public List<DeptVO> pDpm2(@PathVariable String Anum2) {
+		
+		
+		
+//		//부서정보(팀) 가져오기
+		List<DeptVO> teamlist = ppservice.Ateam(Anum2);
+		log.info("teamlist : " + teamlist);
+		
+		return teamlist;
+	}
+	
+	@ResponseBody
+	@PostMapping(value="Appointment", consumes = MediaType.APPLICATION_JSON_VALUE)
+	public int Appointmentput(@RequestBody List<Map<String, String>> rowData, DeptVO deptVO, EmpVO empVO, AsgmtVO asgmtVO) {
+		
+	        int insert = ppservice.asgmtInsert(rowData, deptVO, empVO, asgmtVO);
+
+	        
+		return insert;
+	}
+
+}

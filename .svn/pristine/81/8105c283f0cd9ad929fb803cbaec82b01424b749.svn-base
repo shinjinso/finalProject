@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.ddit.vacation.mapper.CusBkApplyMapper">
+	<!-- 로그인한 사원의 이름과 직위 자동 조회-->
+	<select id="EmpSelect" parameterType="String" resultType="empVO">
+		select EMP_NM , (SELECT CM_NM FROM CMCODE WHERE CM_CODE = PTN_CODE) PTN_CODE from EMP
+		where EMP_NO = #{empNo}
+		
+	</select>
+	
+	<insert id="insertBkApply" parameterType="BkApplyVO">
+	    INSERT INTO BK_APPLY (BK_NO, EMP_NO, BK_CODE, BK_SDATE, BK_EDATE, BK_RSN, BK_APST_CODE, FILE_SETTING, BK_CERT_YN)
+	    VALUES (vac_seq.nextval, #{empNo}, (SELECT BK_CODE FROM BK_KIND WHERE BK_NM = #{bkName}), #{bkSdate}, #{bkEdate}, #{bkRsn}, #{bkApstCode}, #{fileSetting}, #{bkCertYn})
+	</insert>
+	
+<!-- 	신청한  휴직 내역 상태 조회 -->
+	<select id="getSelect" parameterType="BkApplyVO" resultType="BkApplyVO">
+		select BK_NO, EMP_NO, (SELECT BK_NM FROM BK_KIND WHERE BK_CODE = #{bkCode}) as BK_CODE ,
+		  BK_SDATE, BK_EDATE, BK_CERT_YN, BK_APST_CODE 
+		from BK_APPLY WHERE EMP_NO=#{empNo}
+	</select>
+	
+</mapper>

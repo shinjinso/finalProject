@@ -1,0 +1,79 @@
+package kr.or.ddit.vacation.controller;
+
+import java.security.Principal;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import kr.or.ddit.common.vo.EmpVO;
+import kr.or.ddit.vacation.service.CusBkApplyService;
+import kr.or.ddit.vacation.service.CusMainService;
+import kr.or.ddit.vacation.vo.BkApplyVO;
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
+@RequestMapping("/vct")
+@Controller
+public class CSTBreakController {
+	
+	@Autowired
+	private CusBkApplyService cusBkApplyService;
+	
+	
+	@GetMapping(value="/bkApply")
+	public String EmpInfo() {
+			log.info("여기는 ");
+		return "vacation/bkApply";
+	}
+	//사원조회
+	@ResponseBody
+	@GetMapping(value="/bkApply/{empNo}",produces = "application/json;charset=utf-8")
+	public EmpVO selectEmp(Principal principal,@PathVariable String empNo) {
+		log.info("잘왔어?--------------------------------------------------");
+		
+		String empno = principal.getName();
+		log.info("principalNo:"+empno);
+		
+		
+		EmpVO vo = cusBkApplyService.EmpSelect(empno);
+		log.info("cusBkApplyService-->vo"+vo);
+		
+		return vo;
+	}
+	//휴직신청
+	@ResponseBody
+	@PostMapping(value="/bkApply")
+	public String insertBkApply(Principal principal, @RequestBody BkApplyVO bkApplyVO) {
+		
+		String empNo = principal.getName();
+		bkApplyVO.setEmpNo(empNo);
+		
+		log.info("empNo-->"+empNo);
+		log.info("vovovovovo"+bkApplyVO);
+		int result= cusBkApplyService.insertBkApply(bkApplyVO);
+		log.info("result-->"+result);
+		
+		return "success";
+	}
+	//신청내역조회
+//	@ResponseBody
+//	@GetMapping(value="/bkApply/{empNo}",produces = "application/json;charset=utf-8")
+//	public BkApplyVO getSelect(Principal principal, @PathVariable String empNo) {
+//			
+//		String empno = principal.getName();
+//		log.info("여기는 로그인 아이디-->"+empno);
+//		
+//		BkApplyVO bkVO = cusBkApplyService.getSelect(empno);
+//		log.info("bkVO"+bkVO);
+//		
+//		return bkVO;
+//	}
+	
+}

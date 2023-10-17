@@ -1,0 +1,698 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<style type="text/css">
+a:link {
+	color: black;
+	text-decoration: none;
+}
+
+a:visited {
+	color: black;
+	text-decoration: none;
+}
+
+a {
+	text-decoration-line: none;
+}
+
+.hr-sect {
+	display: flex;
+	flex-basis: 100%;
+	align-items: center;
+	color: rgba(0, 0, 0, 0.35);
+	font-size: 12px;
+	margin: 8px 0px;
+}
+
+.hr-sect::before, .hr-sect::after {
+	content: "";
+	flex-grow: 1;
+	background: rgba(0, 0, 0, 0.35);
+	height: 1px;
+	font-size: 0px;
+	line-height: 0px;
+	margin: 0px 16px;
+}
+
+</style>
+</head>
+<body>
+	<h2>
+		<font style="vertical-align: inherit;"><a href="/vct/main">내 휴가&nbsp;&nbsp;&nbsp;&nbsp;</font>
+	</h2>
+	<hr>
+	<h4>
+		<font style="vertical-align: inherit;"><a href="/vct/main">휴가&nbsp;&nbsp;</a></font>
+		<font style="vertical-align: inherit;"><a href="/vct/Annual">&nbsp;&nbsp;&nbsp;연차&nbsp;&nbsp;</a></font>
+		<font style="vertical-align: inherit;"><a href="/vct/bkApply">&nbsp;&nbsp;&nbsp;휴직</a></font>
+	</h4>
+	<hr>
+	<div class="col-12">
+		<div class="row align-items-center my-3">
+			<div class="col">
+				<h2 class="card-title">
+			<font style="vertical-align: inherit;"><font
+				style="vertical-align: inherit;">휴가 종류</font></font>
+		</h2>
+			</div>
+		</div>
+		<div>
+			<div class="accordion w-100" id="accordion1">
+				<div id="collapse1" class="collapse show" aria-labelledby="heading1"
+					data-parent="#accordion1">
+					<div class="row">
+						<div class="col-md-3">
+							<div class="card shadow mb-4">
+								<div class="card-body text-center">
+									<div class="avatar avatar-lg mt-4">
+										<button type="button" class="btn btn-primary"
+											data-toggle="modal" data-target=".modal-right"
+											style="background-color: transparent; border: none; box-shadow: none;">
+											<img
+												src="https://cdn-icons-png.flaticon.com/128/8062/8062290.png"
+												data-src="https://cdn-icons-png.flaticon.com/128/8062/8062290.png"
+												alt="휴가" title="휴가" width="64" height="64"
+												class="lzy lazyload--done"
+												srcset="https://cdn-icons-png.flaticon.com/128/8062/8062290.png 4x" />
+										</button>
+									</div>
+									<div class="card-text my-2">
+										<strong class="card-title my-0"><font
+											style="vertical-align: inherit;"><font
+												style="vertical-align: inherit;">연 차</font></font></strong>
+										<p class="small text-muted mb-0">
+											<font style="vertical-align: inherit;"><font
+												style="vertical-align: inherit;">14.0일 사용가능</font></font>
+										</p>
+									</div>
+								</div>
+								<!-- ./card-text -->
+								<div class="card-footer">
+									<div class="row align-items-center justify-content-between">
+										<div class="col-auto">
+											<small> <span class="dot dot-lg bg-success mr-1"></span><font
+												style="vertical-align: inherit;"><font
+													style="vertical-align: inherit;">1년 근속시 매월 지급</font></font></small>
+										</div>
+										<div class="col-auto">
+											<div class="file-action">
+												<button type="button"
+													class="btn btn-link dropdown-toggle more-vertical p-0 text-muted mx-auto"
+													data-toggle="dropdown" aria-haspopup="true"
+													aria-expanded="false">
+													<span class="text-muted sr-only"><font
+														style="vertical-align: inherit;"><font
+															style="vertical-align: inherit;">행동</font></font></span>
+												</button>
+												<div class="dropdown-menu m-2">
+													<a class="dropdown-item" href="#"><i
+														class="fe fe-delete fe-12 mr-4"></i>Delete</a>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+								<!-- /.card-footer -->
+							</div>
+						</div>
+						<!-- .col -->
+						<div class="col-md-3">
+							<div class="card shadow mb-4">
+								<div class="card-body text-center">
+									<div class="avatar avatar-lg mt-4">
+										<a href=""> <img
+											src="https://cdn-icons-png.flaticon.com/128/3370/3370935.png"
+											data-src="https://cdn-icons-png.flaticon.com/128/3370/3370935.png"
+											alt="결혼 " title="결혼 " width="64" height="64"
+											class="lzy lazyload--done"
+											srcset="https://cdn-icons-png.flaticon.com/128/3370/3370935.png 4x">
+										</a>
+									</div>
+									<div class="card-text my-2">
+										<strong class="card-title my-0"><font
+											style="vertical-align: inherit;"><font
+												style="vertical-align: inherit;">결혼 휴가</font></font></strong>
+										<p class="small text-muted mb-0">
+											<font style="vertical-align: inherit;"><font
+												style="vertical-align: inherit;">1.0일 사용가능</font></font>
+										</p>
+									</div>
+								</div>
+								<!-- ./card-text -->
+								<div class="card-footer">
+									<div class="row align-items-center justify-content-between">
+										<div class="col-auto">
+											<small> <span class="dot dot-lg bg-success mr-1"></span><font
+												style="vertical-align: inherit;"><font
+													style="vertical-align: inherit;">신청시 자동 지급</font></font></small>
+										</div>
+										<div class="col-auto">
+											<div class="file-action">
+												<button type="button"
+													class="btn btn-link dropdown-toggle more-vertical p-0 text-muted mx-auto"
+													data-toggle="dropdown" aria-haspopup="true"
+													aria-expanded="false">
+													<span class="text-muted sr-only"><font
+														style="vertical-align: inherit;"><font
+															style="vertical-align: inherit;">행동</font></font></span>
+												</button>
+												<div class="dropdown-menu m-2">
+													<a class="dropdown-item" href="#"></i>Delete</a>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+								<!-- /.card-footer -->
+							</div>
+						</div>
+						<!-- .col -->
+						<div class="col-md-3">
+							<div class="card shadow mb-4">
+								<div class="card-body text-center">
+									<div class="avatar avatar-lg mt-4">
+										<a href=""><img
+											src="https://cdn-icons-png.flaticon.com/128/9581/9581238.png"
+											data-src="https://cdn-icons-png.flaticon.com/128/9581/9581238.png"
+											alt="출산 관리 " title="출산 관리 " width="64" height="64"
+											class="lzy lazyload--done"
+											srcset="https://cdn-icons-png.flaticon.com/128/9581/9581238.png 4x">
+										</a>
+									</div>
+									<div class="card-text my-2">
+										<strong class="card-title my-0"><font
+											style="vertical-align: inherit;"><font
+												style="vertical-align: inherit;">배우자 출산 휴가</font></font></strong>
+										<p class="small text-muted mb-0">
+											<font style="vertical-align: inherit;"><font
+												style="vertical-align: inherit;">10.0일 사용가능</font></font>
+										</p>
+									</div>
+								</div>
+								<!-- ./card-text -->
+								<div class="card-footer">
+									<div class="row align-items-center justify-content-between">
+										<div class="col-auto">
+											<small> <span class="dot dot-lg bg-success mr-1"></span><font
+												style="vertical-align: inherit;"><font
+													style="vertical-align: inherit;">신청시 자동 지급</font></font></small>
+										</div>
+										<div class="col-auto">
+											<div class="file-action">
+												<button type="button"
+													class="btn btn-link dropdown-toggle more-vertical p-0 text-muted mx-auto"
+													data-toggle="dropdown" aria-haspopup="true"
+													aria-expanded="false">
+													<span class="text-muted sr-only"><font
+														style="vertical-align: inherit;"><font
+															style="vertical-align: inherit;">행동</font></font></span>
+												</button>
+												<div class="dropdown-menu m-2">
+													<a class="dropdown-item" href="#"><i
+														class="fe fe-delete fe-12 mr-4"></i>Delete</a>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+								<!-- /.card-footer -->
+							</div>
+						</div>
+						<!-- .col -->
+						<div class="col-md-3">
+							<div class="card shadow mb-4">
+								<div class="card-body text-center">
+									<div class="avatar avatar-lg mt-4">
+										<a href=""> <img
+											src="https://cdn-icons-png.flaticon.com/128/2454/2454297.png"
+											data-src="https://cdn-icons-png.flaticon.com/128/2454/2454297.png"
+											alt="생일 케이크 " title="생일 케이크 " width="64" height="64"
+											class="lzy lazyload--done"
+											srcset="https://cdn-icons-png.flaticon.com/128/2454/2454297.png 4x">
+										</a>
+									</div>
+									<div class="card-text my-2">
+										<strong class="card-title my-0"><font
+											style="vertical-align: inherit;"><font
+												style="vertical-align: inherit;">생일 휴가</font></font></strong>
+										<p class="small text-muted mb-0">
+											<font style="vertical-align: inherit;"><font
+												style="vertical-align: inherit;">4.0시간 사용가능</font></font>
+										</p>
+									</div>
+								</div>
+								<!-- ./card-text -->
+								<div class="card-footer">
+									<div class="row align-items-center justify-content-between">
+										<div class="col-auto">
+											<small> <span class="dot dot-lg bg-success mr-1"></span><font
+												style="vertical-align: inherit;"><font
+													style="vertical-align: inherit;">신청시 자동 지급</font></font></small>
+										</div>
+										<div class="col-auto">
+											<div class="file-action">
+												<button type="button"
+													class="btn btn-link dropdown-toggle more-vertical p-0 text-muted mx-auto"
+													data-toggle="dropdown" aria-haspopup="true"
+													aria-expanded="false">
+													<span class="text-muted sr-only"><font
+														style="vertical-align: inherit;"><font
+															style="vertical-align: inherit;">행동</font></font></span>
+												</button>
+												<div class="dropdown-menu m-2">
+													<a class="dropdown-item" href="#"><i
+														class="fe fe-delete fe-12 mr-4"></i>Delete</a>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+								<!-- /.card-footer -->
+							</div>
+						</div>
+						<!-- .col -->
+						<div class="col-md-3">
+							<div class="card shadow mb-4">
+								<div class="card-body text-center">
+									<div class="avatar avatar-lg mt-4">
+										<a href="#"> <img
+											src="https://cdn-icons-png.flaticon.com/128/6142/6142226.png"
+											data-src="https://cdn-icons-png.flaticon.com/128/6142/6142226.png"
+											alt="군인 " title="군인 " width="64" height="64"
+											class="lzy lazyload--done"
+											srcset="https://cdn-icons-png.flaticon.com/128/6142/6142226.png 4x">
+										</a>
+									</div>
+									<div class="card-text my-2">
+										<strong class="card-title my-0"><font
+											style="vertical-align: inherit;"><font
+												style="vertical-align: inherit;">군 소집</font></font></strong>
+										<p class="small text-muted mb-0">
+											<font style="vertical-align: inherit;"><font
+												style="vertical-align: inherit;">3.0일 사용가능</font></font>
+										</p>
+									</div>
+								</div>
+								<!-- ./card-text -->
+								<div class="card-footer">
+									<div class="row align-items-center justify-content-between">
+										<div class="col-auto">
+											<small> <span class="dot dot-lg bg-success mr-1"></span><font
+												style="vertical-align: inherit;"><font
+													style="vertical-align: inherit;">신청시 자동 지급</font></font></small>
+										</div>
+										<div class="col-auto">
+											<div class="file-action">
+												<button type="button"
+													class="btn btn-link dropdown-toggle more-vertical p-0 text-muted mx-auto"
+													data-toggle="dropdown" aria-haspopup="true"
+													aria-expanded="false">
+													<span class="text-muted sr-only"><font
+														style="vertical-align: inherit;"><font
+															style="vertical-align: inherit;">행동</font></font></span>
+												</button>
+												<div class="dropdown-menu m-2">
+													<a class="dropdown-item" href="#"><i
+														class="fe fe-delete fe-12 mr-4"></i>Delete</a>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+								<!-- /.card-footer -->
+							</div>
+						</div>
+						<!-- .col -->
+						<div class="col-md-3">
+							<div class="card shadow mb-4">
+								<div class="card-body text-center">
+									<div class="avatar avatar-lg mt-4">
+										<a href="#"> <img
+											src="https://cdn-icons-png.flaticon.com/128/2966/2966486.png"
+											data-src="https://cdn-icons-png.flaticon.com/128/2966/2966486.png"
+											alt="보건 의료 " title="보건 의료 " width="64" height="64"
+											class="lzy lazyload--done"
+											srcset="https://cdn-icons-png.flaticon.com/128/2966/2966486.png 4x">
+										</a>
+									</div>
+									<div class="card-text my-2">
+										<strong class="card-title my-0"><font
+											style="vertical-align: inherit;"><font
+												style="vertical-align: inherit;">보건 휴가</font></font></strong>
+										<p class="small text-muted mb-0">
+											<font style="vertical-align: inherit;"><font
+												style="vertical-align: inherit;">1.0일 사용가능</font></font>
+										</p>
+									</div>
+								</div>
+								<!-- ./card-text -->
+								<div class="card-footer">
+									<div class="row align-items-center justify-content-between">
+										<div class="col-auto">
+											<small> <span class="dot dot-lg bg-success mr-1"></span><font
+												style="vertical-align: inherit;"><font
+													style="vertical-align: inherit;">신청시 자동 지급</font></font></small>
+										</div>
+										<div class="col-auto">
+											<div class="file-action">
+												<button type="button"
+													class="btn btn-link dropdown-toggle more-vertical p-0 text-muted mx-auto"
+													data-toggle="dropdown" aria-haspopup="true"
+													aria-expanded="false">
+													<span class="text-muted sr-only"><font
+														style="vertical-align: inherit;"><font
+															style="vertical-align: inherit;">행동</font></font></span>
+												</button>
+												<div class="dropdown-menu m-2">
+													<a class="dropdown-item" href="#"><i
+														class="fe fe-delete fe-12 mr-4"></i>Delete</a>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+								<!-- /.card-footer -->
+							</div>
+						</div>
+						<!-- .col -->
+						<div class="col-md-3">
+							<div class="card shadow mb-4">
+								<div class="card-body text-center">
+									<div class="avatar avatar-lg mt-4">
+										<a href=""> <img
+											src="https://cdn-icons-png.flaticon.com/128/5339/5339355.png"
+											data-src="https://cdn-icons-png.flaticon.com/128/5339/5339355.png"
+											alt="장례식 " title="장례식 " width="64" height="64"
+											class="lzy lazyload--done"
+											srcset="https://cdn-icons-png.flaticon.com/128/5339/5339355.png 4x">
+										</a>
+									</div>
+									<div class="card-text my-2">
+										<strong class="card-title my-0"><font
+											style="vertical-align: inherit;"><font
+												style="vertical-align: inherit;">조의-조부모/형제/자매</font></font></strong>
+										<p class="small text-muted mb-0">
+											<font style="vertical-align: inherit;"><font
+												style="vertical-align: inherit;">3.0일 사용가능</font></font>
+										</p>
+									</div>
+								</div>
+								<!-- ./card-text -->
+								<div class="card-footer">
+									<div class="row align-items-center justify-content-between">
+										<div class="col-auto">
+											<small> <span class="dot dot-lg bg-success mr-1"></span><font
+												style="vertical-align: inherit;"><font
+													style="vertical-align: inherit;">신청시 자동 지급</font></font></small>
+										</div>
+										<div class="col-auto">
+											<div class="file-action">
+												<button type="button"
+													class="btn btn-link dropdown-toggle more-vertical p-0 text-muted mx-auto"
+													data-toggle="dropdown" aria-haspopup="true"
+													aria-expanded="false">
+													<span class="text-muted sr-only"><font
+														style="vertical-align: inherit;"><font
+															style="vertical-align: inherit;">행동</font></font></span>
+												</button>
+												<div class="dropdown-menu m-2">
+													<a class="dropdown-item" href="#"><i
+														class="fe fe-delete fe-12 mr-4"></i>Delete</a>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+								<!-- /.card-footer -->
+							</div>
+						</div>
+						<!-- .col -->
+						<div class="col-md-3">
+							<div class="card shadow mb-4">
+								<div class="card-body text-center">
+									<div class="avatar avatar-lg mt-4">
+										<a href=""><img
+											src="https://cdn-icons-png.flaticon.com/128/4056/4056811.png"
+											data-src="https://cdn-icons-png.flaticon.com/128/4056/4056811.png"
+											alt="꽃 " title="꽃 " width="64" height="64"
+											class="lzy lazyload--done"
+											srcset="https://cdn-icons-png.flaticon.com/128/4056/4056811.png 4x">
+										</a>
+									</div>
+									<div class="card-text my-2">
+										<strong class="card-title my-0"><font
+											style="vertical-align: inherit;"><font
+												style="vertical-align: inherit;">조의-부모/배우자/자녀</font></font></strong>
+										<p class="small text-muted mb-0">
+											<font style="vertical-align: inherit;"><font
+												style="vertical-align: inherit;">5.0일 사용가능</font></font>
+										</p>
+									</div>
+								</div>
+								<!-- ./card-text -->
+								<div class="card-footer">
+									<div class="row align-items-center justify-content-between">
+										<div class="col-auto">
+											<small> <span class="dot dot-lg bg-success mr-1"></span><font
+												style="vertical-align: inherit;"><font
+													style="vertical-align: inherit;">신청시 자동 지급</font></font></small>
+										</div>
+										<div class="col-auto">
+											<div class="file-action">
+												<button type="button"
+													class="btn btn-link dropdown-toggle more-vertical p-0 text-muted mx-auto"
+													data-toggle="dropdown" aria-haspopup="true"
+													aria-expanded="false">
+													<span class="text-muted sr-only"><font
+														style="vertical-align: inherit;"><font
+															style="vertical-align: inherit;">행동</font></font></span>
+												</button>
+												<div class="dropdown-menu m-2">
+													<a class="dropdown-item" href="#"><i
+														class="fe fe-delete fe-12 mr-4"></i>Delete</a>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+								<!-- /.card-footer -->
+							</div>
+						</div>
+						
+						<!-- .col -->
+						<div class="col-md-9"></div>
+						<!-- .col -->
+					</div>
+					<!-- .row -->
+				</div>
+
+			</div>
+			<div class="hr-sect">
+				<div class="btn btn-outline-secondary" id="heading1">
+					<a role="button" href="#collapse1" data-toggle="collapse"
+						data-target="#collapse1" aria-expanded="false"
+						aria-controls="collapse1"> <strong><font
+							style="vertical-align: inherit;"><font
+								style="vertical-align: inherit;">더 보기</font></font></strong>
+					</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="card-body">
+		<h2 class="card-title">
+			<font style="vertical-align: inherit;"><font
+				style="vertical-align: inherit;">예정 휴가</font></font>
+		</h2>
+		<table class="table table-hover">
+			<thead>
+				<tr>
+					<th><font style="vertical-align: inherit;">종류</font></th>
+					<th><font style="vertical-align: inherit;">날짜</font></th>
+					<th><font style="vertical-align: inherit;">기간</font></th>
+					<th><font style="vertical-align: inherit;">상태</font></th>
+					<th><font style="vertical-align: inherit;">행동</font></th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td><font style="vertical-align: inherit;">에님 리미티드</font></td>
+					<td><font style="vertical-align: inherit;">901-6206 Cras Av.</font></td>
+					<td><font style="vertical-align: inherit;">2019년 4월 24일</font></td>
+					<td><span class="badge badge-pill badge-warning">
+					<font style="vertical-align: inherit;">승인 대기</font></span></td>
+					<td class=""><button
+							class="btn btn-sm dropdown-toggle more-horizontal" type="button"
+							data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+							<span class="text-muted sr-only"><font
+								style="vertical-align: inherit;">행동</font></span>
+						</button>
+						<div class="dropdown-menu dropdown-menu-right" style="">
+							<a class="dropdown-item" href="#"><font
+									style="vertical-align: inherit;">제거하다</font></a>
+						</div></td>
+
+				</tr>
+				<tr>
+					<td><font style="vertical-align: inherit;">Nunc Lectus 통합</font></td>
+					<td><font style="vertical-align: inherit;">Ap #705-5389 Id St.</font></td>
+					<td><font style="vertical-align: inherit;">2020년 5월 23일</font></td>
+					<td><span class="badge badge-pill badge-success">
+					<font style="vertical-align: inherit;">승인 완료</font></span></td>
+					<td class=""><button
+							class="btn btn-sm dropdown-toggle more-horizontal" type="button"
+							data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+							<span class="text-muted sr-only"><font
+									style="vertical-align: inherit;">행동</font></span>
+						</button>
+						<div class="dropdown-menu dropdown-menu-right" style="">
+							<a class="dropdown-item" href="#"><font
+								style="vertical-align: inherit;"><font
+									style="vertical-align: inherit;">제거하다</font></font></a>
+						</div></td>
+				</tr>
+				<tr>
+					<td><font style="vertical-align: inherit;"><font
+							style="vertical-align: inherit;">Nisi Aenean Eget Limited</font></font></td>
+					<td><font style="vertical-align: inherit;"><font
+							style="vertical-align: inherit;">7425 말레수아다 로드</font></font></td>
+					<td><font style="vertical-align: inherit;"><font
+							style="vertical-align: inherit;">2019년 11월 4일</font></font></td>
+					<td><span class="badge badge-pill badge-warning"><font
+							style="vertical-align: inherit;"><font
+								style="vertical-align: inherit;">승인 대기</font></font></span></td>
+					<td class=""><button
+							class="btn btn-sm dropdown-toggle more-horizontal" type="button"
+							data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+							<span class="text-muted sr-only"><font
+								style="vertical-align: inherit;"><font
+									style="vertical-align: inherit;">행동</font></font></span>
+						</button>
+						<div class="dropdown-menu dropdown-menu-right" style="">
+							<a class="dropdown-item" href="#"><font
+								style="vertical-align: inherit;"><font
+									style="vertical-align: inherit;">제거하다</font></font></a>
+						</div></td>
+				</tr>
+				<tr>
+					<td><font style="vertical-align: inherit;"><font
+							style="vertical-align: inherit;">펠렌테스크 어소시에이츠</font></font></td>
+					<td><font style="vertical-align: inherit;"><font
+							style="vertical-align: inherit;">896 소데일스 스트리트</font></font></td>
+					<td><font style="vertical-align: inherit;"><font
+							style="vertical-align: inherit;">2020년 3월 27일</font></font></td>
+					<td><span class="badge badge-pill badge-danger"><font
+							style="vertical-align: inherit;"><font
+								style="vertical-align: inherit;">반려</font></font></span></td>
+					<td class=""><button
+							class="btn btn-sm dropdown-toggle more-horizontal" type="button"
+							data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+							<span class="text-muted sr-only"><font
+								style="vertical-align: inherit;"><font
+									style="vertical-align: inherit;">행동</font></font></span>
+						</button>
+						<div class="dropdown-menu dropdown-menu-right" style="">
+							<a class="dropdown-item" href="#"><font
+								style="vertical-align: inherit;"><font
+									style="vertical-align: inherit;">제거하다</font></font></a>
+						</div></td>
+				</tr>
+				<tr>
+					<td><font style="vertical-align: inherit;"><font
+							style="vertical-align: inherit;">오그 법인</font></font></td>
+					<td><font style="vertical-align: inherit;"><font
+							style="vertical-align: inherit;">4583 아이디 스트리트</font></font></td>
+					<td><font style="vertical-align: inherit;"><font
+							style="vertical-align: inherit;">2020년 1월 13일</font></font></td>
+					<td><span class="badge badge-pill badge-success"><font
+							style="vertical-align: inherit;"><font
+								style="vertical-align: inherit;">승인 완료</font></font></span></td>
+					<td class=""><button
+							class="btn btn-sm dropdown-toggle more-horizontal" type="button"
+							data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+							<span class="text-muted sr-only"><font
+								style="vertical-align: inherit;"><font
+									style="vertical-align: inherit;">행동</font></font></span>
+						</button>
+						<div class="dropdown-menu dropdown-menu-right" style="">
+							<a class="dropdown-item" href="#"><font
+								style="vertical-align: inherit;"><font
+									style="vertical-align: inherit;">제거하다</font></font></a>
+						</div></td>
+				</tr>
+			</tbody>
+			<ul class="pagination justify-content-end mb-0">
+				<li class="page-item"><a class="fe fe-24 fe-chevron-left"
+					href="#"></a></li>
+				<li class="page-item"><a class="fe fe-24 fe-chevron-right"
+					href="#"></a></li>
+			</ul>
+		</table>
+	</div>
+	<!-- modal modal modal modal modal modal===================================================== -->
+	<div class="card-body">
+
+		<!-- Slide Modal -->
+		<div class="modal fade modal-right modal-slide" tabindex="-1"
+			role="dialog" aria-labelledby="defaultModalLabel"
+			style="display: none;" aria-hidden="true">
+			<div class="modal-dialog modal-lg" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="defaultModalLabel">휴가 신청</h5>
+						<button type="button" class="close" data-dismiss="modal"
+							aria-label="Close">
+							<span aria-hidden="true">×</span>
+						</button>
+					</div>
+					<div class="modal-body">
+						<p class="mb-2">
+							<strong><font style="vertical-align: inherit;">
+							   <img src="https://cdn-icons-png.flaticon.com/128/8426/8426913.png" data-src="https://cdn-icons-png.flaticon.com/128/8426/8426913.png" alt="느낌표 " title="느낌표 " width="20" height="20" class="lzy lazyload--done" srcset="https://cdn-icons-png.flaticon.com/128/8426/8426913.png 4x">
+							<font style="vertical-align: inherit;">휴가 정보</font></font></strong>
+						</p>
+						
+						<div class="card" style=" margin: 3%; width: 600px; height: 108px;">
+							<div class="card-body">
+								<h5>연차</h5>&nbsp;
+								 <p>근속 기간이 1년 이상인 직원에게 매월마다 1일씩 지급된다.</p>
+							</div>
+						</div><br>
+
+						<p class="mb-2">
+							<strong><font style="vertical-align: inherit;">
+				            	<img src="https://cdn-icons-png.flaticon.com/128/8426/8426913.png" data-src="https://cdn-icons-png.flaticon.com/128/8426/8426913.png" alt="느낌표 " title="느낌표 " width="20" height="20" class="lzy lazyload--done" srcset="https://cdn-icons-png.flaticon.com/128/8426/8426913.png 4x">
+							<font style="vertical-align: inherit;">휴가 일정</font></font></strong>
+						</p>
+						<div class="card-body">
+							<div class="form-group">
+								<input type="text" name="datetimes"
+									class="form-control datetimes">
+							</div>
+							<div class="form-group mb-3">
+								<label for="example-textarea"><font
+									style="vertical-align: inherit;"></font></label>
+								<textarea class="form-control" id="example-textarea" rows="10"
+									style="width: 600px; height: 108px;" placeholder="휴가신청 사유 작성"></textarea>
+							</div>
+						</div>
+
+
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn mb-2 btn-secondary"
+							data-dismiss="modal">취소</button>
+						<button type="button" class="btn mb-2 btn-primary">승인 요청
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

@@ -1,0 +1,456 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<style>
+body {
+    margin: 0;
+    padding: 0;
+}
+body,
+html {
+    height: 100%;
+}
+
+        .md-event-listing-cont {
+    position: relative;
+    padding-left: 50px;
+}
+
+.md-event-listing-avatar {
+    position: absolute;
+    max-height: 50px;
+    max-width: 50px;
+    top: 21px;
+    -webkit-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+    left: 20px;
+}
+
+.md-event-listing-name {
+    font-size: 16px;
+}
+
+.md-event-listing-title {
+    font-size: 12px;
+    margin-top: 5px;
+}
+
+.md-event-listing .mbsc-segmented {
+    max-width: 350px;
+    margin: 0 auto;
+    padding: 1px;
+}
+
+.md-event-listing-picker {
+    flex: 1 0 auto;
+}
+
+.md-event-listing-nav {
+    width: 200px;
+}
+
+/* material header order */
+
+.mbsc-material.md-event-listing-prev {
+    order: 1;
+}
+
+.mbsc-material.md-event-listing-next {
+    order: 2;
+}
+
+.mbsc-material.md-event-listing-nav {
+    order: 3;
+}
+
+.mbsc-material .md-event-listing-picker {
+    order: 4;
+}
+
+.mbsc-material .md-event-listing-today {
+    order: 5;
+}
+
+/* windows header order */
+
+.mbsc-windows.md-event-listing-nav {
+    order: 1;
+}
+
+.mbsc-windows.md-event-listing-prev {
+    order: 2;
+}
+
+.mbsc-windows.md-event-listing-next {
+    order: 3;
+}
+
+.mbsc-windows .md-event-listing-picker {
+    order: 4;
+}
+
+.mbsc-windows .md-event-listing-today {
+    order: 5;
+}
+.input-group-text {
+	border : 1px;
+	background-color: white;
+}
+a:link {
+	color: black;
+	text-decoration: none;
+}
+
+a:visited {
+	color: black;
+	text-decoration: none;
+}
+
+a {
+	text-decoration-line: none;
+}
+/* .myWrap { */
+/* 	margin: 0 auto; */
+/* 	display: flex; */
+/* 	justify-content: center; /* 가로 중앙 정렬 */ */
+/* 	/* align-items: center; /* 세로 중앙 정렬 */ */
+/* 	height: 50vh; */
+/* } */
+
+#month {
+    width: 15vw;
+}
+#holyday {
+    text-align: center;
+    font-weight: bold;
+}
+.vac {
+    background-color: #9c26b0;
+}
+.cwork {
+    background-color: #528281;
+}
+.lwork {
+    background-color: #ea1e63;
+}
+#month, #day {
+	color : black;
+	font-weight: bold;
+	text-align: center;
+}
+
+/* CSS 스타일 */
+.super-ellipse {
+  width: 64px;
+  height: 64px;
+  border-radius: 16px 16px 16px 16px / 16px 16px 16px 16px;
+  /* 또는 다음과 같이 개별적으로 설정할 수 있습니다:
+  border-top-left-radius: 16px;
+  border-top-right-radius: 16px;
+  border-bottom-right-radius: 16px;
+  border-bottom-left-radius: 16px;
+  */
+}
+
+.parent {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.image-container {
+  float: left;
+  margin-right: -154px; /* 이미지와 텍스트 사이의 간격을 조절합니다. */
+}
+
+.child {
+  font-weight: bold;
+  color: black;
+  margin: 0; /* 기본 마진을 없앱니다. */
+  line-height: 1.5; /* 텍스트의 줄 간격을 최소화합니다. */
+}
+
+
+</style>
+<script>
+$(() => {
+	console.log("11분");
+});
+</script>
+</head>
+<body>
+	<div id="myWrap">
+		<div class="d-flex flex-row bd-highlight mb-3">
+			<div class="myWork">
+				<a href="/lhh/work">
+					<h1 style="color: #CDD1D5;">내 근무</h1>
+				</a>
+			</div>
+			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			<div class="flex-fill">
+				<h1>구성원 근무</h1>
+			</div>
+			<div class="d-flex flex-row justify-content-end">
+				<button type="button" class="btn mb-2 btn-outline-secondary"
+					data-toggle="modal" data-target=".modal-right">
+					<span class="fe fe-calendar fe-16 mr-2"></span>
+					EXTRA BUTTON
+				</button>
+			</div>
+		</div>
+		<hr>
+<!-- 		<ul class="pagination"> -->
+<!--             <li class="page-item"><button type="button" -->
+<!--                     class="btn mb-2 btn-outline-secondary pre"><</button></li> -->
+<!--             <li class="page-item"> -->
+<!--                 수정된 버튼 -->
+<!--                 <div class="dropdown"> -->
+<!--                     <button class="btn mb-2 btn-outline-light text-secondary date dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> -->
+<!--                         <span id="dateMap">2023.09</span> -->
+<!--                     </button> -->
+<!--                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton"> -->
+<!--                         드롭다운 메뉴에 연도와 월 목록 추가 -->
+<!--                         <a class="dropdown-item" href="#" onclick="changeMonth(2023, 1)">2023.01</a> -->
+<!--                         <a class="dropdown-item" href="#" onclick="changeMonth(2023, 2)">2023.02</a> -->
+<!--                         <a class="dropdown-item" href="#" onclick="changeMonth(2023, 3)">2023.03</a> -->
+<!--                         <a class="dropdown-item" href="#" onclick="changeMonth(2023, 4)">2023.04</a> -->
+<!--                         <a class="dropdown-item" href="#" onclick="changeMonth(2023, 5)">2023.05</a> -->
+<!--                         <a class="dropdown-item" href="#" onclick="changeMonth(2023, 6)">2023.06</a> -->
+<!--                         <a class="dropdown-item" href="#" onclick="changeMonth(2023, 7)">2023.07</a> -->
+<!--                         <a class="dropdown-item" href="#" onclick="changeMonth(2023, 8)">2023.08</a> -->
+<!--                         <a class="dropdown-item" href="#" onclick="changeMonth(2023, 9)">2023.09</a> -->
+<!--                         다른 연도를 추가할 수 있습니다. -->
+<!--                     </div> -->
+<!--                 </div> -->
+<!--             </li> -->
+<!--             <li class="page-item"><button type="button" -->
+<!--                     class="btn mb-2 btn-outline-secondary next">></button></li>&nbsp;&nbsp; -->
+<!--             <button type="button" class="btn mb-2 btn-outline-secondary today">오늘</button> -->
+<!--         </ul> -->
+<!--         <hr> -->
+<!--     </div> -->
+<!--     <div id="disp"></div> -->
+	<div mbsc-page class="demo-event-listing">
+        <div style="height:100%">
+                <div class="md-event-listing">
+        <div id="demo-event-listing"></div>
+    </div>
+        </div>
+    </div>
+    <script>
+    $(() => {
+    	workOneSelect();
+    	countEMP();
+    })
+    
+    let myData = [];
+    var eventData = [];
+	var myResources = [];
+    const workOneSelect = function() {
+        let xhr = new XMLHttpRequest();
+        xhr.open("get", "/lhh/workOneSelect", true);
+        xhr.onreadystatechange = function() {
+           if(xhr.readyState == 4 && xhr.status == 200) {
+//               console.log("근무일정 불러오기", JSON.parse(xhr.responseText));
+              let result = JSON.parse(xhr.responseText);
+              
+              for(let i=0; i<result.length; i++) {
+                 let item = result[i];
+                 let dataItem = {
+                   	  no: item.waNo,
+                      title: item.waType,
+                      description: item.waArsn,
+                      start: item.waStime,
+                      end: item.waEtime,
+                      allDay: item.waAllday,
+                      color: item.wkColor,
+                      waTlTime : item.waTltime,
+                      empNo : item.empNo,
+                      empNm : item.empNm
+                      };
+                 let event = {
+                         start: item.waStime,
+                         end: item.waEtime,
+                         allDay: item.waAllday,
+                         title: item.waType,
+                         resource: item.waAper
+                     };
+                 
+                 myData.push(dataItem);
+                 eventData.push(event);
+//                  myResources.push(resource);
+              };
+              console.log("체크 : ", myData);
+              calendar.addEvent(eventData);
+              console.log("eventData : ", eventData);
+//               console.log("myResources : ", myResources);
+           }
+          }
+          xhr.send();
+    };
+    console.log("myData :::" , myData);
+    
+    const countEMP = function() {
+        let url = "/lhh/countEMP";
+        $.ajax({
+            url: url,
+            type: "GET",
+            dataType: "json",
+            success: function (result) {
+                console.log("countEMP 불러오기", result);
+
+                for (let i = 0; i < result.length; i++) {
+                    let item = result[i];
+                    let resource = {
+                       		id: item.empNo,
+                            name: item.empNm,
+                            color: item.wkColor
+                         };
+                    myResources.push(resource);
+                };
+
+                console.log("myResources체크 : ", myResources);
+            },
+            error: function (xhr, status, error) {
+                console.error("AJAX 요청 실패: " + error);
+            },
+        });
+    };
+    
+    mobiscroll.setOptions({
+        locale: mobiscroll.localeKo,  // Specify language like: locale: mobiscroll.localePl or omit setting to use default
+        theme: 'ios',                 // Specify theme like: theme: 'ios' or omit setting to use default
+        themeVariant: 'light'         // More info about themeVariant: https://docs.mobiscroll.com/5-26-2/javascript/eventcalendar#opt-themeVariant
+    });
+    
+    
+    for (let i = 0; i < myData.length; i++) {
+        let res = myData[i];
+        let event = {
+            start: res.waStime,
+            end: res.waEtime,
+            allDay: res.waAllday,
+            title: res.waType,
+            resource: res.waAper
+        };
+        eventData.push(event);
+        
+        let resource = {
+      		id: i,
+            name: res.empNm,
+            color: res.wkColor
+        };
+        myResources.push(resource);
+        
+    }
+//         console.log("eventData : ", eventData);
+//         console.log("myResources : ", myResources);
+    var formatDate = mobiscroll.util.datetime.formatDate;
+    var calendar = mobiscroll.eventcalendar('#demo-event-listing', {
+        view: {                       // More info about view: https://docs.mobiscroll.com/5-26-2/javascript/eventcalendar#opt-view
+            timeline: {
+                type: 'month',
+                eventList: true
+            }
+        },
+        data: eventData,
+        resources: myResources,
+        renderHeader: function () {   // More info about renderHeader: https://docs.mobiscroll.com/5-26-2/javascript/eventcalendar#opt-renderHeader
+            return '<div mbsc-calendar-nav class="md-event-listing-nav"></div>' +
+                '<div class="md-event-listing-picker">' +
+                '<label>주<input mbsc-segmented type="radio" name="view" value="week" class="event-listing-view-change"></label>' +
+                '<label>월<input mbsc-segmented type="radio" name="view" value="month" class="event-listing-view-change" checked></label>' +
+                '</div>' +
+                '<div mbsc-calendar-prev class="md-event-listing-prev"></div>' +
+                '<div mbsc-calendar-today class="md-event-listing-today"></div>' +
+                '<div mbsc-calendar-next class="md-event-listing-next"></div>';
+        },
+        renderWeek: function (day) {
+            var date = day.date;
+            return `<div>`+ formatDate('MMMM DD', date) +`</div>`;
+        },
+        renderDay: function(day) {
+            var date = day.date;
+            var today = new Date(); // 현재 날짜
+
+            var isToday = date.getDate() === today.getDate() &&
+                date.getMonth() === today.getMonth() &&
+                date.getFullYear() === today.getFullYear();
+
+            // 오늘 날짜인 경우, <span class="dot dot-lg bg-success"></span> 추가
+            var dotElement = isToday ? '<span class="dot dot-lg bg-success"></span>' : '';
+
+            var dayOfWeek = date.getDay(); // 0 (일요일)부터 6 (토요일)까지의 값을 반환합니다.
+            
+            // 요일에 따라 글자 색상을 조절합니다.
+            var dayText = '';
+            if (dayOfWeek === 0) { // 일요일
+                dayText = '<span style="color: red;">' + formatDate('DD DDD ', date) + '</span>';
+            } else if (dayOfWeek === 6) { // 토요일
+                dayText = '<span style="color: red;">' + formatDate('DD DDD ', date) + '</span>';
+            } else {
+                dayText = formatDate('DD DDD ', date);
+            }
+
+            return '<div class="mbsc-timeline-header-date-text mbsc-ios" style="font-weight: bold;display:flex;align-items:center;text-align:center;">'
+                + '<div class="mbsc-timeline-header-date-text mbsc-ios" style="text-align: center;"></div>'
+                + '<div>'
+                + dayText
+                + dotElement
+                + '</div>' + '</div>';
+        }
+
+        ,onPageLoaded: function(event, inst) {
+        	let rangeData = [];
+
+        	if (calendar.getEvents(event.firstDay, event.lastDay).length === 0 || calendar.getEvents(event.firstDay, event.lastDay) === "") {
+//         	    console.log("null", calendar.getEvents(event.firstDay, event.lastDay));
+        	} else {
+        		rangeData = calendar.getEvents(event.firstDay, event.lastDay);
+        		
+        	}
+//         	console.log("rangeData : ", rangeData);
+        }
+    });
+    
+    document.querySelectorAll('.event-listing-view-change').forEach(function (elm) {
+        elm.addEventListener('change', function (ev) {
+            switch (ev.target.value) {
+                case 'week':
+                    calendar.setOptions({
+                        view: {                       // More info about view: https://docs.mobiscroll.com/5-26-2/javascript/eventcalendar#opt-view
+                            timeline: {
+                                type: 'week',
+                                eventList: true,
+                                startDay : 1,
+                				endDay : 0,
+                            }
+                        }
+                    })
+                    break;
+                case 'month':
+                    calendar.setOptions({
+                        view: {                       // More info about view: https://docs.mobiscroll.com/5-26-2/javascript/eventcalendar#opt-view
+                            timeline: {
+                                type: 'month',
+                                eventList: true
+                            }
+                        }
+                    })
+                    break;
+            }
+        });
+    });
+    
+    function getResource(res) {
+        return myResources.find(function (r) { return r.id == res })
+    }
+    
+	
+    </script>
+</body>
+</html>

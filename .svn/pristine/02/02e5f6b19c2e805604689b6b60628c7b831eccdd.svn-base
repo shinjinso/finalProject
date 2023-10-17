@@ -1,0 +1,19 @@
+package kr.or.ddit.vo;
+
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
+@Getter
+@Setter
+@ToString
+public class DeptVO {
+	private int dcode;
+	private String uprDcode;
+	private String dnm;
+	private String empNo;
+	private String empNo2;
+	private String dabst;
+	private String delynCd;
+}
+

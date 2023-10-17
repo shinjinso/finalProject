@@ -1,0 +1,101 @@
+package kr.or.ddit.salary.service.Impl;
+
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import kr.or.ddit.common.vo.EmpVO;
+import kr.or.ddit.salary.mapper.SalaryMapper;
+import kr.or.ddit.salary.service.SalaryService;
+import kr.or.ddit.salary.vo.PageVO;
+import kr.or.ddit.salary.vo.PayDedVO;
+import kr.or.ddit.salary.vo.SalaryCertVO;
+
+@Service
+public class SalaryServiceImpl implements SalaryService {
+
+	@Autowired
+	private SalaryMapper salaryMapper;
+	
+	//사원정보 리스트 출력
+	@Override
+	public List<EmpVO> selectEmpList(PageVO pageVO) {
+		return salaryMapper.selectEmpList(pageVO);
+	}
+	
+	//전체 글 수 조회
+	@Override
+	public int getTotal(PageVO pageVO) {
+		return salaryMapper.getTotal(pageVO);
+	}
+	
+	//1명의 급여정산번호 insert
+	@Override
+	public int insertPR(SalaryCertVO salaryCertVO) {
+		return salaryMapper.insertPR(salaryCertVO);
+	}
+	
+	//정산대상자 명수
+	@Override
+	public int selectEmpCnt(SalaryCertVO salaryCertVO) {
+		return salaryMapper.selectEmpCnt(salaryCertVO);
+	}
+	
+	//salary_Cert 테이블에서 pt_no가 1번이고, pr_Yr, pr_Mth가 2023, 9인 사원 번호 리스트를 찾기. 
+	@Override
+	public List<SalaryCertVO> selectCheckedEmpNoList(SalaryCertVO salaryCertVO) {
+		return salaryMapper.selectCheckedEmpNoList(salaryCertVO);
+	}
+	
+	//지급항목 - 요약 부분에 들어갈 내용 select
+	@Override
+	public List<PayDedVO> selectPaySummary(SalaryCertVO salaryCertVO) {
+		return salaryMapper.selectPaySummary(salaryCertVO);
+	}
+	
+	//한사람의 기본급 가져오는 쿼리 select
+	@Override
+	public EmpVO selectBaseSalary(EmpVO empVO) {
+		return salaryMapper.selectBaseSalary(empVO);
+	}
+
+	//지급항목이력 추가 insert
+	@Override
+	public int insertPayHistory(SalaryCertVO salaryCertVO) {
+		return salaryMapper.insertPayHistory(salaryCertVO);
+	}
+	
+	//초과근무수당 - 연장, 야간, 휴일별 금액 각각 산출
+	@Override
+	public SalaryCertVO selectOverTimePay(SalaryCertVO salaryCertVO) {
+		return salaryMapper.selectOverTimePay(salaryCertVO);
+	}
+
+	//정산 지급항목 이력 - 기본급 insert 
+	@Override
+	public int insertBasePay(SalaryCertVO salaryCertVO) {
+		return salaryMapper.insertBasePay(salaryCertVO);
+	}
+	
+	//정산 지급항목 이력 - 초과근무수당 insert
+	@Override
+	public int insertOvertimePay(SalaryCertVO salaryCertVO) {
+		return salaryMapper.insertOvertimePay(salaryCertVO);
+	}
+	
+	//정산 지급항목 이력 - 기타수당 항목별로 insert
+	@Override
+	public int insertOtherPay(SalaryCertVO salaryCertVO) {
+		return salaryMapper.insertOtherPay(salaryCertVO);
+	}
+	
+		
+		
+		
+		
+
+			
+	
+}

@@ -1,0 +1,256 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<style>
+.input-group-text {
+	border : 1px;
+	background-color: white;
+}
+a:link {
+	color: black;
+	text-decoration: none;
+}
+
+a:visited {
+	color: black;
+	text-decoration: none;
+}
+
+a {
+	text-decoration-line: none;
+}
+</style>
+
+<script>
+$(() => {
+	
+});
+</script>
+</head>
+<body>
+	<div id="myWrap">
+		<div class="d-flex flex-row bd-highlight mb-3">
+			<div class="myWork">
+				<a href="/lhh/work">
+					<h1 style="color: gray;">내 근무</h1>
+				</a>
+			</div>
+			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			<div class="flex-fill">
+				<h1>구성원 근무</h1>
+			</div>
+			<div class="d-flex flex-row justify-content-end">
+				<button type="button" class="btn mb-2 btn-outline-secondary"
+					data-toggle="modal" data-target=".modal-right">
+					<span class="fe fe-calendar fe-16 mr-2"></span>
+					EXTRA BUTTON
+				</button>
+			</div>
+		</div>
+		<hr>
+		<ul class="pagination">
+            <li class="page-item"><button type="button"
+                    class="btn mb-2 btn-outline-secondary pre"><</button></li>
+            <li class="page-item">
+                <!-- 수정된 버튼 -->
+                <div class="dropdown">
+                    <button class="btn mb-2 btn-outline-light text-secondary date dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <span id="dateMap">2023.09</span>
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        <!-- 드롭다운 메뉴에 연도와 월 목록 추가 -->
+                        <a class="dropdown-item" href="#" onclick="changeMonth(2023, 1)">2023.01</a>
+                        <a class="dropdown-item" href="#" onclick="changeMonth(2023, 2)">2023.02</a>
+                        <a class="dropdown-item" href="#" onclick="changeMonth(2023, 3)">2023.03</a>
+                        <a class="dropdown-item" href="#" onclick="changeMonth(2023, 4)">2023.04</a>
+                        <a class="dropdown-item" href="#" onclick="changeMonth(2023, 5)">2023.05</a>
+                        <a class="dropdown-item" href="#" onclick="changeMonth(2023, 6)">2023.06</a>
+                        <a class="dropdown-item" href="#" onclick="changeMonth(2023, 7)">2023.07</a>
+                        <a class="dropdown-item" href="#" onclick="changeMonth(2023, 8)">2023.08</a>
+                        <a class="dropdown-item" href="#" onclick="changeMonth(2023, 9)">2023.09</a>
+                        <!-- 다른 연도를 추가할 수 있습니다. -->
+                    </div>
+                </div>
+            </li>
+            <li class="page-item"><button type="button"
+                    class="btn mb-2 btn-outline-secondary next">></button></li>&nbsp;&nbsp;
+            <button type="button" class="btn mb-2 btn-outline-secondary today">오늘</button>
+        </ul>
+        <hr>
+    </div>
+    <table class="table table-hover table-bordered" style="width: 100vw;">
+        <thead>
+            <tr scope="col">
+                <td colspan="8">
+                    <span class="badge text-bg-purple vac">휴가 0명</span>
+                    &nbsp;&nbsp;
+                    <span class="badge text-bg-green cwork">맞춤근무 0명</span>
+                    &nbsp;&nbsp;
+                    <span class="badge text-bg-red lwork">연장근무 0명</span>
+                </td>
+            </tr>
+          <tr>
+            <th scope="col" id="month">9월</th>
+            <th scope="col" class="day">월</th>
+            <th scope="col" class="day">화</th>
+            <th scope="col" class="day">수</th>
+            <th scope="col" class="day">목</th>
+            <th scope="col" class="day">금</th>
+            <th scope="col" class="day" style="color: red;">토</th>
+            <th scope="col" class="day" style="color: red;">일</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td scope="row">
+                <div>
+                    #1번사용자
+                </div> 
+            </td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td>d</td>
+            <td>d</td>
+          </tr>
+          <tr>
+            <td scope="row">
+                <div>
+                   #2번사용자
+                </div> 
+            </td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td>d</td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td scope="row">
+                <div>
+                    #3번사용자
+                </div> 
+            </td>
+            <td>d</td>
+            <td>d</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+        </tbody>
+      </table>
+      <script>
+
+        // 월을 변경할 때 호출되는 함수
+        function changeMonth(year, month) {
+        // 선택한 월 값을 가져옵니다.
+        const selectedMonth = `${year}.${month.toString().padStart(2, '0')}`;
+        
+        // #dateMap 요소에 선택한 월 값을 설정합니다.
+        document.getElementById('dateMap').textContent = selectedMonth;
+        }
+
+        // 현재 날짜를 가져와서 th 요소에 설정
+        function setMonthHeader(date) {
+            const month = date.getMonth() + 1; // 월은 0부터 시작하므로 1을 더함
+            document.querySelector('th#month').textContent = `${month}월`;
+        }
+
+        // 오늘 날짜를 가져오는 함수
+        function getToday() {
+            const today = new Date();
+            return today;
+        }
+
+        // 초기 페이지 로드 시 호출
+        const today = getToday();
+        setMonthHeader(today);
+        setDates(today);
+
+        // 다음 주 버튼 클릭 시 이벤트 처리
+        const nextButton = document.querySelector('.next');
+        nextButton.addEventListener('click', function () {
+            // 현재 날짜를 복제하고 7일을 더하여 다음 주의 날짜로 설정
+            today.setDate(today.getDate() + 7);
+
+            setMonthHeader(today);
+            setDates(today);
+        });
+
+        // 이전 주 버튼 클릭 시 이벤트 처리
+        const prevButton = document.querySelector('.pre');
+        prevButton.addEventListener('click', function () {
+            // 현재 날짜를 복제하고 7일을 빼서 이전 주의 날짜로 설정
+            today.setDate(today.getDate() - 7);
+
+            setMonthHeader(today);
+            setDates(today);
+        });
+
+        // 오늘 버튼 클릭 시 이벤트 처리
+        const todayButton = document.querySelector('.today');
+        todayButton.addEventListener('click', function () {
+            // 오늘 날짜로 설정
+            const todayDate = getToday();
+            setMonthHeader(todayDate);
+            setDates(todayDate);
+        });
+
+        // 드롭다운에서 월을 선택했을 때 호출되는 함수
+        function changeMonth(year, month) {
+            // 선택한 년도와 월로 Date 객체 생성
+            const selectedDate = new Date(year, month - 1, 1);
+            setMonthHeader(selectedDate);
+            setDates(selectedDate);
+        }
+        
+        // 드롭다운 버튼 클릭 시 이벤트 처리
+        const dropdownButton = document.querySelector('.date');
+        dropdownButton.addEventListener('click', function () {
+            // 드롭다운 메뉴를 토글합니다.
+            const dropdownMenu = document.querySelector('.dropdown-menu');
+            dropdownMenu.classList.toggle('show');
+        });
+
+        // 드롭다운에서 월을 선택했을 때 호출되는 함수
+        function changeMonth(year, month) {
+            // 선택한 년도와 월로 Date 객체 생성
+            const selectedDate = new Date(year, month - 1, 1);
+            setMonthHeader(selectedDate);
+            setDates(selectedDate);
+
+            // 드롭다운 메뉴를 닫기
+            const dropdownMenu = document.querySelector('.dropdown-menu');
+            dropdownMenu.classList.remove('show');
+        }
+
+        // 요일을 가져오는 함수
+        function getDayOfWeek(day) {
+            const daysOfWeek = ['일', '월', '화', '수', '목', '금', '토'];
+            return daysOfWeek[day];
+        }
+
+        // 각 <th> 요소에 해당 날짜와 요일을 설정
+        function setDates(date) {
+            for (let i = 1; i <= 7; i++) {
+                const th = document.querySelector(`th.day:nth-child(${i + 1})`);
+                const nextDate = new Date(date);
+                nextDate.setDate(date.getDate() - date.getDay() + i);
+                const day = nextDate.getDate();
+                const dayOfWeek = getDayOfWeek(nextDate.getDay());
+                th.textContent = `${day} ${dayOfWeek}`;
+            }
+        }
+    </script>
+</body>
+</html>

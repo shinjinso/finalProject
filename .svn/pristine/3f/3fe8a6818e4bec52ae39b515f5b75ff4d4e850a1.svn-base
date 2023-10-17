@@ -1,0 +1,56 @@
+package kr.or.ddit.salary.service.Impl;
+
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import kr.or.ddit.salary.mapper.PayDedMapper;
+import kr.or.ddit.salary.service.PayDedService;
+import kr.or.ddit.salary.vo.PayDedVO;
+
+@Service
+public class PayDedServiceImpl implements PayDedService {
+	
+	@Autowired
+	PayDedMapper payDedMapper;
+	
+	// 지급/공제항목 법정필수항목 전체 리스트 출력
+	@Override
+	public List<PayDedVO> selectLawPDList() {
+		return payDedMapper.selectLawPDList();
+	}
+
+	// 지급/공제항목 추가한 항목 전체 리스트 출력
+	@Override
+	public List<PayDedVO> selectAddedPDList() {
+		return payDedMapper.selectAddedPDList();
+	}
+	
+	// 지급/공제항목 항목당 한건 검색
+	@Override
+	public PayDedVO selectPD(int pdNo) {
+		return payDedMapper.selectPD(pdNo);
+	}
+	
+	// 지급/공제항목 추가
+	@Override
+	public int insertPD(PayDedVO payDedVO) {
+		return payDedMapper.insertPD(payDedVO);
+	}
+	
+	//지급/공제항목 변경
+	@Override
+	public int updatePD(PayDedVO payDedVO) {
+		return payDedMapper.updatePD(payDedVO);
+	}
+
+	
+
+	
+
+
+
+
+}

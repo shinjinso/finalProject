@@ -1,0 +1,65 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+	.input-container { 
+		display: flex; 
+		align-items: center;
+	}
+
+         .input-text { 
+             flex: 1; 
+        } 
+
+        .input-image {
+            width: 100px; /* 이미지의 너비 조절 */
+            height: auto; /* 이미지의 높이 자동으로 조절 */
+        }
+    .card{
+    	width : 600px;
+		height : 300px;
+		margin: 0 auto; 
+    }
+    input {
+    	width : 500px;
+    	margin : 10px;
+    	height : 40px;
+    }   
+    span {
+    	margin-right : 10px;
+    }
+</style>
+<meta charset="UTF-8">
+<title>정산템플릿 추가</title>
+</head>
+<body>
+<div class="row justify-content-end" style="margin-top:70px;margin-bottom:30px;">
+<button type="button" class="btn mb-2 btn-outline-secondary">취소</button>&nbsp&nbsp&nbsp
+<button type="button" class="btn mb-2 btn-success"
+								style="color: white;margin-right:30px;">✓ 저장하기</button>
+</div>
+
+
+<div class="card shadow mb-4">
+	<div class="card-body">
+    	<h5 style="display:inline-block;margin-bottom:0px;">템플릿 정보&nbsp</h5><img src="/resources/images/document.png"/>
+		<span style="float:right">템플릿 항목 정보를 입력해주세요</span>
+		<hr><br><br>
+		
+		<div class="input-container justify-content-center">
+	    	<div style="width:80px">이름</div>
+	    	<input type="text" class="form-control" placeholder="ex) 연차수당 포함 급여"><br>
+	    </div>
+	    <div class="input-container justify-content-center">
+	    	<div style="width:80px">설명</div>
+	        <input type="text" class="form-control" placeholder="연차수당이 정산되는 달의 급여입니다"><br>
+	    </div>
+       
+    </div> 
+</div>
+
+
+</body>
+</html>

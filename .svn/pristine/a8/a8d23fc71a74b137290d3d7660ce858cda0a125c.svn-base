@@ -1,0 +1,10 @@
+package kr.or.ddit.setting.service;
+
+import java.util.List;
+
+import kr.or.ddit.setting.vo.CompanyHoliVO;
+
+public interface CompHoliService {
+
+	public List<CompanyHoliVO> compHoliSelect();
+}

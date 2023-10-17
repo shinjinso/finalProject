@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+<!-- alert는 예쁘지 않아서  -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+</head>
+<body>
+<div id="list"></div>
+<div id="sajin"></div>
+<form>
+    넘버: <input type="text" name="sujiNum" value="" placeholder="넘버 적어주삼"><br>
+    이름: <input type="text" name="sujiName" value=""><br>
+    내용: <textarea name="sujiContent" ></textarea><br>
+    파일: <input type="file" name="sujiFile2" value=""><br>
+    <button type="button" id="create">생성</button>
+    <button type="button" id="search">조회</button>
+    <button type="button" id="update">수정</button>
+    <button type="button" id="delete">삭제</button>
+    <button type="button" id="fileUp">파일UP</button>
+    <button type="button" id="go">전송</button>
+    <button type="button" id="part">아주가끔</button>
+</form>
+
+<script>
+	const $part = $("#part");
+    const $go = $("#go");
+    const $sajin = $("#sajin");
+    const $creBtn = $("#create");
+    const $schBtn = $("#search");
+    const $upBtn = $("#update");
+    const $delBtn = $("#delete");
+    const $fileUp = $("#fileUp");
+
+    const $sujiNum = $("input[name=sujiNum]");
+    const $sujiName = $("input[name=sujiName]");
+    const $sujiContent = $("textarea[name=sujiContent]");
+    const $sujiFile = $("input[name=sujiFile]");
+    const $sujiFile2 = $("input[name=sujiFile2]");
+    
+    $part.on("click",function(){
+       // 복잡한 VO와 FILE을 함께 보낼 때는
+        // FILE과 VO를 분리해서 받는 방법을 가끔 사용함
+        // 왱?, VO문자열이 자바객체로 변경이 일부 안되는 경우(DEPTH가 깊음)
+        // 가 있음!, 앞으로는 더 잘 될 꺼임!
+        let formData = new FormData();
+        // 파일 넣기
+        formData.append("jinsuFile",$sujiFile2[0].files[0]);
+		
+        let test={
+        		name:"병철",
+        		age:30,
+        		friends:["미누","석일","승종"]
+        }
+        
+        // 복잡한 JSON 객체를 문자열화해서 BLOB로 담아서 보냄!
+        //part??
+        formData.append("test",new Blob([JSON.stringify(test)],{type:"application/json;charset=utf-8"}));
+
+        let xhr = new XMLHttpRequest();
+        xhr.open("post","/rest/jinsu",true);
+        xhr.onreadystatechange = function(){
+            if(xhr.readyState == 4 && xhr.status == 200){
+                console.log(xhr.responseText);
+            }
+        }
+        xhr.send(formData);
+
+
+    });
+
+    //INSERT를 다싱
+    $go.on("click",()=>{
+       
+        //FormData 생성시 매개변수로 form 요소(Element를 넘겨주면 자동으로 다 넘어감)
+        let formData = new FormData(document.forms[0]);
+        console.log("체킁:",formData);  // 이상하다 싶으면 항상 눈으로 확인!
+        
+        /*
+        for(let key of formData.keys()){
+           console.log("key",key);
+        }
+        
+        for(let val of formData.values()){
+           console.log("val",val);
+        }
+        */
+        
+
+        let xhr = new XMLHttpRequest();
+        xhr.open("post","/rest/suji",true);
+        xhr.onreadystatechange = function() {
+            if(xhr.readyState == 4 && xhr.status == 200){
+                let rslt = xhr.responseText;
+                if(rslt == 1){
+                   Swal.fire('너무 너무 잘 입력 되었어요!');
+                   getList(); // 리스트 다시 가져오깅!
+                }
+                else {
+                   alert("뭔가 문제가 발생! - 신진수담당자님께 문의바람");
+                }
+            }
+        }
+        xhr.send(formData);
+    })
+
+    //파일업로드
+    $fileUp.on("click",()=>{
+        console.log("ck1",document.querySelector("input[name=sujiFile2]").files);
+        console.log("ck2",$sujiFile2[0].files);
+
+        // 파일업로드 하면 생각나는 거?
+        let formData = new FormData();  //  얘는 전송방식이 무조건 multipart/form-data
+        formData.append("hyunhak",$sujiFile2[0].files[0]);
+        
+        // 바닐라 자바스크립트롱
+        let xhr = new XMLHttpRequest();
+        xhr.open("post","/rest/suji2",true);
+        xhr.onreadystatechange = function() {
+            if(xhr.readyState == 4 && xhr.status == 200){
+                let rslt = xhr.responseText;
+                console.log(rslt);
+
+                let myImg = document.createElement("img");
+                myImg.src = rslt;
+                myImg.width = 100; myImg.height = 100;
+                document.querySelector("#sajin").appendChild(myImg);
+
+            }
+        }
+        xhr.send(formData);
+
+        
+//         $.ajax({
+//             type:"post",
+//             url:`/rest/suji2`,
+//             data: formData,     //JSON.stringify 하지 않음에 주의!
+//             contentType:false, // default값이 application/x-www-form-urlencoded
+//             processData:false, // default값이 application/x-www-form-urlencoded
+//             cache:false,       // 요건 선택 권장!
+//             dataType:"text",
+//             success:function(rslt){
+//                 console.log("체킁:", rslt);
+//                 $("<img></img>").attr("src",rslt)
+//                             .css("width",200)
+//                             .css("height",200)
+//                             .appendTo($sajin); //document.createElement("img");
+                
+//                 /*
+//                 let mImg = document.createElement("img");
+//                 mImg.src = rslt;
+//                 document.querySelector("#sajin").appendChild(mImg);
+//                 */
+               
+//             },
+//             error: function (xhr, status, error) {
+//             console.log("code: " + xhr.status)
+//             console.log("message: " + xhr.responseText)
+//             console.log("error: " + error);
+//             }
+//         })
+        
+    })
+
+
+    //삭제하깅!
+    $delBtn.on("click",()=>{
+        $.ajax({
+            type:"delete",
+            url:`/rest/suji/${$sujiNum.val()}`,
+            dataType:"text",
+            success:function(rslt){
+                console.log("다시체킁:", rslt);
+                if(parseInt(rslt)){
+                    alert("잘 삭제 되었어용 GOOD!");
+                    $sujiNum.val("");
+                    $sujiName.val("");
+                    $sujiContent.val("");
+                    $sujiFile.val("");
+                    getList();  // 리스트 다시 뿌리깅!
+                    $sujiNum.focus();
+                }else {
+                    alert("먼가 님께서 잘 못하신것 같아용!!");
+                }
+            },
+            error: function (xhr, status, error) {
+            console.log("code: " + xhr.status)
+            console.log("message: " + xhr.responseText)
+            console.log("error: " + error);
+            }
+        })
+    });
+
+    //수정하깅!
+    $upBtn.on("click",()=>{
+        let sujiVO = {
+            sujiNum: $sujiNum.val(),
+            sujiName: $sujiName.val(),
+            sujiContent: $sujiContent.val(),
+            sujiFile: $sujiFile.val()
+        }
+        $.ajax({
+            type:"put",
+            url:"/rest/suji",
+            data: JSON.stringify(sujiVO),
+            contentType:"application/json;charset=utf-8",
+            dataType:"text",
+            success:function(rslt){
+                console.log(rslt);
+                if(rslt){
+                    alert("잘 수정 되었어용 GOOD!");
+                    getList();  // 리스트 다시 뿌리깅!
+                }else {
+                    alert("먼가 님께서 잘 못하신것 같아용!!");
+                }
+            },
+            error: function (xhr, status, error) {
+            console.log("code: " + xhr.status)
+            console.log("message: " + xhr.responseText)
+            console.log("error: " + error);
+            }
+        })
+    });
+
+    $schBtn.on("click",()=>{
+        console.log("확인:", $sujiNum.val());
+        $.ajax({
+            type:"get",
+            url:`/rest/suji/${$sujiNum.val()}`,
+            dataType:"text",
+            success:function(rslt){
+                if(rslt){
+                    console.log(rslt);
+                    rslt = JSON.parse(rslt);
+                    $sujiName.val(rslt.sujiName);
+                    $sujiContent.val(rslt.sujiContent);
+                    $sujiFile.val(rslt.sujiFile);
+                }else {
+                    alert("없는 번호에용. 알겠어용?");
+                }
+            },
+            error: function (xhr, status, error) {
+            console.log("code: " + xhr.status)
+            console.log("message: " + xhr.responseText)
+            console.log("error: " + error);
+            }
+        })
+    });
+
+    $creBtn.on("click",()=>{
+        let sujiVO = {
+            sujiName: $sujiName.val(),
+            sujiContent: $sujiContent.val(),
+            sujiFile: $sujiFile.val()
+        }
+        console.log("sujiVO:",sujiVO); // 잊지말공 꼬옥 눈으로 확인!
+
+        $.ajax({
+            type:"post",
+            url:"/rest/suji",
+            data: JSON.stringify(sujiVO),
+            contentType:"application/json;charset=utf-8",
+            dataType:"text",
+            success:function(rslt){
+                console.log(rslt);
+                if(rslt){
+                    alert("잘 입력 되었어용 GOOD!");
+                    getList();  // 리스트 다시 뿌리깅!
+                }
+            },
+            error: function (xhr, status, error) {
+            console.log("code: " + xhr.status)
+            console.log("message: " + xhr.responseText)
+            console.log("error: " + error);
+            }
+        })
+    });
+
+    // jQuery 생성자는 낭비되지 않도록 잘 사용해야함
+    // 여러번 사용될 거로 예상될 때는 꼬옥 변수로 받아서 사용!
+    const $list = $("#list");
+
+    // DOMContentLoaded 이벤트
+    $(()=>{
+        getList();
+    });
+
+    // 파일 다운로드!
+    // 요 테크닉 잘 저장해두었다가 활용!, 요 방법이 젤 쉽고, 명확!
+    function fDownload(urlPath){
+        let startIndex = urlPath.lastIndexOf("/")+1;
+        let oFileName = urlPath.substring(startIndex);
+
+        let aTag = document.createElement("a"); // a 태그 생성
+        aTag.href = urlPath;
+        aTag.download = oFileName;  // 클릭시 다운로드가 되도록 download 속성 추강
+
+        aTag.click();   // 강제 클릭 발생!
+    }
+
+    //페이지 시작하자 마자 리스트 뿌리깅
+    function getList() {
+        $.ajax({
+            type:"get",
+            url:"/rest/suji",
+        //    data:"",
+            dataType:"text", //  요걸 알아서 해줌 JSON.parse(xhr.responseText)
+        //    contentType:"",
+        //    async:true,
+            success:function(rslt){
+                console.log("체킁:",JSON.parse(rslt));
+                rslt = JSON.parse(rslt);
+                //정렬도 클라이언트 사이드에서 하면 성능이나, 서버부하
+                //줄이는 측면에서 유리함!
+                rslt.sort((a,b)=>{
+                    return b.sujiNum - a.sujiNum;
+                });
+
+                let tblStr = "<table border=1>";
+                tblStr += "<tr><th>번호</th><th>이름</th><th>내용</th><th>파일경로</th><th>다운로드</th></tr>";
+                for (let i=0; i<rslt.length; i++){
+                    tblStr += "<tr>";
+                    tblStr += `<td>${rslt[i].sujiNum}</td>`;
+                    tblStr += `<td>${rslt[i].sujiName}</td>`;
+                    tblStr += `<td>${rslt[i].sujiContent}</td>`;
+
+                    tblStr += `<td><a href='${rslt[i].sujiFile}' >보깅</a></td>`;
+                    tblStr += `<td><button onclick=fDownload('${rslt[i].sujiFile}')>다운로드</button></td>`;
+                    tblStr += "</tr>";
+                }
+                tblStr += "</table>";
+                $list.html(tblStr);
+
+            },
+            error: function (xhr, status, error) {
+            console.log("code: " + xhr.status)
+            console.log("message: " + xhr.responseText)
+            console.log("error: " + error);
+            }
+        });
+    }
+</script>
+</body>
+</html>

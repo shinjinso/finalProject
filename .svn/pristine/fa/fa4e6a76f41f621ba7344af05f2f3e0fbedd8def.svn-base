@@ -1,0 +1,220 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+ <script src="https://code.jquery.com/jquery-latest.min.js"></script>
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>border를 두고 작업</title>
+<style>
+
+    #header1 {
+        height: 20vh;
+    }
+    #header2 {
+        display: flex;
+        align-items: center; /* 수직 정렬 중앙 정렬 */
+        height: 60%; /* 부모 높이에 맞게 설정 */
+    }
+    #header2>div {
+        display: flex;
+        align-items: center; /* 수직 정렬 중앙 정렬 */
+        height: 100%; /* 부모 높이에 맞게 설정 */
+    }
+    #header3{
+    	padding: 10px;
+    }
+    
+    #cont1 {
+        height: 70vh;
+    }
+    #footer1 {
+        height: 10vh;
+    }
+  
+    button.btn-primary {
+        margin-left: auto;
+        margin-right: 20px;
+    }
+    #dataTable_filter {
+    	margin-left: auto;
+        margin-right: 20px;
+    }
+    p{
+    	margin-bottom: 0px;
+    }
+
+	
+</style>
+</head>
+<body>
+    <!-- border를 표시하고 작업해야 나중에 예쁘게 정리할 수 있음 -->
+    <div id="myWrap">
+        <div id="header1">
+           
+            <div id="header2">
+            	<div>
+            		<div id="header3">
+		           		<a href="/personnel/emp"> <!-- "사원" 링크에 href 속성 추가 -->
+							<h2>사원</h2>
+						</a>
+					</div> 
+					<div id="header3">
+						<a href="/personnel/Appointments"> <!-- "인사발령" 링크에 href 속성 추가 -->
+							<h2>인사발령</h2>
+						</a>
+					</div>
+				</div>
+				
+				
+				<!-- 모달 중앙 -->
+				<button type="button" class="btn mb-2 btn-primary" data-toggle="modal" data-target="#defaultModal"> 인사발령 </button>
+					<div class="modal fade" id="defaultModal" tabindex="-1" role="dialog" aria-labelledby="defaultModalLabel" style="display: none;" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                          <div class="modal-content">
+                            <div class="modal-header">
+                              <h5 class="modal-title" id="defaultModalLabel">Modal title</h5>
+                              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">×</span>
+                              </button>
+                            </div>
+                            
+                            <!-- 내용 -->
+                             <form action="/personnel/Appointmentset" method="post"> <!-- 폼 시작 -->
+                            <div class="modal-body">
+                            
+                             <!-- 한줄 -->
+                               <div class="form-row">
+                                  <p>발령대상</p>
+                           		<select class="form-control" name="team" id="example-select">
+                                   <option>전체구성원</option>
+                                   
+                                   
+                                 </select>
+                               </div>
+                              <!-- 한줄끝 -->
+                              <br>
+                             <!-- 두줄 -->
+                               <div class="form-row">
+                                  <p>발령라벨</p>
+                           		<select class="form-control" name="promotion" id="example-select">
+                                   <option>일반직위승진</option>
+                                   <option>근속직위승진</option>
+                                   <option>특별직위승진</option>
+                                   <option>직책승진</option>
+                                 </select>
+                               </div>
+                              <!-- 두줄끝 -->
+                              <br>
+                             <!-- 셋째줄 -->
+                               <div class="form-row">
+								  <div class="form-group col-md-6">
+		                            <label for="date-input1">발령일</label>
+		                            <div class="input-group">
+		                              <div class="input-group-prepend">
+		                              </div>
+										<input type="date" name="date" value="2023-09-07" > 
+		                            </div>
+		                          </div>
+                               </div>
+                              <!-- 셋째줄끝 -->
+                              <!-- 네번쨰줄 -->
+                               <div class="form-row">
+                                  <p>메모</p>
+									<textarea class="form-control" name="note" id="example-textarea" rows="4">작성하기 </textarea>
+                               </div><br>
+                              <!-- 네번째줄끝 -->
+                            
+                            </div>
+                            
+                            <div class="modal-footer">
+                              <button type="submit" class="btn mb-2 btn-primary">작성하기</button>
+                            </div>
+                             <sec:csrfInput/>
+                             </form> <!-- 폼 끝 -->
+                          </div>
+                        </div>
+                      </div>
+                   <!-- 모달 중앙 끝 -->
+            </div>
+	            <div>
+		            <ul class="nav nav-tabs mb-3" id="myTab" role="tablist">
+
+
+						<div id="dataTable_filter" class="dataTables_filter">
+							<label>Search:<input type="text" name="keyword" value="" class="form-control form-control-sm" placeholder="검색어를 입력해주세요" aria-controls="dataTable"></label>
+							<label>
+							<!-- submit / button / reset -->
+								<button type="submit" class="btn btn-primary btn-icon-split btn-sm">
+									<span class="icon text-white-50">							                                 
+		                                 <i class="fas fa-flag"></i>
+		                               </span><span class="text">검색</span>
+	                            </button>
+							</label>
+
+						</div>
+					</ul>
+	            </div>
+        </div>
+        <div id="cont1">
+          <div class="container-fluid">
+          <div class="row justify-content-center">
+            <div class="col-12">
+
+              <!-- table -->
+              <div class="card shadow">
+                <div class="card-body">
+                <p>변경내역</p>
+                    <hr>                                                                              
+                  <table class="table table-borderless table-hover">
+						<tr style="border-bottom: 2px solid gray; ">
+							<td>
+	                          <p class="mb-0 text-muted"><strong>변경내역      <span class="badge badge-pill badge-success" style="color: white;"> 완료</span></strong></p>
+	                          <small class="mb-0 text-muted">이름 + 날짜 + 시간  신청 시간?</small>
+	                        </td>
+	                        <td><span class="fe fe-24 fe-calendar" style="margin-top : -5px; font-size:15px; float: right;">승인날짜</span></td>
+	                        <td style="font-size:15px; width: 50px;">1명</td>
+						</tr>
+						<tr style="border-bottom: 2px solid gray;">
+							<td>
+	                          <p class="mb-0 text-muted"><strong>변경내역      <span class="badge badge-pill badge-warning" style="color: white;"> 진행중</span></strong></p>
+	                          <small class="mb-0 text-muted">이름 + 날짜 + 시간  신청 시간?</small>
+	                        </td>
+	                        <td><span class="fe fe-24 fe-calendar" style="margin-top : -5px; font-size:15px; float: right;">승인날짜</span></td>
+	                        <td style="font-size:15px; width: 50px;">1명</td>
+						</tr>
+						<tr style="border-bottom: 2px solid gray;">
+							<td>
+	                          <p class="mb-0 text-muted"><strong>변경내역   <span class="badge badge-pill badge-secondary"> 취소</span></strong></p>
+	                          <small class="mb-0 text-muted">이름 + 날짜 + 시간  신청 시간?</small>
+	                        </td>
+	                        <td><span class="fe fe-24 fe-calendar" style="margin-top : -5px; font-size:15px; float: right;">승인날짜</span></td>
+	                        <td style="font-size:15px; width: 50px;">1명</td>
+						</tr>
+                  </table>
+                </div>
+              </div>
+              <nav aria-label="Table Paging" class="my-3">
+                <ul class="pagination justify-content-end mb-0">
+                  <li class="page-item"><a class="page-link" href="#">Previous</a></li>
+                  <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                  <li class="page-item"><a class="page-link" href="#">2</a></li>
+                  <li class="page-item"><a class="page-link" href="#">3</a></li>
+                  <li class="page-item"><a class="page-link" href="#">Next</a></li>
+                </ul>
+              </nav>
+            </div> <!-- .col-12 -->
+          </div> <!-- .row -->
+        </div>
+          
+        </div>
+        <div id="footer1">
+            난 발바닥
+        </div>
+
+    </div>
+</body>
+</html>

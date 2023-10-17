@@ -1,0 +1,24 @@
+package kr.or.ddit.setting.service.Impl;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import kr.or.ddit.setting.mapper.CompAuthMapper;
+import kr.or.ddit.setting.service.CompAuthService;
+import kr.or.ddit.vo.AcntAuthorVO;
+
+@Service
+public class CompAuthServiceImpl implements CompAuthService {
+	
+	@Autowired
+	CompAuthMapper compAuthMapper;
+
+	@Override
+	public List<AcntAuthorVO> getAuthList() {
+		return compAuthMapper.getAuthList();
+	}
+	
+
+}

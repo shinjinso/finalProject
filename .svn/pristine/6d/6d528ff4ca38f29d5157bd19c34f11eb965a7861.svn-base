@@ -1,0 +1,64 @@
+package kr.or.ddit.common.controller;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import kr.or.ddit.common.service.CommonService;
+import kr.or.ddit.vo.EmpVO;
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
+@Controller
+@RequestMapping("/common")
+public class CommonController {
+	
+	@Autowired
+	private CommonService Service;
+	
+	/**
+	 * 로그인 화면으로 가기
+	 * @return
+	 */
+	@GetMapping("/login")
+	public String login() {
+		return "/common/login";
+	}
+	
+	/**
+	 * 홈피드 화면으로 가기
+	 * @return
+	 */
+	@GetMapping("/home")
+	public String home() {
+		return "common/home";
+	}
+	
+	/**
+	 * AJAX로 검색결과 받기
+	 * @param keyword
+	 * @return
+	 */
+	@ResponseBody
+	@GetMapping("/suchEmp")
+	public List<EmpVO> suchEmp(@RequestParam String keyword){
+		log.info("CommonController->keyword : " + keyword);
+		List<EmpVO> list = Service.suchEmp(keyword);
+		log.info("CommonController->list : " + list);
+		return list;
+	}
+	
+	/**
+	 * 마이페이지로 가기(사이드바에서 내정보 클릭시 이동)
+	 * @return
+	 */
+	@GetMapping("/myPage")
+	public String myPage() {
+		return "common/myPage";
+	}
+}

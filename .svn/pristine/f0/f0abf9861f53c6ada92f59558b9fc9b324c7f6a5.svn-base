@@ -1,0 +1,82 @@
+package kr.or.ddit.common.service.impl;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import kr.or.ddit.common.mapper.EmpMapper;
+import kr.or.ddit.common.service.CommonService;
+import kr.or.ddit.common.vo.AccaVO;
+import kr.or.ddit.common.vo.CnthxVO;
+import kr.or.ddit.common.vo.EmpVO;
+import kr.or.ddit.common.vo.FileInfoVO;
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
+@Service
+public class CommonServiceImpl implements CommonService{
+
+	@Autowired
+	EmpMapper empMapper;
+
+	
+	//사원 리스트
+	@Override
+	public List<EmpVO> suchEmp(String keyword) {
+		log.info("keyword : " + keyword);
+		List<EmpVO> list = empMapper.suchEmp(keyword);
+		log.info("list : " + list);
+		
+		return list;
+	}
+
+	//사원 한명 찾기
+	@Override
+	public EmpVO SelectEmp(String EmpNo) {
+		log.info("EmpNo : " + EmpNo);
+		EmpVO Vo = empMapper.SelectEmp(EmpNo);
+		log.info("Vo : " + Vo);
+		
+		return Vo;
+	}
+
+	//내 계약정보
+	@Override
+	public List<CnthxVO> myCnthx(String EmpNo) {
+		log.info("ServiceImpl->EmpNo"+EmpNo);
+		List<CnthxVO> list = empMapper.myCnthx(EmpNo);
+		log.info("ServiceImpl->list"+list);
+		
+		return list;
+	}
+
+	//내 학력정보
+	@Override
+	public AccaVO myAcca(String EmpNo) {
+		log.info("ServiceImpl->EmpNo"+EmpNo);
+		AccaVO vo = empMapper.myAcca(EmpNo);
+		log.info("ServiceImpl->vo"+vo);
+		return vo;
+	}
+
+	//나의 파일정보 insert
+	@Override
+	public int fileInsert(FileInfoVO fileInfoVO) {
+		log.info("ServiceImpl->fileInfoVO"+fileInfoVO);
+		int result = empMapper.fileInsert(fileInfoVO);
+		log.info("ServiceImpl->result"+result);
+		return result;
+	}
+
+	//나의 파일정보 select
+	@Override
+	public List<FileInfoVO> fileSelect(String empNo) {
+		log.info("ServiceImpl->empNo"+empNo);
+		List<FileInfoVO> list = empMapper.fileSelect(empNo);
+		log.info("ServiceImpl->list"+list);
+		return list;
+	}
+
+
+}

@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.ddit.setting.mapper.CompWorkMapper">
+
+<select id="workList" resultType="WorkVO">
+	SELECT 
+		WK_NO
+		, WK_NM
+		, WK_DESCR
+		, WK_YN
+		, WK_SCD
+		, WK_NIGHT
+		, WK_HD
+		, WK_STIME
+		, WK_ETIME
+		, WK_WTIME
+		, WK_DAY
+		, IMG_ROOT
+	FROM WORK
+	ORDER BY WK_NO
+</select>
+
+<select id="selectFileList" resultType="FileInfoVO">
+	SELECT
+		FILE_SN
+		, ORFI_NAME
+		, SVFI_NAME
+		, FILE_SIZE
+		, SV_DATE
+		, FILE_UDTER
+		, FILE_ROOT
+		, FILE_SETTING
+	FROM FILE_INFO
+	WHERE FILE_SETTING = 'workIcon'
+	ORDER BY FILE_SN
+</select>
+
+<insert id="workAdd" parameterType="WorkVO">
+	INSERT INTO WORK
+		(WK_NO
+		, WK_NM
+		, WK_DESCR
+		, WK_YN
+		, WK_SCD
+		, WK_NIGHT
+		, WK_HD
+		, WK_STIME
+		, WK_ETIME
+		, WK_WTIME
+		, WK_DAY
+		, IMG_ROOT)
+	VALUES
+		((SELECT NVL(MAX(WK_NO),0)+1 FROM WORK)
+		, #{wkNm}
+		, #{wkDescr}
+		, 'Y'
+		, ''
+		, #{wkNight}
+		, #{wkHd}
+		, ''
+		, ''
+		, #{wkWtime}
+		, ''
+		, #{imgRoot})
+</insert>
+
+<select id="getWork" parameterType="int" resultType="WorkVO">
+	SELECT 
+		WK_NO
+		, WK_NM
+		, WK_DESCR
+		, WK_YN
+		, WK_SCD
+		, WK_NIGHT
+		, WK_HD
+		, WK_STIME
+		, WK_ETIME
+		, WK_WTIME
+		, WK_DAY
+		, IMG_ROOT
+	FROM WORK
+	WHERE WK_NO = #{wkNo}
+</select>
+
+<update id="workUp" parameterType="WorkVO">
+
+	UPDATE WORK
+	SET WK_NM = #{wkNm}
+		, WK_DESCR = #{wkDescr}
+		, WK_NIGHT = #{wkNight}
+		, WK_HD = #{wkHd}
+		, WK_WTIME = #{wkWtime}
+		, IMG_ROOT = #{imgRoot}
+	WHERE WK_NO = #{wkNo}
+
+</update>
+	
+</mapper>

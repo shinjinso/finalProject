@@ -1,0 +1,109 @@
+package kr.or.ddit.vacation.serviceImpl;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import kr.or.ddit.approval.vo.ApboxVO;
+import kr.or.ddit.approval.vo.DocWriVO;
+import kr.or.ddit.vacation.mapper.CusMainMapper;
+import kr.or.ddit.vacation.service.CusMainService;
+import kr.or.ddit.vacation.vo.VacApplyVO;
+import kr.or.ddit.vacation.vo.VacHoldVO;
+import kr.or.ddit.vacation.vo.VacTypeVO;
+import kr.or.ddit.vacation.vo.VacationFormVO;
+
+@Service
+public class CusMainServiceImpl implements CusMainService{
+	
+	@Autowired
+	private CusMainMapper cusMainMapper;
+
+	@Override
+	public List<VacTypeVO> vacType(String empNo) {
+		return cusMainMapper.vacType(empNo);
+	}
+
+	@Override
+	public int insertVacApply(VacApplyVO vacApplyVO) {
+		return cusMainMapper.insertVacApply(vacApplyVO);
+	}
+
+	@Override
+	public List<VacApplyVO> selectApplyList(String empNo) {
+		return cusMainMapper.selectApplyList(empNo);
+	}
+
+	@Override
+	public VacApplyVO selectOneApply(int vaapCode) {
+		return cusMainMapper.selectOneApply(vaapCode);
+	}
+
+	@Override
+	public int deleteApply(int vaapCode) {
+		return cusMainMapper.deleteApply(vaapCode);
+	}
+
+	@Override
+	public int updateApply(VacApplyVO vacApplyVO) {
+		return cusMainMapper.updateApply(vacApplyVO);
+	}
+
+	@Override
+	public List<VacHoldVO> DetailAnnual(VacHoldVO vacHoldVO) {
+		return cusMainMapper.DetailAnnual(vacHoldVO);
+	}
+
+	@Override
+	public List<VacApplyVO> DetailAnnual2(VacApplyVO vacApplyVO) {
+		return cusMainMapper.DetailAnnual2(vacApplyVO);
+	}
+
+	// 휴가 결재 신청하는데 일단 문서 작성 테이블에 담기
+	@Transactional
+	@Override
+	public int WriInsert(DocWriVO docWriVO,VacationFormVO vacationFormVO, List<ApboxVO> apboxVO) {
+		
+		int result = 0;
+		
+		int dftNo =cusMainMapper.WriSelect(); //문서maxNo
+		docWriVO.setDftNo(dftNo);
+		vacationFormVO.setDftNo(dftNo);
+		
+		int cusCnt = cusMainMapper.WriInsert(docWriVO);
+		
+		int vacCnt = cusMainMapper.finalApply(vacationFormVO);//문서 작성 테이블에 담긴 값을 통해 휴가신청서에 insert
+		
+		
+		for (ApboxVO vo : apboxVO) {
+			vo.setDftNo(dftNo);
+			int apboxCnt = cusMainMapper.apboxInsert(vo);// <!-- 결제선 INSERT -->
+			result += apboxCnt;
+		}
+		
+		result += cusCnt + vacCnt;
+		return result;
+	}
+
+	@Override
+	public int apstCodeUpdate(int vaapCode) {
+		return cusMainMapper.apstCodeUpdate(vaapCode);
+	}
+
+	@Override
+	public List<VacationFormVO> FormList(VacationFormVO vacationFormVO) {
+		return cusMainMapper.FormList(vacationFormVO);
+	}
+
+
+	
+
+	
+	
+	
+
+	
+	
+}

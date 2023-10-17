@@ -1,0 +1,176 @@
+package kr.or.ddit.personnel.service.Impl;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
+import org.apache.velocity.runtime.log.Log;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import kr.or.ddit.common.vo.CnthxVO;
+import kr.or.ddit.common.vo.EmpVO;
+import kr.or.ddit.personnel.mapper.MemberMapper;
+import kr.or.ddit.personnel.service.MemberService;
+import kr.or.ddit.vo.AsgmtVO;
+import kr.or.ddit.vo.DeptVO;
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
+@Service
+public class MemberServiceImpl implements MemberService {
+	
+	@Autowired
+	MemberMapper memberMapper;
+	
+	//실제 필요한 메소드는 요것만
+	@Override
+	public EmpVO read(EmpVO empNo) {
+		return this.memberMapper.read(empNo);
+	}
+	//사원추가
+	@Override
+	@Transactional
+	public int insertEMP(EmpVO empVO, CnthxVO cnthxVO) {
+	    int empResult = this.memberMapper.insertEMP(empVO);
+	    int cnthxResult = this.memberMapper.insertCnthx(cnthxVO);
+
+	    if (empResult > 0 && cnthxResult > 0) {
+	        // 두 개의 데이터베이스 삽입이 모두 성공한 경우
+	        // 추가 작업을 수행하거나 성공 메시지를 로그에 기록할 수 있습니다.
+	        log.info("사원 정보와 Cnthx 정보가 성공적으로 삽입되었습니다.");
+	        return 1; // 또는 성공을 나타내는 다른 값
+	    } else {
+	        // 실패한 경우 예외 처리 또는 에러 처리를 수행합니다.
+	        String errorMessage = "사원 정보 또는 Cnthx 정보를 삽입하는데 실패했습니다. " +
+	            "Emp Result: " + empResult + ", Cnthx Result: " + cnthxResult;
+	        log.error(errorMessage);
+	        throw new RuntimeException(errorMessage);
+	    }
+	}
+
+	@Override
+	public List<EmpVO> memberList() {
+		// TODO Auto-generated method stub
+		return this.memberMapper.memberList();
+	}
+	
+	@Override
+	public List<EmpVO> empList() {
+		// TODO Auto-generated method stub
+		return this.memberMapper.empList();
+	}
+
+
+	@Override
+	@Transactional
+	public int therr(DeptVO deptVO, EmpVO empVO, AsgmtVO asgmtVO) {
+
+//		int s = memberMapper.empupdate(deptVO);
+//		int a = memberMapper.deptupdate(empVO);
+//		int c = memberMapper.asgmtVO(asgmtVO);
+		
+		return 0;
+	}
+
+	//부정정보 가져오기(본부,부서 팀)
+	@Override
+	public List<DeptVO> Acenter() {
+		return this.memberMapper.Acenter();
+	}
+
+	@Override
+	public List<DeptVO> Adept(String Anum) {
+		return this.memberMapper.Adept(Anum);
+	}
+
+	@Override
+	public List<DeptVO> Ateam(String Anum2) {
+		return this.memberMapper.Ateam(Anum2);
+	}
+	//부서정보가져오기 끝
+
+	
+	//인사발령 대기상태 인설트
+	@Transactional
+	@Override
+	public int asgmtInsert(List<Map<String, String>> rowData, DeptVO deptVO, EmpVO empVO, AsgmtVO asgmtVO) {
+		
+		List<AsgmtVO> assignmentList = new ArrayList<AsgmtVO>();
+		
+		int insert = 0;
+	    for (Map<String, String> rowDataItem : rowData) {
+	        String EMP_IMG = rowDataItem.get("EMP_IMG");  //프로필
+	        String EMP_NM = rowDataItem.get("EMP_NM"); 	//발령자 이름
+	        String EMP_NO = rowDataItem.get("EMP_NO");	//발령자 사원번호
+	        String JCODE = rowDataItem.get("JCODE");	//직무 영업, 인사 등등
+	        String PTN_CODE = rowDataItem.get("PTN_CODE"); // 직위// 사원 대리 과장
+	        String DTCODE = rowDataItem.get("DTCODE"); // 직책//팀장 파트장
+	        String GRD_CODE = rowDataItem.get("GRD_CODE"); //연차 호봉
+	        String head = rowDataItem.get("head");   //조직장 여부 Y, N
+	        String team = rowDataItem.get("TEAM");   //팀
+	        
+	        System.out.println("팀 체크" + team);
+	        System.out.println("DTCODE체크" + DTCODE);
+	        
+	        //작성자
+	        String WempNn = rowDataItem.get("WempNn");
+	        String WempNo = rowDataItem.get("WempNo");
+	        
+	        //발령
+	        String Apromotion = rowDataItem.get("Apromotion"); //발령종류
+	        String Adate = rowDataItem.get("Adate"); //발려일
+	        String note = rowDataItem.get("note");  //메모
+	        String rsn = rowDataItem.get("rsn");  //메모
+	        
+	        asgmtVO = new AsgmtVO();
+	        
+	        asgmtVO.setAsgmtPers(EMP_NO); //발령대상
+	        asgmtVO.setWriter(WempNo); //작성자
+	        asgmtVO.setAsgmtClf(Apromotion);  //발령구분
+	        asgmtVO.setAsgmtRsn(rsn); //발령사유
+	        asgmtVO.setAsgmtMm(note); //발령메모
+	        asgmtVO.setAsgmtDate(Adate); //발령일
+	        asgmtVO.setAsgmtCcst("C0101"); //결재상태코드 대기중
+	        asgmtVO.setDtcode(DTCODE);
+	        asgmtVO.setPtnCode(PTN_CODE);
+	        asgmtVO.setJcode(JCODE);
+	        asgmtVO.setGrdCode(GRD_CODE);
+	        asgmtVO.setTeam(team);
+	        
+	        assignmentList.add(asgmtVO);
+	    }
+	    
+		log.info("assignmentList : " + assignmentList);
+		
+	    insert = memberMapper.asgmtInsert(assignmentList);
+		
+		
+		return insert;
+	}
+
+	@Override
+	public List<AsgmtVO> asgmtlist() {
+		return memberMapper.asgmtlist();
+	}
+	@Override
+	public List<AsgmtVO> asgmtDetail(AsgmtVO asgmtVO) {
+		
+		String KR = asgmtVO.getAsgmtCcst();
+		if(KR.equals("진행중")) {
+			KR = "C0101";
+		} else if(KR.equals("완료")) {
+			KR = "C0102";
+		} else {
+			KR = "C0103";
+		}
+		
+		asgmtVO.setAsgmtCcst(KR);
+		
+		return memberMapper.asgmtDetail(asgmtVO);
+	}
+	
+
+	
+}

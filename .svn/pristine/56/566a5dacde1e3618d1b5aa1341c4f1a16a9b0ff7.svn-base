@@ -1,0 +1,65 @@
+package kr.or.ddit.personnel.service.Impl;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import kr.or.ddit.common.vo.EmpVO;
+import kr.or.ddit.personnel.mapper.MemberMapper;
+import kr.or.ddit.personnel.service.MemberService;
+import kr.or.ddit.vo.AsgmtVO;
+import kr.or.ddit.vo.DeptVO;
+
+
+@Service
+public class MemberServiceImpl implements MemberService {
+	
+	@Autowired
+	MemberMapper memberMapper;
+	
+	//실제 필요한 메소드는 요것만
+	@Override
+	public EmpVO read(EmpVO empNo) {
+		return this.memberMapper.read(empNo);
+	}
+
+	@Override
+	public List<EmpVO> memberList() {
+		// TODO Auto-generated method stub
+		return this.memberMapper.memberList();
+	}
+
+
+	@Override
+	@Transactional
+	public int therr(DeptVO deptVO, EmpVO empVO, AsgmtVO asgmtVO) {
+
+//		int s = memberMapper.empupdate(deptVO);
+//		int a = memberMapper.deptupdate(empVO);
+//		int c = memberMapper.asgmtVO(asgmtVO);
+//		
+		return 0;
+	}
+
+	//부정정보 가져오기(본부,부서 팀)
+	@Override
+	public List<DeptVO> Acenter() {
+		return this.memberMapper.Acenter();
+	}
+
+	@Override
+	public List<DeptVO> Adept(String Anum) {
+		return this.memberMapper.Adept(Anum);
+	}
+
+	@Override
+	public List<DeptVO> Ateam(String Anum2) {
+		return this.memberMapper.Ateam(Anum2);
+	}
+	//부서정보가져오기 끝
+	
+
+	
+}

@@ -1,0 +1,8 @@
+package kr.or.ddit.setting.mapper;
+
+import java.util.Map;
+
+public interface CompTreeMapper {
+
+	public int deptAdd(Map<String, Object> addMap);
+}

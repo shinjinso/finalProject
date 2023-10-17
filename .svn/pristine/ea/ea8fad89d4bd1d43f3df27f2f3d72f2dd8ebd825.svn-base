@@ -1,0 +1,575 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+	 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+	 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.0/chart.min.js"></script>
+
+<meta charset="UTF-8">
+<title>통계</title>
+</head>
+<body>
+<div class="col-12">
+              <h1 class="h5 page-title">인사이트</h1>
+              <button type="button" class="btn mb-2 btn-secondary">단위 : 월</button>
+              <button type="button" class="btn mb-2 btn-secondary">단위 : 년</button>
+              <p>
+              <hr>              
+              <button id="buttonOne" type="button" class="btn mb-2 btn-primary">직원관리</button>
+              <button id="buttonTwo" type="button" class="btn mb-2 btn-secondary">채용관리</button>
+              <button id="buttonThr" type="button" class="btn mb-2 btn-secondary">비용관리</button>
+               </p>
+              <div class="row"> <!--  첫번째줄 시작 -->
+              	<!-- 첫번째 시작 -->
+              	<div id="chart" class="col-md-6 mb-4">
+                  <div class="card shadow">
+                    <div class="card-header">
+                      <strong class="card-title mb-0">첫번째 차트</strong>
+                      <div class="dropdown float-right">
+                        <button class="btn btn-sm btn-link text-muted dropdown-toggle p-0" type="button" id="rangeDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> 7 days </button>
+                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="rangeDropdown">
+                          <a class="dropdown-item small text-muted" href="#">30 days</a>
+                          <a class="dropdown-item small active" href="#">90 days</a>
+                          <a class="dropdown-item small text-muted" href="#">All</a>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="card-body"><div class="chartjs-size-monitor"><div class="chartjs-size-monitor-expand"><div class=""></div></div><div class="chartjs-size-monitor-shrink"><div class=""></div></div></div>
+                      <canvas id="Chart1" width="557" height="269" style="display: block; height: 300px; width: 620px;" class="chartjs-render-monitor"></canvas>
+                    </div> <!-- /.card-body -->
+                  </div> <!-- /.card -->
+                </div>
+              	<!-- 첫번째 끝 -->
+              	<!-- 두번째 시작 -->
+              	  <div id="chart2" class="col-md-6 mb-4">
+                  <div class="card shadow">
+                    <div class="card-header">
+                      <strong class="card-title mb-0">두번째 차트</strong>
+                      <span class="badge badge-light float-right mr-2">30 days</span>
+                      <span class="badge badge-light float-right mr-2">7 days</span>
+                      <span class="badge badge-secondary float-right mr-2">Today</span>
+                    </div>
+                    <div class="card-body"><div class="chartjs-size-monitor"><div class="chartjs-size-monitor-expand"><div class=""></div></div><div class="chartjs-size-monitor-shrink"><div class=""></div></div></div>
+                      <canvas id="Chart2" width="315" height="300" style="display: block; width: 315px; height: 300px;" class="chartjs-render-monitor"></canvas>
+                    </div> <!-- /.card-body -->
+                  </div> <!-- /.card -->
+                </div> <!-- /. col -->
+              	<!-- 두번째 끝 -->
+              </div> <!-- 첫번재 줄 끝 -->
+              
+				<!-- 세번째 시작  -->			 
+              <div class="row my-4"> <!-- 2번째줄 -->
+                <div id="chart3" class="col-md-6 mb-4">
+                  <div class="card shadow">
+                    <div class="card-header">
+                      <strong class="card-title mb-0">세번째 차트</strong>
+                    </div>
+                    <div class="card-body"><div class="chartjs-size-monitor"><div class="chartjs-size-monitor-expand"><div class=""></div></div><div class="chartjs-size-monitor-shrink"><div class=""></div></div></div>
+                      <canvas id="Chart3" width="315" height="300" style="display: block; width: 315px; height: 300px;" class="chartjs-render-monitor"></canvas>
+                    </div> <!-- /.card-body -->
+                  </div> <!-- /.card -->
+                </div> <!-- /. col -->
+                <!-- 세번째 끝  -->	
+                <div id="chart4" class="col-md-6 mb-4">
+                  <div class="card shadow">
+                    <div class="card-header">
+                      <strong class="card-title mb-0">네번째 차트</strong>
+                    </div>
+                    <div class="card-body"><div class="chartjs-size-monitor"><div class="chartjs-size-monitor-expand"><div class=""></div></div><div class="chartjs-size-monitor-shrink"><div class=""></div></div></div>
+                      <canvas id="Chart4" width="315" height="300" style="display: block; width: 315px; height: 300px;" class="chartjs-render-monitor"></canvas>
+                    </div> <!-- /.card-body -->
+                  </div> <!-- /.card -->
+                </div> <!-- /. col -->
+              </div> <!-- end section -->
+            </div>  <!-- 2번째줄 -->
+            
+            
+                          <div class="row my-4"> <!--  세번째줄 시작 -->
+              	<!-- 다섯번째 시작 -->
+              	<div id="chart5" class="col-md-6 mb-4">
+                  <div class="card shadow">
+                    <div class="card-header">
+                      <strong class="card-title mb-0">다섯번째 차트</strong>
+                      <div class="dropdown float-right">
+                        <button class="btn btn-sm btn-link text-muted dropdown-toggle p-0" type="button" id="rangeDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> 7 days </button>
+                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="rangeDropdown">
+                          <a class="dropdown-item small text-muted" href="#">30 days</a>
+                          <a class="dropdown-item small active" href="#">90 days</a>
+                          <a class="dropdown-item small text-muted" href="#">All</a>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="card-body"><div class="chartjs-size-monitor"><div class="chartjs-size-monitor-expand"><div class=""></div></div><div class="chartjs-size-monitor-shrink"><div class=""></div></div></div>
+                      <canvas id="Chart5" width="557" height="269" style="display: block; height: 300px; width: 620px;" class="chartjs-render-monitor"></canvas>
+                    </div> <!-- /.card-body -->
+                  </div> <!-- /.card -->
+                </div>
+              	<!-- 다섯번째 끝 -->
+              	<!-- 여섯번째 시작 -->
+              	  <div id="chart6" class="col-md-6 mb-4">
+                  <div class="card shadow">
+                    <div class="card-header">
+                      <strong class="card-title mb-0">여섯번째 차트</strong>
+                      <span class="badge badge-light float-right mr-2">30 days</span>
+                      <span class="badge badge-light float-right mr-2">7 days</span>
+                      <span class="badge badge-secondary float-right mr-2">Today</span>
+                    </div>
+                    <div class="card-body"><div class="chartjs-size-monitor"><div class="chartjs-size-monitor-expand"><div class=""></div></div><div class="chartjs-size-monitor-shrink"><div class=""></div></div></div>
+                      <canvas id="Chart6" width="315" height="300" style="display: block; width: 315px; height: 300px;" class="chartjs-render-monitor"></canvas>
+                    </div> <!-- /.card-body -->
+                  </div> <!-- /.card -->
+                </div> <!-- /. col -->
+              	<!-- 여섯번째 끝 -->
+              </div> <!-- 세번재 줄 끝 -->
+           
+<script type="text/javascript">
+$(function(){
+	//첫번째 최초 세팅
+	$.ajax({
+        type: "get",
+        url: "/statistics/employeeAjax",
+        data: "",
+        error: function (error) {
+            alert("Error!");
+        },
+        success: function (result) {
+        	console.log("result : " + result);
+             ChartData = result; 
+            	 
+            barChartjs = document.getElementById("Chart1");
+            barChartjs && new Chart(barChartjs, {
+                type: "bar",
+                data: ChartData,
+                options: ChartOptions
+            });
+        }
+    });
+    
+	//두번째 최초 세팅
+	$.ajax({
+        type: "get",
+        url: "/statistics/employeeAjax",
+        data: "",
+        error: function (error) {
+            alert("Error!");
+        },
+        success: function (result) {
+        	console.log("result : " + result);
+             ChartData = result; 
+            	 
+            barChartjs = document.getElementById("Chart2");
+            barChartjs && new Chart(barChartjs, {
+                type: "line",
+                data: ChartData,
+                options: ChartOptions
+            });
+        }
+    });
+    
+	//세번째 최초 세팅
+	$.ajax({
+        type: "get",
+        url: "/statistics/employeeAjax",
+        data: "",
+        error: function (error) {
+            alert("Error!");
+        },
+        success: function (result) {
+        	console.log("result : " + result);
+             ChartData = result; 
+            	 
+            barChartjs = document.getElementById("Chart3");
+            barChartjs && new Chart(barChartjs, {
+                type: "pie",
+                data: ChartData,
+                options: ChartOptions
+            });
+        }
+    });
+    
+	//네번째 최초 세팅
+	$.ajax({
+        type: "get",
+        url: "/statistics/employeeAjax",
+        data: "",
+        error: function (error) {
+            alert("Error!");
+        },
+        success: function (result) {
+        	console.log("result : " + result);
+             ChartData = result; 
+            	 
+            barChartjs = document.getElementById("Chart4");
+            barChartjs && new Chart(barChartjs, {
+                type: "bar",
+                data: ChartData,
+                options: ChartOptions
+            });
+        }
+    });
+    
+	//다섯번째 최초 세팅
+	$.ajax({
+        type: "get",
+        url: "/statistics/employeeAjax",
+        data: "",
+        error: function (error) {
+            alert("Error!");
+        },
+        success: function (result) {
+        	console.log("result : " + result);
+             ChartData = result; 
+            	 
+            barChartjs = document.getElementById("Chart5");
+            barChartjs && new Chart(barChartjs, {
+                type: "line",
+                data: ChartData,
+                options: ChartOptions
+            });
+        }
+    });
+    
+	//여섯번째 최초 세팅
+	$.ajax({
+        type: "get",
+        url: "/statistics/employeeAjax",
+        data: "",
+        error: function (error) {
+            alert("Error!");
+        },
+        success: function (result) {
+        	console.log("result : " + result);
+             ChartData = result; 
+            	 
+            barChartjs = document.getElementById("Chart6");
+            barChartjs && new Chart(barChartjs, {
+                type: "pie",
+                data: ChartData,
+                options: ChartOptions
+            });
+        }
+    });
+    
+
+});
+</script>        
+           
+            <script type="text/javascript">       
+            var cont = `
+                <div class="card shadow">
+                    <div class="card-header">
+                        <strong class="card-title mb-0">첫번째 차트</strong>
+                        <div class="dropdown float-right">
+                            <button class="btn btn-sm btn-link text-muted dropdown-toggle p-0" type="button" id="rangeDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> 7 days </button>
+                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="rangeDropdown">
+                                <a class="dropdown-item small text-muted" href="#">30 days</a>
+                                <a class="dropdown-item small active" href="#">90 days</a>
+                                <a class="dropdown-item small text-muted" href="#">All</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="chartjs-size-monitor">
+                            <div class="chartjs-size-monitor-expand"><div class=""></div></div>
+                            <div class="chartjs-size-monitor-shrink"><div class=""></div></div>
+                        </div>
+                        <canvas id="Chart1" width="557" height="269" style="display: block; height: 300px; width: 620px;" class="chartjs-render-monitor"></canvas>
+                    </div> <!-- /.card-body -->
+                </div>`;
+                
+            	var cont2 = `
+                  <div class="card shadow">
+                    <div class="card-header">
+                      <strong class="card-title mb-0">두번째 차트</strong>
+                      <span class="badge badge-light float-right mr-2">30 days</span>
+                      <span class="badge badge-light float-right mr-2">7 days</span>
+                      <span class="badge badge-secondary float-right mr-2">Today</span>
+                    </div>
+                    <div class="card-body"><div class="chartjs-size-monitor"><div class="chartjs-size-monitor-expand"><div class=""></div></div><div class="chartjs-size-monitor-shrink"><div class=""></div></div></div>
+                      <canvas id="Chart2" width="315" height="300" style="display: block; width: 315px; height: 300px;" class="chartjs-render-monitor"></canvas>
+                    </div> <!-- /.card-body -->
+                  </div>`;
+              
+              var cont3 = `
+                  <div class="card shadow">
+                    <div class="card-header">
+                      <strong class="card-title mb-0">세번째 차트</strong>
+                    </div>
+                    <div class="card-body"><div class="chartjs-size-monitor"><div class="chartjs-size-monitor-expand"><div class=""></div></div><div class="chartjs-size-monitor-shrink"><div class=""></div></div></div>
+                      <canvas id="Chart3" width="315" height="300" style="display: block; width: 315px; height: 300px;" class="chartjs-render-monitor"></canvas>
+                    </div> <!-- /.card-body -->
+                  </div> <!-- /.card -->
+              `;
+              
+            var cont4 = `
+                <div class="card shadow">
+                    <div class="card-header">
+                        <strong class="card-title mb-0">네번째 차트</strong>
+                        <div class="dropdown float-right">
+                            <button class="btn btn-sm btn-link text-muted dropdown-toggle p-0" type="button" id="rangeDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> 7 days </button>
+                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="rangeDropdown">
+                                <a class="dropdown-item small text-muted" href="#">30 days</a>
+                                <a class="dropdown-item small active" href="#">90 days</a>
+                                <a class="dropdown-item small text-muted" href="#">All</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="chartjs-size-monitor">
+                            <div class="chartjs-size-monitor-expand"><div class=""></div></div>
+                            <div class="chartjs-size-monitor-shrink"><div class=""></div></div>
+                        </div>
+                        <canvas id="Chart4" width="557" height="269" style="display: block; height: 300px; width: 620px;" class="chartjs-render-monitor"></canvas>
+                    </div>`;
+               
+                
+            	var cont5 = `
+                  <div class="card shadow">
+                    <div class="card-header">
+                      <strong class="card-title mb-0">다섯번째 차트</strong>
+                      <span class="badge badge-light float-right mr-2">30 days</span>
+                      <span class="badge badge-light float-right mr-2">7 days</span>
+                      <span class="badge badge-secondary float-right mr-2">Today</span>
+                    </div>
+                    <div class="card-body"><div class="chartjs-size-monitor"><div class="chartjs-size-monitor-expand"><div class=""></div></div><div class="chartjs-size-monitor-shrink"><div class=""></div></div></div>
+                      <canvas id="Chart5" width="315" height="300" style="display: block; width: 315px; height: 300px;" class="chartjs-render-monitor"></canvas>
+                    </div> <!-- /.card-body -->
+                  </div> <!-- /.card -->`;
+              
+              var cont6 = `
+                  <div class="card shadow">
+                    <div class="card-header">
+                      <strong class="card-title mb-0">여섯번째 차트</strong>
+                    </div>
+                    <div class="card-body"><div class="chartjs-size-monitor"><div class="chartjs-size-monitor-expand"><div class=""></div></div><div class="chartjs-size-monitor-shrink"><div class=""></div></div></div>
+                      <canvas id="Chart6" width="315" height="300" style="display: block; width: 315px; height: 300px;" class="chartjs-render-monitor"></canvas>
+                    </div> <!-- /.card-body -->
+                  </div> <!-- /.card -->
+              `;
+            
+            $("#buttonOne").on("click", function () {
+            	document.getElementById("buttonOne").className="btn mb-2 btn-primary";
+        		document.getElementById("buttonTwo").className="btn mb-2 btn-secondary";
+        		document.getElementById("buttonThr").className="btn mb-2 btn-secondary";
+        		
+        		
+        		
+        		$.ajax({
+        			type : "get",
+        			url : "/resources/json/chartData.json",
+        			data : "",
+                    error: function (error) {
+                        alert("Error!");
+                    },
+                    success: function (result) {
+                    	
+                    	  $("#chart").empty();
+                    	  $("#chart2").empty();
+                    	  $("#chart3").empty();
+                    	  $("#chart4").empty();
+                    	  $("#chart5").empty();
+                    	  $("#chart6").empty();
+                          $("#chart").html(cont);
+                          $("#chart2").html(cont2);
+                          $("#chart3").html(cont3);
+                          $("#chart4").html(cont4);
+                          $("#chart5").html(cont5);
+                          $("#chart6").html(cont6);
+                    	
+                    	console.log("result : " + result);
+                        ChartData = result; 
+                       	 
+                       barChartjs = document.getElementById("Chart1");
+                       barChartjs && new Chart(barChartjs, {
+                           type: "bar",
+                           data: ChartData,
+                           options: ChartOptions
+                       });
+                       barChartjs = document.getElementById("Chart2");
+                       barChartjs && new Chart(barChartjs, {
+                           type: "line",
+                           data: ChartData,
+                           options: ChartOptions
+                       });
+                       barChartjs = document.getElementById("Chart3");
+                       barChartjs && new Chart(barChartjs, {
+                           type: "pie",
+                           data: ChartData,
+                           options: ChartOptions
+                       });
+                       barChartjs = document.getElementById("Chart4");
+                       barChartjs && new Chart(barChartjs, {
+                           type: "bar",
+                           data: ChartData,
+                           options: ChartOptions
+                       });
+                       barChartjs = document.getElementById("Chart5");
+                       barChartjs && new Chart(barChartjs, {
+                           type: "line",
+                           data: ChartData,
+                           options: ChartOptions
+                       });
+                       barChartjs = document.getElementById("Chart6");
+                       barChartjs && new Chart(barChartjs, {
+                           type: "pie",
+                           data: ChartData,
+                           options: ChartOptions
+                       });
+                    }
+        			
+        		})
+              
+            });
+            
+            
+            	$("#buttonTwo").on("click", function(){
+            		document.getElementById("buttonOne").className="btn mb-2 btn-secondary";
+            		document.getElementById("buttonTwo").className="btn mb-2 btn-primary";
+            		document.getElementById("buttonThr").className="btn mb-2 btn-secondary";
+            		$.ajax({
+            			type : "get",
+            			url : "/statistics/employeeAjax",
+            			data : "",
+                        error: function (error) {
+                            alert("Error!");
+                        },
+                        success: function (result) {
+                        	
+                        	  $("#chart").empty();
+                        	  $("#chart2").empty();
+                        	  $("#chart3").empty();
+                        	  $("#chart4").empty();
+                        	  $("#chart5").empty();
+                        	  $("#chart6").empty();
+                              $("#chart").html(cont);
+                              $("#chart2").html(cont2);
+                              $("#chart3").html(cont3);
+                              $("#chart4").html(cont4);
+                              $("#chart5").html(cont5);
+                              $("#chart6").html(cont6);
+                        	
+                        	console.log("result : " + result);
+                            ChartData = result; 
+                           	 
+                           barChartjs = document.getElementById("Chart1");
+                           barChartjs && new Chart(barChartjs, {
+                               type: "bar",
+                               data: ChartData,
+                               options: ChartOptions
+                           });
+                           barChartjs = document.getElementById("Chart2");
+                           barChartjs && new Chart(barChartjs, {
+                               type: "line",
+                               data: ChartData,
+                               options: ChartOptions
+                           });
+                           barChartjs = document.getElementById("Chart3");
+                           barChartjs && new Chart(barChartjs, {
+                               type: "pie",
+                               data: ChartData,
+                               options: ChartOptions
+                           });
+                           barChartjs = document.getElementById("Chart4");
+                           barChartjs && new Chart(barChartjs, {
+                               type: "bar",
+                               data: ChartData,
+                               options: ChartOptions
+                           });
+                           barChartjs = document.getElementById("Chart5");
+                           barChartjs && new Chart(barChartjs, {
+                               type: "line",
+                               data: ChartData,
+                               options: ChartOptions
+                           });
+                           barChartjs = document.getElementById("Chart6");
+                           barChartjs && new Chart(barChartjs, {
+                               type: "pie",
+                               data: ChartData,
+                               options: ChartOptions
+                           });
+                        }
+            			
+            		})
+                  
+                });
+            	
+            	
+            	$("#buttonThr").on("click", function(){
+            		document.getElementById("buttonOne").className="btn mb-2 btn-secondary";
+            		document.getElementById("buttonTwo").className="btn mb-2 btn-secondary";
+            		document.getElementById("buttonThr").className="btn mb-2 btn-primary";
+            		$.ajax({
+            			type : "get",
+            			url : "/resources/json/chartData.json",
+            			data : "",
+                        error: function (error) {
+                            alert("Error!");
+                        },
+                        success: function (result) {
+                        	
+                        	  $("#chart").empty();
+                        	  $("#chart2").empty();
+                        	  $("#chart3").empty();
+                        	  $("#chart4").empty();
+                        	  $("#chart5").empty();
+                        	  $("#chart6").empty();
+                              $("#chart").html(cont);
+                              $("#chart2").html(cont2);
+                              $("#chart3").html(cont3);
+                              $("#chart4").html(cont4);
+                              $("#chart5").html(cont5);
+                              $("#chart6").html(cont6);
+                        	
+                        	console.log("result : " + result);
+                            ChartData = result; 
+                           	 
+                           barChartjs = document.getElementById("Chart1");
+                           barChartjs && new Chart(barChartjs, {
+                               type: "bar",
+                               data: ChartData,
+                               options: ChartOptions
+                           });
+                           barChartjs = document.getElementById("Chart2");
+                           barChartjs && new Chart(barChartjs, {
+                               type: "line",
+                               data: ChartData,
+                               options: ChartOptions
+                           });
+                           barChartjs = document.getElementById("Chart3");
+                           barChartjs && new Chart(barChartjs, {
+                               type: "pie",
+                               data: ChartData,
+                               options: ChartOptions
+                           });
+                           barChartjs = document.getElementById("Chart4");
+                           barChartjs && new Chart(barChartjs, {
+                               type: "bar",
+                               data: ChartData,
+                               options: ChartOptions
+                           });
+                           barChartjs = document.getElementById("Chart5");
+                           barChartjs && new Chart(barChartjs, {
+                               type: "line",
+                               data: ChartData,
+                               options: ChartOptions
+                           });
+                           barChartjs = document.getElementById("Chart6");
+                           barChartjs && new Chart(barChartjs, {
+                               type: "pie",
+                               data: ChartData,
+                               options: ChartOptions
+                           });
+                        }
+            			
+            		})
+                  
+                });
+            	
+
+            
+            	
+            </script>
+
+
+</html>

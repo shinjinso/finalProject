@@ -1,0 +1,43 @@
+package kr.or.ddit.vacation.serviceImpl;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import kr.or.ddit.vacation.mapper.CusMainMapper;
+import kr.or.ddit.vacation.service.CusMainService;
+import kr.or.ddit.vacation.vo.VacApplyVO;
+import kr.or.ddit.vacation.vo.VacTypeVO;
+
+@Service
+public class CusMainServiceImpl implements CusMainService{
+	
+	@Autowired
+	private CusMainMapper cusMainMapper;
+
+	@Override
+	public List<VacTypeVO> vacType() {
+		return cusMainMapper.vacType();
+	}
+
+	@Override
+	public int insertVacApply(VacApplyVO vacApplyVO) {
+		return cusMainMapper.insertVacApply(vacApplyVO);
+	}
+
+	@Override
+	public List<VacApplyVO> selectApplyList(String empNo) {
+		return cusMainMapper.selectApplyList(empNo);
+	}
+
+	@Override
+	public VacApplyVO selectOneApply(int vacTypeNo) {
+		return cusMainMapper.selectOneApply(vacTypeNo);
+	}
+	
+	
+
+	
+	
+}

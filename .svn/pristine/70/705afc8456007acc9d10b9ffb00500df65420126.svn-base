@@ -1,0 +1,11 @@
+package kr.or.ddit.setting.mapper;
+
+import java.util.List;
+
+import kr.or.ddit.vo.WorkVO;
+
+public interface CompWorkMapper {
+
+	List<WorkVO> workList();
+
+}

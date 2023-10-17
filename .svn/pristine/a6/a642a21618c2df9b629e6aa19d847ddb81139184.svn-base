@@ -1,0 +1,37 @@
+package kr.or.ddit.vacation.serviceImpl;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import kr.or.ddit.common.vo.EmpVO;
+import kr.or.ddit.vacation.mapper.CusBkApplyMapper;
+import kr.or.ddit.vacation.service.CusBkApplyService;
+import kr.or.ddit.vacation.vo.BkApplyVO;
+
+@Service
+public class CusBkApplyServiceImpl implements CusBkApplyService {
+	
+	@Autowired
+	private CusBkApplyMapper cusBkMapper;
+
+	@Override
+	public EmpVO EmpSelect(String empNo) {
+		
+		return cusBkMapper.EmpSelect(empNo);
+	}
+
+	@Override
+	public int insertBkApply(BkApplyVO bkApplyVO) {
+		return cusBkMapper.insertBkApply(bkApplyVO);
+	}
+
+	@Override
+	public BkApplyVO getSelect(int bkNo) {
+		return cusBkMapper.getSelect(bkNo);
+	}
+
+	
+	
+	
+
+}

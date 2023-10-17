@@ -1,0 +1,12 @@
+package kr.or.ddit.setting.mapper;
+
+import java.util.List;
+
+import kr.or.ddit.vo.AcntAuthorVO;
+
+public interface CompAuthMapper {
+
+	List<AcntAuthorVO> getAuthList();
+
+
+}

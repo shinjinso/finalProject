@@ -1,0 +1,22 @@
+package kr.or.ddit.vo;
+
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
+@Getter
+@Setter
+@ToString
+public class WorkVO {
+	private String wkCode;
+	private String wkNm;
+	private String wkDescr;
+	private String wkDel;
+	private String wkScd;
+	private String wkNight;
+	private String wkHd;
+	private int wkStime;
+	private int wkEtime;
+	private int wkWtime;
+	private String wkDay;
+}

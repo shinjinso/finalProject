@@ -1,0 +1,40 @@
+package kr.or.ddit.work.controller;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import kr.or.ddit.vo.WkApVO;
+import kr.or.ddit.work.service.WkApService;
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
+@RequestMapping("/lhh")
+@Controller
+public class workController {
+
+	@Autowired
+	WkApService wkapService;
+	
+	@GetMapping("/work")
+	public String work() {
+		return "work/work";
+	}
+	
+	@GetMapping("/work2")
+	public String work2() {
+		return "work/NewFile";
+	}
+	
+	@ResponseBody
+	@GetMapping(value="/test",produces = "application/json;charset=utf-8")
+	public List<WkApVO> test() {
+		List<WkApVO> list = wkapService.workSelect();
+		log.info(list.toString());
+		return list;
+	}
+}

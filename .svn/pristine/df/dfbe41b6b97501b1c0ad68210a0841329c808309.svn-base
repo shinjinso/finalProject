@@ -1,0 +1,142 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>회사 직인 설정</title>
+<style>
+div {
+	/* 	border: 1px solid blue; */
+	
+}
+
+#header {
+	height: 15vh;
+}
+
+.custom-select {
+	width: 20vw;
+	text-align: center;
+}
+.dropzone.bg-light.rounded-lg.dz-clickable {
+	margin: auto;
+	width: 200px;
+	height: 200px;
+}
+</style>
+</head>
+<script>
+const header = '${_csrf.headerName}';
+const token =  '${_csrf.token}';
+
+let fUp;
+$(function(){
+	const $myFile = $("input[name='file']"); //파일
+	const $preImg = $("#preImg"); //이미지
+	const myimg = document.querySelector("#myImg");
+	
+	fUp = document.querySelector("#sealForm");
+	fUp.addEventListener("submit",fUpdate);
+	
+	$myFile.on("change",()=>{
+		var formData = new FormData();
+		formData.append("file",$myFile[0].files[0]);
+	
+		$.ajax({
+	          type : "post",
+	          url : "/setting/file/preview",
+	          data : formData,    //JSON.stringify 하지 않음에 주의!
+	          contentType:false,  //defult값이 application/x-www-form-urlencoded
+	          processData:false,  //defult값이 application/x-www-form-urlencoded
+	          cache:false,        //요건 선택 권장!
+	          dataType : "text",
+	          beforeSend:function(xhr){
+			  xhr.setRequestHeader(header,token);
+			  },
+	          success : function(rslt){
+	        	    var newImg = $("<img>")
+	        	        .attr("src", rslt)
+	        	        .css({
+	        	            width: "200px",
+	        	            height: "200px"
+	        	        });
+	
+	        	    $preImg.empty().append(newImg);
+	          },
+	          error:function(xhr, status, error){
+	              console.log("code: " + xhr.status)
+	              console.log("message: " + xhr.responseText)
+	              console.log("error: " + error);
+	          }
+	     });
+	});
+
+	function fUpdate() {
+		event.preventDefault();
+		console.log("췌궥")
+	
+		//로고 업데이트
+		var formData = new FormData();
+		formData.append("file",$myFile[0].files[0])
+		$.ajax({
+			url:"/setting/sealFile/fileUpdate",
+			type:"post",
+			data:formData,
+	        contentType:false,  //defult값이 application/x-www-form-urlencoded
+	        processData:false,  //defult값이 application/x-www-form-urlencoded
+	        cache:false,        //요건 선택 권장!
+			dataType:"text",
+	        beforeSend:function(xhr){
+				  xhr.setRequestHeader(header,token);
+			},
+			success : function(result){
+				if(result!=null || result !=""){
+					console.log(result)
+					myimg.src = result;
+				    $preImg.empty()
+				    alert("등록 완료");
+				}
+			},
+	        error:function(xhr, status, error){
+	            console.log("code: " + xhr.status)
+	            console.log("message: " + xhr.responseText)
+	            console.log("error: " + error);
+	        }
+			
+		});
+	}
+}); //function
+
+</script>
+<body>
+<form id="sealForm" action="" method="POST" enctype="multipart/form-data">
+	<div id="myWrap">
+		<div id="header" style="margin-left: 15px;">
+			<h2>회사 직인 설정</h2>
+			<br>
+			<hr>
+			<br>
+		</div>
+		<div class="card shadow mb-4">
+			<div class="card-header">
+				<select class="custom-select" id="custom-select">
+					<option selected="1">직접 업로드</option>
+					<option value="2">자동 생성</option>
+				</select>
+			</div>
+			<div class="card-body">
+				<h6 class="text-muted mt-4">회사 직인</h6>
+				<div><img id="myImg" src="${companyInfoVO.fileList[0].svfiName }" style="width: 100px; height: 100px;"></div>
+				<div id="preImg"></div>
+				<input type="file" name="file">
+				<br><br><br><br><br><br>
+				<button>저장</button>
+                <a href="setmain"><button type="button">취소</button></a>
+			</div>
+			<!-- .card-body -->
+		</div>
+	</div>
+</form>
+</body>
+</html>

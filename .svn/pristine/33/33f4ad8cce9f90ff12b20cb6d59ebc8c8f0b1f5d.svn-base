@@ -1,0 +1,375 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+div {
+/* 	border: 1px solid blue; */
+}
+
+#steps {
+	display: flex;
+	height: 900px;
+}
+
+#Aside {
+	/* 		border : 1px solid red; */
+	margin: 0px;
+}
+
+#Bside {
+	/* 		border : 1px solid red; */
+	
+}
+
+#scroll {
+	height: 800px;
+	overflow-y: auto; /* 세로 스크롤 활성화 */
+}
+
+.icon {
+	background-image: url(/resources/images/search-magnifier.png);
+	background-repeat: no-repeat;
+	background-position: 10px center;
+	padding-left: 40px;
+	box-sizing: border-box;
+	background-size: 14px 14px; /* 원하는 가로 및 세로 크기로 설정합니다. */
+}
+
+.updown {
+	/*     	border: 2px solid gray; */
+	width: 0.1px;
+	height: 10px;
+	text-align: center;
+}
+/*  	table td { */
+/* 	  width: 30px; */
+/* 	  background: #ccc; */
+/* 	} */
+
+/* 테이블 전체 스타일 지정 */
+table {
+	border-collapse: collapse;
+	width: 100%;
+}
+
+table tbody {
+	height : 70%;
+	overflow-y : auto;
+}
+
+/* 테이블 헤더 스타일 지정 */
+.table thead th { 
+ 	background-color: #f2f2f2; 
+ 	text-align: center; 
+ 	color: #343a40 !important;
+ 	font-weight : bold !important;
+/* 	padding: 10px; /* 셀 안의 내용과 셀 경계 사이의 간격 */ 
+ 	border: 1px solid #ddd; /* 테두리 스타일 지정 */ 
+/* 	height: 30px; */
+ } 
+
+/* 테이블 데이터 셀 스타일 지정 */
+td {
+	text-align: center;
+	padding: 10px; /* 셀 안의 내용과 셀 경계 사이의 간격 */
+	border: 1px solid #ddd; /* 테두리 스타일 지정 */
+}
+
+.nav-link {
+	display: block;
+	padding: 0.5rem 1rem;
+}
+
+.nav-link:hover, .nav-link:focus {
+	text-decoration: none;
+}
+
+.nav-link.disabled {
+	color: #6c757d;
+	pointer-events: none;
+	cursor: default;
+}
+</style>
+<meta charset="UTF-8">
+<title>정산하기 - 공제항목</title>
+</head>
+<body>
+
+	<div id="steps">
+
+		<div id="Aside" class="mr-3" style="width: 10%;">
+			<div>
+				${SCVO.prStlNm}<br> 지급일 ${SCVO.prPdate}
+			</div>
+			<div>
+				<span class="badge badge-pill badge-success">근로소득</span>
+			</div>
+			<div>
+				<div class="steps">
+					<div>
+						<span class="fe fe-24 fe-users"></span>
+					</div>
+					<div>
+						Step1<br> 정산대상자
+					</div>
+				</div>
+				<div class="updown"></div>
+				<div class="steps">
+					<div>
+						<span class="fe fe-24 fe-users"></span>
+					</div>
+					<div>
+						Step2<br> 지급 항목
+					</div>
+				</div>
+				<div class="updown"></div>
+				<div class="steps">
+					<div>
+						<span class="fe fe-24 fe-users"></span>
+					</div>
+					<div>
+						Step3<br> 공제 항목
+					</div>
+				</div>
+				<div class="updown"></div>
+				<div class="steps">
+					<div>
+						<span class="fe fe-24 fe-users"></span>
+					</div>
+					<div>
+						Step4<br> 결과 미리보기
+					</div>
+				</div>
+				<div class="updown"></div>
+				<div class="steps">
+					<div>
+						<span class="fe fe-24 fe-users"></span>
+					</div>
+					<div>
+						Step5<br> 정산 완료
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- ------------------------------------------------------------------------------------------------------------------------------------------>
+
+		<div id="Bside" style="width: 90%;">
+
+			<div class="row justify-content-center">
+				<div class="col-12"
+					style="margin-left: 0px; margin-right: 0px; margin-bottom: 10px;">
+					<p class="card-text">${ptNm}
+						/ <strong>${SCVO.prStlNm}</strong>
+					</p>
+					<h2 class="mb-2 page-title" style="display: inline-block">공제항목</h2>
+					<button id="payButton" onclick="wagePayAjax()" type="button"
+						class="btn btn-success"
+						style="float: right; color: white; margin-right: 80px;"> → 결과 미리보기 </button>
+				</div>
+				
+				<div class="mb-4 mt-5">
+					<div class="card shadow">
+						<div class="card-body" style="width: 1300px; height: 750px;"> <!-- height : 750 적당했음. -->
+							<ul class="nav nav-pills nav-fill mb-4" id="pills-tab"
+								role="tablist" style="width: 30%">
+								
+								<li class="nav-item"><a class="nav-link active"
+									id="pills-contact-tab" data-toggle="pill" href="#pills-contact"
+									role="tab" aria-controls="pills-contact" aria-selected="false">법정공제항목</a>
+								</li>
+								<li class="nav-item"><a class="nav-link" id="pills-etc-tab"
+									data-toggle="pill" href="#pills-etc" role="tab"
+									aria-controls="pills-etc" aria-selected="false">기타공제항목</a></li>
+							</ul>
+
+							<div class="tab-content mb-1" id="pills-tabContent">
+								<!-- ////////////// 초과근무수당 시작 //////////////////////////// -->
+								<div class="tab-pane fade" id="pills-contact" role="tabpanel"
+									aria-labelledby="pills-contact-tab">
+								
+									<div class="col-md-12 my-4">
+					                  <div class="card shadow">
+					                    <div class="card-body">
+					                      <h5 class="card-title mb-3">대상자</h5>
+					                      <table class="table table-bordered table-hover mb-0">
+					                        <thead>
+					                          <tr>
+					                            <th rowspan="2">사번</th>
+					                            <th rowspan="2">이름</th>
+					                            <th rowspan="2">기본시급</th>
+					                            <th rowspan="2">인정시간</th>
+					                            <th colspan="2">연장</th>
+					                            <th colspan="2">야간</th>
+					                            <th colspan="2">휴일</th>
+					                            <th rowspan="2">초과근무수당</th>
+					                          </tr>
+					                          
+					                          <tr>
+					                            <th>근무시간</th>
+					                            <th>금액</th>
+					                            <th>근무시간</th>
+					                            <th>금액</th>
+					                            <th>근무시간</th>
+					                            <th>금액</th>
+					                          </tr>
+					                        </thead>
+					                        
+					                        <tbody>
+					                          <c:forEach var="exPay" items="${exPayList}" varStatus="stat">	
+						                          <tr>
+						                            <td>${exPay.empNo}</td>
+						                            <td>${exPay.empNm}</td>
+						                          	<td><fmt:formatNumber value="${exPay.basicHourWage}" pattern="#,###" /></td>
+						                            <td>${exPay.totalAdmitTime}</td>
+						                            <td>${exPay.totalExtime}</td>
+						                          	<td><fmt:formatNumber value="${exPay.overtimePay}" pattern="#,###" /></td>
+						                            <td>${exPay.totalNightime}</td>
+						                          	<td><fmt:formatNumber value="${exPay.nightimePay}" pattern="#,###" /></td>
+						                            <td>${exPay.totalHdtime}</td>
+						                          	<td><fmt:formatNumber value="${exPay.hdtimePay}" pattern="#,###" /></td>
+						                          	<td><strong><fmt:formatNumber value="${exPay.totalExPay}" pattern="#,###" /></strong></td>
+						                          </tr>
+					                        	</c:forEach>
+					                        </tbody>
+					                        
+					                      </table>
+					                    </div>
+					                  </div>
+					                </div>	
+								
+								
+								</div>
+								<!-- ////////////// 초과근무수당 끝 //////////////////////////// -->
+								<!-- ////////////// 기타수당 시작 //////////////////////////// -->
+								<div class="tab-pane fade" id="pills-etc" role="tabpanel"
+									aria-labelledby="pills-etc-tab">
+								
+								<div class="col-md-12 my-4">
+					                  <div class="card shadow">
+					                    <div class="card-body">
+					                      <h5 class="card-title mb-3" style="display:inline-block">대상자</h5>
+					                      <table class="table table-bordered table-hover mb-0">
+					                        <thead>
+					                          
+					                          <tr>
+					                            <th>사번</th>
+					                            <th>이름</th>
+					                          	
+					                          <c:forEach var="pdVO" items="${pdVOList}" varStatus="stat">	
+					                          
+					                            <th>${pdVO.pdNm}</th>
+					                          
+					                          </c:forEach>
+					                          
+					                          	<th>기타수당 합계</th>
+					                          </tr>
+					                        </thead>
+					                        
+					                        <tbody>
+					                        	<c:forEach var="payList" items="${pdTotalList}" varStatus="stat">
+						                          <tr>
+						                          	
+						                          	
+						                            <td>${payList[0].empNo}</td>
+						                            <td>${payList[0].empNm}</td>
+						                            
+						                            <c:forEach var="payDedVO" items="${payList}" varStatus="status">
+												     	<c:set var="totalPdAmt" value="${totalPdAmt + payDedVO.pdAmt}" />
+<%-- 												     	<td><fmt:formatNumber value="${payDedVO.pdAmt}" pattern="#,###" /></td> --%>
+												     	<td><input type="number" id="input_${status.index}" value="${payDedVO.pdAmt}" name="pdAmt" 
+												     		onkeyup="updateTotal(this)"/></td>
+												    </c:forEach>
+						                     			
+						                     			<td><strong id="total_${stat.index}"><fmt:formatNumber value="${totalPdAmt}" pattern="#,###" /></strong></td>
+						                          </tr>
+					                        	</c:forEach>
+					                     
+					                        </tbody>
+					                        
+					                      </table>
+					                    </div>
+					                  </div>
+					                </div>	
+					                
+								</div>
+								<!-- ////////////// 기타수당 끝 //////////////////////////// -->
+							</div>
+						</div>
+					</div>
+				</div>
+
+			</div>
+		</div>
+		<!-- bside -->
+
+	</div>
+	<!-- steps -->
+
+<script>
+	
+	//input 값이 변경될 때 호출되는 함수
+	function updateTotal(pThis) {
+		console.log("pThis : ", pThis);
+	    console.log("pThis2 : ", $(pThis));
+		
+	    // 입력된 숫자 가져오기
+	    const inputValue = parseInt(pThis.value) || 0;
+// 	    const inputValue = parseInt($(pThis).val().replace(/,/g, '')) || 0;
+	    
+	    // 현재 행(tr)을 찾기
+	    const currentRow = $(pThis).closest("tr");
+
+	    // 현재 행에서 모든 input 요소를 찾아서 값을 합산
+	    let totalAmount = 0;
+	    currentRow.find("input[type='number']").each(function() {
+// 	    	totalAmount += parseInt($(this).val().replace(/,/g, '')) || 0;
+	        totalAmount += parseInt($(this).val()) || 0;
+	    });
+	    
+		// 합산된 값을 totalAmt 요소에 설정
+	    const totalAmtTD = currentRow.find("td:last strong");
+// 	    totalAmtTD.html(totalAmount);
+// 	    totalAmtTD.html(`<fmt:formatNumber value="${totalAmount}" pattern="#,###" />`);
+	    totalAmtTD.text(totalAmount.toLocaleString()); // 숫자를 천단위 구분기호로 형식화하여 설정
+// 	    let totalAmt = $(pThis).closest("tr").find("td:last")[0];
+	    
+	    console.log("totalAmount : ", totalAmount);
+	    
+	}
+	
+	const header = '${_csrf.headerName}';
+	const token =  '${_csrf.token}';
+	
+	function wagePayAjax(){ //ajax로 데이터 보내기
+		
+		let data ="";
+		
+		$.ajax({
+			url:"/salary/insertWageDed",
+			contentType:"application/json;charset=UTF-8",
+			data:"JSON.stringify(data)",
+			type:"post",
+			dataType:"text",
+			beforeSend: function(xhr) {
+	            xhr.setRequestHeader(header, token);
+	    	},
+			success:function(result){
+				
+			},
+			error:function(xhr, status, error){
+			    console.log("code: " + xhr.status)
+			    console.log("message: " + xhr.responseText)
+			    console.log("error: " + error);
+			}
+		});
+		
+	}
+</script>
+
+
+</body>
+</html>

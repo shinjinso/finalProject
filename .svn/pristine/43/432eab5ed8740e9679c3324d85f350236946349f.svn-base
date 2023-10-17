@@ -1,0 +1,265 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+div {
+	border: 1px solid blue; /* 항상 레이아웃을 눈으로 보면서 */
+ }
+
+.rounded-button {
+	padding: 10px 20px; /* 버튼 내용과 여백 설정 */
+	background-color: #ffffff; /* 버튼 배경색 */
+	color: #76777c; /* 회색 글자색 */
+	border: 1px solid #888888; /* 회색 테두리 */
+	border-radius: 20px; /* 둥근 모서리 설정 */
+	cursor: pointer; /* 커서 스타일 변경 (선택 사항) */
+}
+/* 링크 스타일 */
+a {
+	text-decoration: none; /* 밑줄 제거 */
+	color: #333; /* 일반 텍스트 색상 */
+	margin-right: 20px; /* 각 링크 사이의 간격 조절 */
+}
+
+/* 활성 링크 스타일 */
+a:hover {
+	color: #007bff; /* 호버 시 텍스트 색상 변경 */
+}
+
+.col-md-3 {
+	margin-right: 20px;
+	flex: 1;
+}
+
+</style>
+<meta charset="UTF-8">
+<title>급여정산 홈</title>
+</head>
+<body>
+
+<div id="container"> <!--wrapper-->
+
+	<h2>
+		<a href="/salary/home">급여정산</a>&nbsp;&nbsp; 
+		<a href="#">퇴직소득</a>&nbsp;&nbsp; 
+		<a href="#">자료관리</a>
+	</h2>
+	<hr>
+	<h5>
+		<a href="/salary/home">홈</a>&nbsp;&nbsp; 
+		<a href="/salary/pastPayroll">지난 정산 내역</a>&nbsp;&nbsp; 
+		<a href="/salary/tmpList">정산템플릿 목록</a>
+	</h5>
+	<hr>
+
+	<div class="alert alert-success" role="alert" style="width: 500px; height: 200px;">
+		<br> <br> 
+		<span class="fe fe-24 fe-check-circle" style="display: inline-block;"></span>
+		<h6 style="width: 300px; margin: 0px; font-size: 15px;">우리 회사 급여 정산 준비를 시작해볼까요?</h6>
+		<br>
+		<button type="button" class="rounded-button" style="margin-right: 10px;">원천징수의무자 정보 확인하기</button>
+		<button type="button" class="rounded-button">정산템플릿 수정하기</button>
+	</div>
+	<br><br>
+	<h4>정산을 시작해볼까요?</h4>
+
+	<div class="row align-items-center" style="margin: 0px;">
+	
+		<div class="col-md-3">
+			<div class="card shadow mb-4">
+				<div class="card-body text-center">
+					
+					<div class="row align-items-center justify-content-between">
+						<div>
+							<span class="badge badge-pill badge-success">근로소득</span> 
+							<span class="badge badge-light text-muted">지급일</span>
+						</div>
+
+						<div style="display:flex;">
+							<div>
+								<a href="#" style="margin-right: 3px;" onclick="fRemove(this)"><img src="/resources/images/bookmark_red.png" /></a>
+							</div>
+						
+							<div class="col-auto" style="padding: 0px;">
+								<div class="file-action">
+									<button type="button"
+										class="btn btn-link dropdown-toggle more-vertical p-0 text-muted mx-auto"
+										data-toggle="dropdown" aria-haspopup="true"
+										aria-expanded="false">
+										<span class="text-muted sr-only">Action</span>
+									</button>
+									<div class="dropdown-menu m-2">
+										<a class="dropdown-item" href="#">
+											<i class="fe fe-meh fe-12 mr-4"></i>Profile</a> 
+										<a class="dropdown-item" href="#">
+											<i class="fe fe-message-circle fe-12 mr-4"></i>Chat</a> 
+										<a class="dropdown-item" href="#">
+											<i class="fe fe-mail fe-12 mr-4"></i>Contact</a> 
+										<a class="dropdown-item" href="#">
+											<i class="fe fe-delete fe-12 mr-4"></i>템플릿 삭제하기</a>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+						
+					<div class="card-text my-2">
+						<strong class="card-title my-0">정기 급여</strong><br>
+					</div>
+					<div>
+						<p class="small text-muted mb-0">우리회사 정기급여 템플릿</p>
+					</div>
+				</div>
+				<!-- ./card-text -->
+				<div class="card-footer">
+					<div class="row align-items-center">
+						<div class="col-auto">
+							<button type="button" class="btn mb-2 btn-success"
+								style="color: white">정산하기</button>
+						</div>
+					</div>
+				</div>
+				<!-- /.card-footer -->
+			</div>
+		</div>
+	
+		<div class="col-md-3 ">
+			<div class="card shadow mb-4">
+				<div class="card-body text-center">
+					
+						<div class="row align-items-center justify-content-between">
+							<div>
+								<span class="badge badge-pill badge-success">퇴직소득</span> 
+								<span class="badge badge-light text-muted">지급일</span>
+							</div>
+
+							<div style="display:flex;">
+								<div>
+									<a href="#" style="margin-right: 3px;" onclick="fRemove(this)"><img src="/resources/images/bookmark_red.png" /></a>
+								</div>
+							
+								<div class="col-auto" style="padding: 0px;">
+									<div class="file-action">
+										<button type="button"
+											class="btn btn-link dropdown-toggle more-vertical p-0 text-muted mx-auto"
+											data-toggle="dropdown" aria-haspopup="true"
+											aria-expanded="false">
+											<span class="text-muted sr-only">Action</span>
+										</button>
+										<div class="dropdown-menu m-2">
+											<a class="dropdown-item" href="#">
+												<i class="fe fe-meh fe-12 mr-4"></i>Profile</a> 
+											<a class="dropdown-item" href="#">
+												<i class="fe fe-message-circle fe-12 mr-4"></i>Chat</a> 
+											<a class="dropdown-item" href="#">
+												<i class="fe fe-mail fe-12 mr-4"></i>Contact</a> 
+											<a class="dropdown-item" href="#">
+												<i class="fe fe-delete fe-12 mr-4"></i>템플릿 삭제하기</a>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						
+					<div class="card-text my-2">
+						<strong class="card-title my-0">퇴직금 정산</strong><br>
+					</div>
+					<div>
+						<p class="small text-muted mb-0">구성원의 퇴직소득을 정산합니다.</p>
+					</div>
+				</div>
+				<!-- ./card-text -->
+				<div class="card-footer">
+					<div class="row align-items-center">
+						<div class="col-auto">
+							<button type="button" class="btn mb-2 btn-success"
+								style="color: white">정산하기</button>
+						</div>
+					</div>
+				</div>
+				<!-- /.card-footer -->
+			</div>
+		</div>
+	
+		<div class="col-md-3">
+			<div class="card shadow mb-4">
+				<div class="card-body text-center">
+					
+						<div class="row align-items-center justify-content-between">
+							<div>
+								<span class="badge badge-pill badge-success">근로소득</span> 
+								<span class="badge badge-light text-muted">지급일</span>
+							</div>
+
+							<div style="display:flex;">
+								<div>
+									<a href="#" style="margin-right: 3px;" onclick="fRemove(this)"><img src="/resources/images/bookmark_red.png" /></a>
+								</div>
+							
+								<div class="col-auto" style="padding: 0px;">
+									<div class="file-action">
+										<button type="button"
+											class="btn btn-link dropdown-toggle more-vertical p-0 text-muted mx-auto"
+											data-toggle="dropdown" aria-haspopup="true"
+											aria-expanded="false">
+											<span class="text-muted sr-only">Action</span>
+										</button>
+										<div class="dropdown-menu m-2">
+											<a class="dropdown-item" href="#">
+												<i class="fe fe-meh fe-12 mr-4"></i>Profile</a> 
+											<a class="dropdown-item" href="#">
+												<i class="fe fe-message-circle fe-12 mr-4"></i>Chat</a> 
+											<a class="dropdown-item" href="#">
+												<i class="fe fe-mail fe-12 mr-4"></i>Contact</a> 
+											<a class="dropdown-item" href="#">
+												<i class="fe fe-delete fe-12 mr-4"></i>템플릿 삭제하기</a>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						
+					<div class="card-text my-2">
+						<strong class="card-title my-0">정기 급여</strong><br>
+					</div>
+					<div>
+						<p class="small text-muted mb-0">우리회사 정기급여 템플릿</p>
+					</div>
+				</div>
+				<!-- ./card-text -->
+				<div class="card-footer">
+					<div class="row align-items-center">
+						<div class="col-auto">
+							<button type="button" class="btn mb-2 btn-success"
+								style="color: white">정산하기</button>
+						</div>
+					</div>
+				</div>
+				<!-- /.card-footer -->
+			</div>
+		</div>
+		
+	</div>	<!--전체 row 끝-->
+</div>			
+<script>
+	
+	function fRemove(pThis){
+		// 지워야 할 것
+
+		console.log("ppp",pThis);
+		//let colmd3Div = document.querySelectorAll(".col-md-3");
+		//console.log(colmd3Div);
+		let rowDiv = document.querySelector(".row");
+		console.log(rowDiv);
+		console.log("qqq",$(pThis));
+		let colmd3Div = $(pThis).closest(".col-md-3")[0];
+		
+		rowDiv.removeChild(colmd3Div);
+
+
+	}
+</script>
+</body>
+</html>

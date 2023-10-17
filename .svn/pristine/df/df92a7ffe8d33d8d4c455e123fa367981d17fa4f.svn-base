@@ -1,0 +1,22 @@
+package kr.or.ddit.service.impl;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import kr.or.ddit.mapper.MemberMapper;
+import kr.or.ddit.service.MemberService;
+import kr.or.ddit.vo.EmpVO;
+import kr.or.ddit.vo.MemberVO;
+
+@Service
+public class MemberServiceImpl implements MemberService {
+	
+	@Autowired
+	MemberMapper memberMapper;
+	
+	//실제 필요한 메소드는 요것만
+	@Override
+	public EmpVO read(String empNo) {
+		return this.memberMapper.read(empNo);
+	}
+}

@@ -1,0 +1,62 @@
+package kr.or.ddit.work.service;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import kr.or.ddit.vo.WkApVO;
+import kr.or.ddit.work.mapper.WorkMapper;
+
+@Service
+public class WkApServiceImpl implements WkApService {
+	
+	@Autowired
+	WorkMapper workmapper;
+	
+	@Override
+	public List<WkApVO> workSelect() {
+		return workmapper.workSelect();
+	}
+
+	@Override
+	public int workInsert(WkApVO wkapVO) {
+		return workmapper.workInsert(wkapVO);
+	}
+
+	@Override
+	public int workUpdate(WkApVO wkapVO) {
+		return workmapper.workUpdate(wkapVO);
+	}
+
+	@Override
+	public int workDelete(WkApVO wkapVO) {
+		return workmapper.workDelete(wkapVO);
+	}
+
+	@Override
+	public Integer totalWork(String waAper) {
+		return workmapper.totalWork(waAper);
+	}
+
+	@Override
+	public List<WkApVO> workOneSelect() {
+		return workmapper.workOneSelect();
+	}
+
+	@Override
+	public List<WkApVO> getEmpSelect(String waAper) {
+		return workmapper.getEmpSelect(waAper);
+	}
+
+	@Override
+	public List<WkApVO> countEMP() {
+		return workmapper.countEMP();
+	}
+
+	@Override
+	public WkApVO OneSelect(WkApVO wkapVO) {
+		return workmapper.OneSelect(wkapVO);
+	}
+
+}

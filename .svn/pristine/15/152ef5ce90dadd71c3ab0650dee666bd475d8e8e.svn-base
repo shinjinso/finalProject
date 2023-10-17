@@ -1,0 +1,169 @@
+package kr.or.ddit.setting.controller;
+
+import java.security.Principal;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import kr.or.ddit.approval.service.ApprovalService;
+import kr.or.ddit.common.vo.DeptVO;
+import kr.or.ddit.common.vo.FileInfoVO;
+import kr.or.ddit.setting.service.CompHoliService;
+import kr.or.ddit.setting.service.CompTreeService;
+import kr.or.ddit.setting.service.CompanyInfoService;
+import kr.or.ddit.setting.vo.CompanyHoliVO;
+import kr.or.ddit.setting.vo.CompanyInfoVO;
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
+@RequestMapping("/setting")
+@Controller
+public class SetController {
+	
+	@Autowired
+	CompanyInfoService companyInfoSVC;
+	
+	@Autowired
+	CompHoliService compHoliSVC;
+	
+	@Autowired
+	ApprovalService approvalSVC;
+	
+	@Autowired
+	CompTreeService compTreeSVC;
+
+	@GetMapping("/test")
+	public String test() {
+		return "setting/test";
+	}
+	
+	@GetMapping("/setmain")
+	public String setMain() {
+		return "setting/setmain";
+	}
+	
+	@GetMapping(value="/companyinfo", produces = "application/json;charset=utf-8")
+	public String companyInfo(Principal principal,Model model) {
+		CompanyInfoVO companyInfoVO = companyInfoSVC.selectData();
+		log.debug("companyInfoVO는? : " + companyInfoVO);
+		
+		String EmpNo = principal.getName();
+		List<FileInfoVO> myFileList = companyInfoSVC.logoFileSelect(EmpNo);
+		companyInfoVO.setFileList(myFileList);
+		model.addAttribute("companyInfoVO", companyInfoVO);
+		
+		return "setting/companyinfo";
+	}
+	
+	@GetMapping("/companyseal")
+	public String companySeal(Principal principal,Model model) {
+		CompanyInfoVO companyInfoVO = new CompanyInfoVO();
+		String EmpNo = principal.getName();
+		List<FileInfoVO> myFileList = companyInfoSVC.sealFileSelect(EmpNo);
+		companyInfoVO.setFileList(myFileList);
+		model.addAttribute("companyInfoVO", companyInfoVO);
+		
+		return "setting/companyseal";
+	}
+	
+	@GetMapping("/companyholiday")
+	public String companyHoliday(Model model) {
+		List<CompanyHoliVO> list = compHoliSVC.compHoliSelect();
+		log.debug("compHoliVO는? : " + list);
+		
+		model.addAttribute("companyHoliVO", list);
+		
+		return "setting/companyholiday";
+	}
+	
+	@GetMapping("/compTree")
+	public String compTree() {
+		return "setting/compTree";
+	}
+	
+	
+	/**
+	 * 조직도 출력 
+	 * @return
+	 */
+	@ResponseBody
+	@GetMapping("/organizationChart")
+	public Map<String,List<DeptVO>> organizationChart(){
+		Map<String,List<DeptVO>> map = new HashMap();
+		
+		List<DeptVO> one = approvalSVC.organizationChartOne();
+		List<DeptVO> two = approvalSVC.organizationChartTwo();
+		
+		map.put("one", one);
+		map.put("two", two);
+		
+		log.info("이것은 One입니다" +one);
+		log.info("이것은 Two입니다" +two);
+		
+		return map;
+	}
+	
+	@ResponseBody
+	@PostMapping(value = "/compTreeUp", produces = "application/json;charset=utf-8")
+	public String compTreeUpdate(@RequestBody List<Object> pendingChanges) {
+		
+		log.debug("pendingChanges::"+pendingChanges);
+		
+		for (Object object : pendingChanges) {
+			if (object instanceof Map) {
+	            Map<String, Object> change = (Map<String, Object>) object;
+	            String type = (String) change.get("type");
+
+	            if (type.equals("add")) {
+	                // 추가 작업 수행
+	            	if(change.get("parent").equals("root")) {
+	            		change.put("parent", "");
+	                }
+	            	log.debug("숫자로바꿀수잇는지::"+ Integer.toString((int)change.get("id")));	            	
+	            	//log.debug("숫자로바꿀수잇는지::"+ (String)change.get("id"));
+	            	
+	                int id = (int)change.get("id");
+	                int parent = Integer.parseInt((String)change.get("parent"));
+	                String text = (String) change.get("text");
+	                
+	                
+	                
+	                Map<String, Object> addMap = new HashMap<String, Object>();
+	                addMap.put("id", id);
+	                addMap.put("parent", parent);
+	                addMap.put("text", text);
+	                
+	                int select = 0;
+	                
+	                select += compTreeSVC.deptAdd(addMap);
+	                
+
+	                // 추가 작업 수행 로직 추가
+	            } else if (type.equals("update")) {
+	                // 업데이트 작업 수행
+	                int id = (Integer) change.get("id");
+	                String text = (String) change.get("text");
+
+	                // 업데이트 작업 수행 로직 추가
+	            } else if (type.equals("delete")) {
+	                // 삭제 작업 수행
+	                int id = (Integer) change.get("id");
+
+	                // 삭제 작업 수행 로직 추가
+	            }
+	        }
+		}
+		
+		return Integer.toString(1);
+	}
+}

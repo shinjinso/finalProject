@@ -1,0 +1,209 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>설정</title>
+<style>
+	div{
+/*    		border:1px solid blue;     */
+	}
+	#header {
+		height:15vh;
+	}
+	#cont {
+		height:70vh;
+		padding-left: 60px;
+	}
+	.row1 {
+		margin: 3px;
+		display: inline-block;
+		width:21vw;
+		height:30vh;
+	}
+	.row2 {
+		margin: 3px;
+		display: inline-block;
+		width:21vw;
+		height:30vh;
+	}
+	
+</style>
+
+</head>
+<script>
+
+$(function(){
+	
+	$(document).on("click","#openModal1",function(){
+		//jstree결과값 받기
+		$.ajax({
+	        type:'get',
+	        url:'/approval/organizationChart',
+	        dataType:'json',
+	        success: function(data) {
+				console.log("체킁 : ",data);
+	        	let listOne = data.one;
+	        	let listTwo = data.two;
+	        	
+	            var company = new Array();
+	            // 데이터 받아옴
+	            $.each(listOne, function(idx, item){
+	            	if(item.uprDcode==0){
+	            		item.uprDcode = "#";
+	            	}
+					company.push({id:item.dcode+"", parent:item.uprDcode+"", text:item.dnm});
+	            });
+	            $.each(listTwo, function(idx, item){
+	            	let temp = item.deptName;
+	            	if(temp==null){
+	            		
+	            	}else{
+						company.push({"id":item.uprDcode+""+idx, "parent":item.dcode+"", "text":item.deptName, "icon":"/resources/images/user2.png", "info":item.uprDcode+"" });
+	            	}
+	            });
+	           	console.log("최종",company);
+				// 트리 생성
+	            $('#compTree').jstree({
+	                core: {
+	                	data: company    //데이터 연결
+	                    },
+	                    types: {
+	                           'default': {
+	                                'icon': 'jstree-folder'
+	                            }
+	                    },
+	                    plugins: ['wholerow', 'types','search','dnd','contextmenu']
+	             })
+	             .bind('loaded.jstree', function(event, data){
+	                    //트리 로딩 완료 이벤트
+	             })
+	             .bind('select_node.jstree', function(event, data){
+	            	 console.log("선택한노드:", data.node);
+	            	 if(data.node.original.info != null){
+						 $.ajax({
+							 url : "/approval/selectEmp?keyword=" + data.node.original.info,
+							 dataType : "json",
+							 type : "get",
+							 success : function(result){
+								 let htmlCode = "";
+								 console.log("result",result);
+								
+								htmlCode += `<talbe border="1" style="float:right;">
+											 <tr>
+											 	<td><button type="button" class="badge badge-pill badge-info">\${result.empNm}</button></td>
+											 	<td><span class="badge badge-pill badge-success"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">\${result.dtCodeNm}</font></font></span></td>
+											 </tr>				
+								`;
+
+								let myparent = $(thisBtn).parent(); //내가 선택한 버튼의 부모요소 가져오기
+								let mychildrun = myparent.children(".approvePlusBtn")[0]; //자식요소중 삭제할 버튼 찾기
+								
+								myparent.remove(mychildrun); //삭제
+								mychildrun.style.display = "none";//버튼 없애기
+								
+								myparent.append(htmlCode);//추가
+
+								$('#sujiTree').jstree("destroy");//트리 초기화
+								$("#myModalClose").click();//모달 닫기버튼
+							 }
+	            		 })
+	            	 };
+	             });
+	        },
+	        error:function (data) {
+	            alert("에러");
+	        }
+	   });
+		
+	});
+//jsTree 열고/닫기
+let openTemp = false;
+$("#open").on("click",function(){
+	if(openTemp == false){
+		$("#compTree").jstree("open_all");
+	}else{
+		$("#compTree").jstree("close_all");
+	}
+	openTemp = !openTemp;
+});
+}); //$function 끝
+
+
+
+
+</script>
+
+<body>
+	
+	<!-- 조직도 설정 모달 -->
+	<div class="modal fade modal-right1 modal-slide" id="rightModal1" tabindex="-1"
+		role="dialog" aria-labelledby="defaultModalLabel"
+		style="display: none;" aria-hidden="true">
+		<div class="modal-dialog modal-lg" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">×</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					 <button type="button" id="open" class="btn mb-2 btn-outline-link"><span class="fe fe-24 fe-book-open"></span></button>
+				     <div id="compTree"></div>    
+				     <input type="text" id="schText" value="">
+				     <button class="btn mb-2 btn-secondary"  onclick="fSch()">찾아볼까낭</button> <!--검색기능-->
+				</div>
+				<div class="modal-footer">
+					<button class="btn mb-2 btn-primary">저장</button>
+					<button type="button" class="btn mb-2 btn-secondary"
+						data-dismiss="modal">닫기</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	
+	<div id="myWrap">
+		<div id="header" style="margin-left: 15px;">
+			<h2>설정</h2>
+			<br><hr><br>
+		</div>
+		<div id="cont">
+			<div class="row1">
+				<h5>회사 정보 설정</h5>
+				<a href="/setting/companyinfo">회사 정보 설정</a><br>
+				<a href="/setting/companyseal">회사 직인 설정</a><br>
+				<a href="/setting/companyholiday">회사 휴일 설정</a><br><br><br>
+			</div>
+			<div class="row1">
+				<h5>인사 정보 설정</h5>
+				<div data-toggle="modal" data-target=".modal-right1" id="openModal1"><a href="#">조직도 설정</a></div>
+				<div data-toggle="modal" data-target=".modal-right2"><a href="#">직위 설정</a></div>
+				<a href="#">직책 설정</a><br>
+				<a href="#">직무 설정</a><br>
+				<a href="#">직급 설정</a><br>
+			</div>
+			<div class="row1">
+				<h5>근무 설정</h5>
+				<a href="#">근무 설정</a><br><br><br><br><br>
+			</div>
+			<div class="row2">
+				<h5>휴가 설정</h5>
+				<a href="#">휴가 설정</a><br><br><br><br><br>
+			</div>
+			<div class="row2">
+				<h5>급여정산 설정</h5>
+				<a href="#">급여 설정</a><br><br><br><br><br>
+			</div>
+			<div class="row2">
+				<h5>계정 설정</h5>
+				<a href="#">권한 설정</a><br>
+				<a href="#">로그인 이력 확인</a><br><br><br><br>
+			</div>
+		</div>
+	</div>
+	
+</body>
+</html>

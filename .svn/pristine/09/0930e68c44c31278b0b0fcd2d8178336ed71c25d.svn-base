@@ -1,0 +1,148 @@
+package kr.or.ddit.salary.controller;
+
+import java.security.Principal;
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpSession;
+
+import org.apache.commons.collections4.map.HashedMap;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.SessionAttribute;
+
+import kr.or.ddit.common.service.CommonService;
+import kr.or.ddit.common.vo.EmpVO;
+import kr.or.ddit.personnel.service.MemberService;
+import kr.or.ddit.salary.service.PayTplService;
+import kr.or.ddit.salary.service.SalaryService;
+import kr.or.ddit.salary.vo.PageVO;
+import kr.or.ddit.salary.vo.PayTplVO;
+import kr.or.ddit.salary.vo.SalaryCertVO;
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
+@RequestMapping("/salary")
+@Controller
+public class SalaryController {
+	
+	@Autowired
+	PayTplService payTplService;
+	
+	@Autowired
+	CommonService comService;
+	
+	@Autowired
+	MemberService ppservice;
+	
+	@Autowired
+	SalaryService salaryService;
+	
+//	//급여정산 홈 화면  (세션에 담는 법)
+//	@GetMapping("/home")
+//	public String home(HttpSession session) {
+//		Map<String,Object> map = new HashMap<String,Object>();
+//		map.put("name", "9월 정기 급여");
+//		map.put("yymm", "2023년 03월");
+//		map.put("payday", "2023-09-30");
+//		
+//		session.setAttribute("map", map);
+//		
+//		return "salary/salaryHome"; 
+//	}
+	
+	//급여정산 홈 화면 
+	@GetMapping("/home")
+	public String home(Principal principal, Model model) {
+		String empNo = principal.getName();
+		EmpVO vo =  comService.SelectEmp(empNo);
+		model.addAttribute("empVO",vo);
+		
+		return "salary/salaryHome";
+	}
+		
+		
+	//지난 정산 내역 화면
+	@GetMapping("/pastPayroll")
+	public String pastPayroll() {
+		return "salary/pastPayroll";
+	}
+	
+	//급여정산하기 모달창 Ajax (세션에 담기)
+	@ResponseBody
+	@PostMapping(value="/startPR", produces="text/plain;charset=utf-8")    //consumes는 클라이언트->서버 보내는 데이터 타입을 명시. produces는 서버->클라이언트 반환하는 데이터 타입을 명시.
+	public String startPR(@RequestBody SalaryCertVO salaryCertVO, HttpSession session) {
+		log.info("salaryCertVO 넘어온 값 : " + salaryCertVO);
+		// salaryCertVO 넘어온 값 : SalaryCertVO(scNo=null, empNo=null, ptNo=0, scIsdate=null, 
+		// prYr=2023, prMth=9, pytlAmt=0, ddtlAmt=0, netAmt=0, prFdate=null, finYn=null, prPdate=2023-09-21, prStlNm=9월 정기급여)
+		
+		int prYr = salaryCertVO.getPrYr();
+		int prMth = salaryCertVO.getPrMth();
+		String prPdate = salaryCertVO.getPrPdate();
+		String prStlNm = salaryCertVO.getPrStlNm();
+		int ptNo = salaryCertVO.getPtNo();
+		
+		session.setAttribute("prYr", prYr);
+		session.setAttribute("prMth", prMth);
+		session.setAttribute("prPdate", prPdate);
+		session.setAttribute("prStlNm", prStlNm);
+		session.setAttribute("ptNo", ptNo);
+		
+		return "세션에 저장 성공";
+	}
+	
+	
+	
+	//정산대상자 선택 화면
+	@GetMapping("/wageEmp")
+	public String wageEmp(@SessionAttribute int ptNo, Model model) {
+		
+		
+		PayTplVO payTplVO = payTplService.selectTpl(ptNo);
+		String ptNm = payTplVO.getPtNm();
+		
+		model.addAttribute("ptNm", ptNm);
+		
+		return "salary/wageEmp";
+	}
+	
+	//정산대상자 사원정보리스트 select (Ajax)
+	@ResponseBody
+	@PostMapping("/wageEmpListAjax")
+	public Map<String,Object> wageEmpListAjax(@RequestBody PageVO pageVO){
+		
+		log.debug("pageVO {}", pageVO);
+		
+		int total = salaryService.getTotal();
+		
+		List<EmpVO> empList = salaryService.selectEmpList(pageVO);
+		
+		Map<String,Object> pageMap = new HashedMap<String, Object>();
+		pageMap.put("total", total);
+		pageMap.put("pageData", empList);
+		
+		log.debug("pageMap {}",pageMap);
+		
+		return pageMap;
+	}
+	
+	//정산 결과 페이지 화면
+	@GetMapping("/wageRes")
+	public String wageRes() {
+		return "salary/wageRes";
+	}
+	
+
+	
+	
+	
+	
+	
+	
+}

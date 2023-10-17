@@ -1,0 +1,25 @@
+package kr.or.ddit.salary.vo;
+
+import java.util.Date;
+
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
+@Getter
+@Setter
+@ToString
+public class PayrollVO { //급여정산내역
+	private int prNo;
+	private String prr;
+	private String ptNo;
+	private Date prGdate;
+	private Date prFdate;
+	private String finyn;
+	private int tlamt;
+	private int ddtl;
+	private int pytl;
+	private Date prRcDate;
+	private String prAttrYm;
+
+}

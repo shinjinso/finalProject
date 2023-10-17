@@ -1,0 +1,27 @@
+package kr.or.ddit.vo;
+
+import java.util.Date;
+
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
+@Getter
+@Setter
+@ToString
+public class AsgmtVO {
+	private int asgmtNo;
+	private String asgmtPers;
+	private String writer;
+	private String asgmtClf;
+	private String asgmtRsn;
+	private String asgmtMm;
+	private Date asgmtDate;
+	private Date fwrDate;
+	private Date lwrDate;
+	private String asgmtCcst;
+	private String dtcode;
+	private String ptnCode;
+	private String jcode;
+	private String grdCode;
+}

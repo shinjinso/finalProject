@@ -1,0 +1,73 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>조직도 설정</title>
+<!-- css 포함 -->
+<link rel="stylesheet" href="//static.jstree.com/3.3.15/assets/bootstrap/css/bootstrap.min.css" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.3.15/themes/default/style.min.css"/>
+<!-- jstree lib 포함 -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.3.15/jstree.min.js"></script>
+</head>
+<body>
+    <!-- 요거이 따악 기본!, 추가적인 검색과 문서읽기 능력을 키워성 -->
+    <!-- jsTree를 넣을 위치를 잡아 줌! -->
+    <div id="compTree"></div>
+    <input type="text" id="schText" value="">
+    <button onclick="fSch()">차자볼까낭</button>
+<script>
+    
+    function fSch() {
+        // true가 있으면 만들어진 걸 가져오공, 없으면 새로 맹근다고 되어있는뎅,
+        // 설명이 쪼메 부족!
+        $('#compTree').jstree(true).search($('#schText').val());
+    }
+
+    console.log("찌거보장1",$.jstree.defaults.core.themes.variant);
+    // 디폴트값 강제 설정법!, 리스트는 나중에 찾기롱
+    $.jstree.defaults.core.themes.variant = "large";
+    console.log("찌거보장2",$.jstree.defaults.core.themes.variant);
+
+    //AJAX 사용!(요게 중요!)
+    /* 보통은 이걸로 충분!*/
+    $('#compTree').jstree({
+        //"plugins" : [ "search" ],   // search시 search 플러그인 추가
+        'core' : {
+            'data' : {
+                'url' : function (node) {
+                            return "alldata.json"
+                        }
+            },
+            check_callback: true  // 주의 요거이 없으면, create_node 안먹음
+        }
+    });
+
+    // 상태변수, 요런걸 초보자들이 잘 못해용!
+    let isAdded = false;  // 초기값 false, 아직 안 추가 되었다는 의미!
+
+    $('#compTree').on("open_node.jstree", function (e, data) {
+        console.log("열린노드:", data.node);
+
+        if(!isAdded && data.node.id == 'S4'){
+            alert("왔냥?");
+            // chile node 강제로 맹글깅
+        $("#compTree").jstree(true).create_node("S4", 
+            {"text":"대전스타일","id":"S42"}, 
+             'last', function() {
+                    alert("추가 되었을거에용");
+        });
+        isAdded = true; // 추가 되었음!
+        }
+    });
+
+    // node select(선택) 이벤토
+    $('#compTree').on("select_node.jstree", function (e, data) {
+        console.log("선택한노드:", data.node);
+    });
+
+    
+</script>
+</body>
+</html>

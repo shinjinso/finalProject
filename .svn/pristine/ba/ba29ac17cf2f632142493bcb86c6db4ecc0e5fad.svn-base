@@ -1,0 +1,61 @@
+package kr.or.ddit.salary.controller;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
+@RequestMapping("/salary")
+@Controller
+public class PayDedController {
+	
+	//지급항목 리스트 화면
+	@GetMapping("/payList")
+	public String payList() {
+		return "salary/payList";
+	}
+	
+	@PostMapping("/payListPost")
+	public String payListPost() {
+		return "salary/payListPost";
+	}
+	
+	//지급항목 추가 화면
+	@GetMapping("/payInsert")
+	public String payInsert() {
+		return "salary/payInsert";
+	}
+	
+	//지급항목 변경 화면
+	@GetMapping("/payUpdate") 
+	public String payUpdate() {
+		return "salary/payUpdate";
+	}
+	
+	//공제항목 리스트 화면
+	@GetMapping("/dedList")
+	public String dedList() {
+		return "salary/dedList";
+	}
+	
+	@PostMapping("/dedListPost")
+	public String dedListPost() {
+		return "salary/dedListPost";
+	}
+	
+	//공제항목 추가 화면
+	@GetMapping("/dedInsert")
+	public String dedInsert() {
+		return "salary/dedInsert";
+	}
+	
+	//공제항목 변경 화면
+	@GetMapping("/dedUpdate")
+	public String dedUpdate() {
+		return "salary/dedUpdate";
+	}
+	
+}

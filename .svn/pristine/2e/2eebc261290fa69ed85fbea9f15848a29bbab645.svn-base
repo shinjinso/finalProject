@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.ddit.salary.mapper.PayDedMapper">
+	
+	<!-- 지급/공제항목 법정필수항목 전체 리스트 출력 -->
+	<select id="selectLawPDList" resultType="PayDedVO">
+		SELECT PD_NO, PD_NM, PD_AMT, PD_EPN, PD_FML, PD_YN, PD_LAW_YN, PD_TAX_YN, PD_TYPE 
+		FROM PAY_DED
+		WHERE PD_LAW_YN = 'B0101'
+		  									<!-- CDATA 쓰면 부등호 기호를 그대로 인식할 수 있게 함 -->
+	</select>
+	
+	<!-- 지급/공제항목 추가한 항목 전체 리스트 출력 -->
+	<select id="selectAddedPDList" resultType="PayDedVO">
+		SELECT PD_NO, PD_NM, PD_AMT, PD_EPN, PD_FML, PD_YN, PD_LAW_YN, PD_TAX_YN, PD_TYPE 
+		FROM PAY_DED
+		WHERE PD_LAW_YN = 'B0102'
+	</select>
+	
+	<!-- 지급/공제항목 항목당 검색 -->
+<!-- 	<select id="selectPD"> -->
+		
+<!-- 	</select> -->
+	
+	<!-- 지급/공제항목 추가 -->
+	<insert id="insertPD" parameterType="PayDedVO">
+		<selectKey resultType="int" order="BEFORE" keyProperty="pdNo">
+			SELECT NVL(MAX(PD_NO),0) + 1 FROM PAY_DED
+		</selectKey>
+		INSERT INTO PAY_DED(PD_NO, PD_NM, PD_AMT, PD_EPN, PD_TAX_YN, PD_TYPE)
+		VALUES (#{pdNo}, #{pdNm}, #{pdAmt}, #{pdEpn}, #{pdTaxYn}, #{pdType}) 
+	</insert>
+	
+	<!-- 지급/공제항목 변경 -->
+	<update id="updatePD" parameterType="PayDedVO">
+		UPDATE PAY_DED 
+		SET PD_NM=#{pdNm}, PD_AMT=#{pdAmt}, PD_EPN=#{pdEpn}, PD_TAX_YN=#{pdTaxYn} 
+		WHERE PD_NO=#{pdNo}
+	</update>
+	
+
+
+</mapper>

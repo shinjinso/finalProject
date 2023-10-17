@@ -1,0 +1,39 @@
+package kr.or.ddit.vo;
+
+import java.util.Date;
+
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
+@Getter
+@Setter
+@ToString
+public class EmpStatsVO {
+	private int empStatsNo;
+	private Date empStatsDate;
+	private int empPer;
+	private int empMper;
+	private int empFper;
+	private int empAvrgAge;
+	private int empEcnyAge;
+	private int empAvrgSalary;
+	private double avrgWorkHr;
+	private double avrgAttendTime;
+	private double avrgLvffcTime;
+	private int quarter;
+	private String ptnCode;
+	
+	
+	
+	
+	
+	private String dateday; //    요일
+	private String yearSalary;
+	private String Salary1; //사원 평균급여
+	private String Salary2;	//주임 평균급여
+	private String Salary3; //대리 평균급여
+	private String Salary4; //과장 평균급여
+	private String Salary5; //차장 평균급여
+	private String Salary6; //부장 평균급여
+}   

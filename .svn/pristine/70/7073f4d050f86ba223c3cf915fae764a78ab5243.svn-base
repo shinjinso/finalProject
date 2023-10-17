@@ -1,0 +1,74 @@
+package kr.or.ddit.personnel.mapper;
+
+import java.util.List;
+import java.util.Map;
+
+import org.apache.ibatis.annotations.Mapper;
+
+import kr.or.ddit.common.vo.CnthxVO;
+import kr.or.ddit.common.vo.DeptVO;
+import kr.or.ddit.common.vo.EmpVO;
+import kr.or.ddit.vo.AsgmtVO;
+import kr.or.ddit.vo.AuthVO;
+
+@Mapper //mybatis-scan 설정해 놓았기 때문에 생략가능
+public interface MemberMapper {
+	
+
+	//테스트용 2개 메소드
+	public int insertAuth(AuthVO auth);	
+	
+	//실제 필요한 메소드는 요것만
+	//<select id="read" resultMap="memberMap" parameterType="string">
+	public EmpVO read(EmpVO empNo);
+	
+	//전체 사원 불러오기(병철)
+	public List<EmpVO> memberList();
+	
+	//전체 사원 불러오기(우재)
+	public List<EmpVO> empList();
+	
+	
+	//사원추가
+	public int insertEMP(EmpVO empVO);
+	public int insertCnthx(CnthxVO cnthxVO);
+	
+	//부서정보 가져오기 (본부정보)
+	public List<DeptVO> Acenter();
+	
+	//부서정보 가져오기 (부서정보)
+	public List<DeptVO> Adept(String Anum);
+	
+	//부서정보 가져오기 (팀)
+	public List<DeptVO> Ateam(String Anum2);
+	
+	//인사발령 대기상태 인설트
+	public int asgmtInsert(List<AsgmtVO> assignmentList);
+	
+	//인사발령 목록 리스트
+	public List<AsgmtVO> asgmtlist();
+	
+	//인사발령 목록 리스트
+	public List<AsgmtVO> asgmtDetail(AsgmtVO asgmtVO);
+
+	//현재 본부 부서 정보등
+	public EmpVO nowdetail(String number);
+
+	//취소 업데이트
+	public int cancelupdate(AsgmtVO asgmtVo);
+
+	//부서이름을 부서코드로 변환
+	public int deptno(String string);
+
+	//인사발령 승인  ccst 업데이트
+	public int ccstUpdate(AsgmtVO asgmtVO);
+
+	//인사발령 승인 EMP 업데이트
+	public int sUpdate(EmpVO empVO);
+
+	public List<AsgmtVO> test(String asgmtBC);
+
+	//전 인사발령 정보
+	public AsgmtVO beforeDetail(AsgmtVO asgmtVO2);
+
+}

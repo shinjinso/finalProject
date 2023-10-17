@@ -1,0 +1,192 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>근무</title>
+<style>
+    body {
+        margin: 0;
+        padding: 0;
+    }
+
+    body,
+    html {
+        height: 100%;
+    }
+  h1,h2,h3,h4,h5 {
+    display: inline;
+    white-space: nowrap;
+    text-decoration: none;
+  }
+a:link {
+	color: black;
+	text-decoration: none;
+}
+
+a:visited {
+	color: black;
+	text-decoration: none;
+}
+
+a {
+	text-decoration-line: none;
+}
+    .mbsc-calendar-wrapper {
+        display: none; 
+    }
+</style>
+</head>
+<body>
+	<div id="myWrap">
+	<div class="d-flex flex-row bd-highlight mb-3">
+		<div class="myWork">
+			<h1>내 근무</h1>
+		</div>
+			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		<div class="flex-fill">
+		<a href="#">
+			<h1 style="color: gray;">구성원 근무</h1>
+		</a>
+		</div>
+		<div class="d-flex flex-row justify-content-end">
+           	<button type="button" class="btn mb-2 btn-outline-secondary"><span class="fe fe-calendar fe-16 mr-2"></span>반복일정 등록</button>
+     	</div>
+     </div>
+                <hr>
+				<ul class="pagination">
+                  <li class="page-item"><button type="button" class="btn mb-2 btn-outline-secondary pre"><</button></li>
+                  <li class="page-item"><button type="button" class="btn mb-2 btn-outline-light text-secondary date">2023.09</button></li>
+                  <li class="page-item"><button type="button" class="btn mb-2 btn-outline-secondary next">></button></li>&nbsp;&nbsp;
+                 <button type="button" class="btn mb-2 btn-outline-secondary today">오늘</button>
+                </ul>
+       </div>
+       <div class="row">
+                <div class="col-1 col-lg-12">
+                  <div class="card shadow mb-1">
+                    <div class="card-body">
+<!--                       <i class="fe fe-clock fe-2 text-primary"></i> -->
+                        <h4>40시간</h4>
+                        <h5 style="color:gray;">/ 52시간</h5>
+<!--                         <span class="fe fe-chevron-down fe-16 mr-2"></span> -->
+							<div class="dropdown d-inline">
+                           	 	<button class="btn btn-sm p-0 dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                              		<span class="sr-only">Change Priority</span>
+                            	</button>
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                              <a class="dropdown-item" href="#">여기에 근무상세시간 띄울예정</a>
+                              <span class="fe fe-sunset fe-16 mr-32 text-danger">야간</span>
+                              <a class="dropdown-item" href="#">2</a>
+                              <a class="dropdown-item" href="#">3</a>
+                            </div>
+                          </div>
+                    </div> <!-- .card-body -->
+                  </div> <!-- .card -->
+                </div> <!-- .col-md-->
+              </div> <!-- .row -->
+       <div mbsc-page class="demo-multiple-days-weeks-months-years-variable-resolution">
+        <div style="height:100%">
+                <div id="demo-display-multiple-days-weeks-months"></div>
+        </div>
+    </div>
+
+    <script>
+    mobiscroll.setOptions({
+    locale: mobiscroll.localeKo,
+    theme: 'ios',
+    themeVariant: 'light'
+    });
+
+var formatDate = mobiscroll.util.datetime.formatDate;
+var calendar = mobiscroll.eventcalendar('#demo-display-multiple-days-weeks-months', {
+    view: {
+        timeline: {
+            type: 'week',
+            startDay: 1,
+            endDay: 0,
+            startTime: '06:00',
+            endTime: '24:00',
+            resolutionHorizontal: 'hour',
+            resolutionVertical: 'day'
+        }
+    },
+    // resources: [{ 
+    //     id: 1,
+    //     name: '이현학'
+    // }, {
+    //     id: 2,
+    //     name: '임민우'
+    // }, {
+    //     id: 3,
+    //     name: 'Red Hall'
+    // }, {
+    //     id: 4,
+    //     name: 'Blue Hall'
+    // }, {
+    //     id: 5,
+    //     name: 'Yellow Hall'
+    // }],
+    data: [{
+        start: '2023-09-06T09:00',
+        end: '2023-09-06T18:00',
+        title: '근무',
+        resource: 1
+        
+    }],
+    renderDay: function (day) {
+        var date = day.date;
+        var today = new Date(); // 현재 날짜
+
+        var isToday = date.getDate() === today.getDate() &&
+                      date.getMonth() === today.getMonth() &&
+                      date.getFullYear() === today.getFullYear();
+
+        // 오늘 날짜인 경우, <span class="dot dot-lg bg-success"></span> 추가
+        var dotElement = isToday ? '<span class="dot dot-lg bg-success"></span>' : '';
+
+        return '<div class="md-timetable-day" style="padding: 30px 0; font-weight: bold;">' +
+            '<div class="md-timetable-day-name" style="text-align: center;"></div>' +
+            '<div>' + formatDate('M. DD (DDD) ', date) + dotElement + '</div>' +
+            '</div>';
+    }
+,
+    renderScheduleEventContent: function (args) {
+        return '<div class="md-timetable-event-title">' + args.title + '</div>';
+    }
+});
+    </script>
+</body>
+<script>
+// 오늘 버튼
+document.querySelector('.today').addEventListener('click', function(){
+ var botton = document.querySelector('.mbsc-calendar-button-today');
+ if (botton) {
+     botton.click();
+ }
+})
+// pagenation next
+document.querySelector('.next').addEventListener('click', function(){
+ var botton = document.querySelector('.mbsc-calendar-button-next');
+ if (botton) {
+     botton.click();
+ }
+})
+
+// pagenation previous
+document.querySelector('.pre').addEventListener('click', function() {
+ var buttonToClick = document.querySelector('.mbsc-calendar-button-prev');
+ if (buttonToClick) {
+     buttonToClick.click(); // 특정 버튼 클릭
+ }
+});
+// date botton
+document.querySelector('.date').addEventListener('click', function() {
+ var divButton = document.querySelector('.mbsc-calendar-button');
+ if (divButton) {
+     divButton.click(); // 버튼 클릭
+ }
+});
+
+</script>
+</html>

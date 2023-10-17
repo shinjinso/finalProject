@@ -1,0 +1,20 @@
+package kr.or.ddit.salary.mapper;
+
+import org.apache.ibatis.annotations.Mapper;
+
+import kr.or.ddit.salary.vo.PayTplVO;
+
+@Mapper
+public interface PayTplMapper {
+	//한 건 검색
+	//<select id="selectTpl" parameterType="int" resultType="PayTplVO">
+	public PayTplVO selectTpl(int ptNo);
+	
+	//템플릿 추가
+	//<insert id="insertTpl" parameterType="PayTplVO">
+	public int insertTpl(PayTplVO payTplVO);
+	
+	//템플릿 변경
+	//<update id="updateTpl" parameterType="PayTplVO">
+	public int updateTpl(PayTplVO payTplVO);
+}

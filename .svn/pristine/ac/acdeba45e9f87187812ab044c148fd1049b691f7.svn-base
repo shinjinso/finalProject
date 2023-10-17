@@ -1,0 +1,34 @@
+package kr.or.ddit.vo;
+
+import lombok.ToString;
+
+import lombok.Setter;
+
+import java.util.Date;
+
+import lombok.Getter;
+
+@Getter
+@Setter
+@ToString
+public class WkApVO {
+	private int waNo;
+	private String wkCode;
+	private String waAper;
+	private String waRver;
+	private Date waDate;
+	private Date waApdate;
+	private String waArsn;
+	private String waStime;
+	private String waEtime;
+	private int bscWaRest;
+	private int waExtime;
+	private int waNightime;
+	private int hdtime;
+	private String waType;
+	private String ewApst;
+	private int waTltime;
+	private Date ewAdate;
+	private String ewRejrsn;
+	private String waDel;
+}

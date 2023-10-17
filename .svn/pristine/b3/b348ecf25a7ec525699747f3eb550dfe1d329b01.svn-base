@@ -1,0 +1,69 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>회사 휴일 설정</title>
+<style>
+div {
+/* 	 border: 1px solid blue;  */
+	
+}
+
+#header {
+	height: 15vh;
+}
+.card-header {
+}
+#example-select {
+	display: inline-block;
+	width: 150px;
+}
+#holidayinsert {
+	float: right;
+	width: 150px;
+}
+
+#plus {
+	display: inline-block;
+}
+#hol {
+	display: inline-block;
+	vertical-align: top;
+	margin-top: 3px;
+}
+</style>
+</head>
+<body>
+	<div id="myWrap">
+		<div id="header" style="margin-left: 15px;">
+			<h2>회사 휴일 설정</h2>
+			<br>
+			<hr>
+			<br>
+		</div>
+		<div class="card shadow mb-4">
+			<div class="card-header">
+				<select class="form-control" id="example-select">
+					<option>2024년</option>
+					<option selected="2023">2023년</option>
+					<option>2022년</option>
+				</select>
+				<button type="button" class="form-control" id="holidayinsert"><div id="plus"><span class="fe fe-24 fe-plus"></span></div><div id="hol">쉬는 날 추가</div></button>
+			</div>
+			<div class="card-body">
+				<div class="row">
+					<div class="col-md-6">
+						<div class="form-group mb-3">
+							<label for="simpleinput">Text</label> <input type="text"
+								id="simpleinput" class="form-control">
+						</div>
+					</div>
+					<!-- /.col -->
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

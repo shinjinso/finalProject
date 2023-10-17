@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.ddit.salary.mapper.dataManagementMapper">
+	
+	<select id="empList" parameterType="String" resultType="EmpVO">
+		select emp_no, emp_nm from emp where emp_nm like '%${name}%'
+	</select>
+	
+	<!-- empNo 선택에 따른 급여명세서 list(모달창에 출력) (파라미터 : empNo) -->
+	<select id="selectSCList" parameterType="SalaryCertVO" resultType="SalaryCertVO">
+		SELECT SC_NO, EMP_NO, PT_NO, PR_YR, PR_MTH, PR_STL_NM, TO_CHAR(PR_PDATE, 'YYYY-MM-DD') AS PR_PDATE
+        FROM SALARY_CERT
+        WHERE EMP_NO = #{empNo}
+	</select>
+	
+	<!-- 급여명세서 출력 (파라미터 : scNo) (급여담당자용) -->
+	<select id="selectSalaryCert" parameterType="SalaryCertVO" resultType="SalaryCertVO">
+        SELECT DISTINCT
+        	   S.SC_NO
+	         , S.EMP_NO
+	         , E.EMP_NM
+	         , S.PT_NO
+	         , S.PR_YR
+	         , S.PR_MTH
+	         , S.PYTL_AMT
+	         , S.DDTL_AMT
+	         , S.NET_AMT
+	         , TO_CHAR(S.PR_FDATE, 'YYYY-MM-DD') AS PR_FDATE
+	         , S.FIN_YN
+	         , TO_CHAR(S.PR_PDATE,'YYYY-MM-DD') AS PR_PDATE
+	         , S.PR_STL_NM
+	         , P.PD_NO
+	         , P.PD_NM
+	         , P.PD_AMT
+	         , P.PD_TYPE
+	         , D.DNM
+	         , E.EMP_BRDT
+	         , C.BCNT_AMT AS BASE_PAY
+	         , ROUND(C.BCNT_AMT/209) AS BASIC_HOUR_WAGE
+	         ,TO_CHAR(I.SC_IS_DATE, 'YYYY-MM-DD') AS SC_IS_DATE
+	         ,(SELECT SVFI_NAME FROM FILE_INFO WHERE FILE_SN = (SELECT MAX(FILE_SN) FROM FILE_INFO WHERE FILE_SETTING = 'seal')) AS SVFI_NAME
+        FROM SALARY_CERT S
+		        INNER JOIN PD_HISTORY P ON S.SC_NO = P.SC_NO
+		        INNER JOIN EMP E ON S.EMP_NO = E.EMP_NO
+		        INNER JOIN DEPT D ON E.DCODE = D.DCODE
+		        INNER JOIN CNTHX C ON E.EMP_NO = C.EMP_NO
+		        INNER JOIN SC_ISSUE I ON S.SC_NO = I.SC_NO 
+        WHERE S.SC_NO=#{scNo}
+        AND I.SC_IS_DATE = (SELECT MAX(SC_IS_DATE) FROM SC_ISSUE WHERE SC_NO = #{scNo})
+        ORDER BY P.PD_TYPE, P.PD_NO
+	</select>
+	
+	<!-- 급여명세서 출력 (파라미터 : scNo) (개인용) -->
+	<select id="selectSalaryCert2" parameterType="SalaryCertVO" resultType="SalaryCertVO">
+		SELECT DISTINCT
+        	   S.SC_NO
+	         , S.EMP_NO
+	         , E.EMP_NM
+	         , S.PT_NO
+	         , S.PR_YR
+	         , S.PR_MTH
+	         , S.PYTL_AMT
+	         , S.DDTL_AMT
+	         , S.NET_AMT
+	         , TO_CHAR(S.PR_FDATE, 'YYYY-MM-DD') AS PR_FDATE
+	         , S.FIN_YN
+	         , TO_CHAR(S.PR_PDATE,'YYYY-MM-DD') AS PR_PDATE
+	         , S.PR_STL_NM
+	         , P.PD_NO
+	         , P.PD_NM
+	         , P.PD_AMT
+	         , P.PD_TYPE
+	         , D.DNM
+	         , E.EMP_BRDT
+	         , C.BCNT_AMT AS BASE_PAY
+	         , ROUND(C.BCNT_AMT/209) AS BASIC_HOUR_WAGE
+	         ,(SELECT SVFI_NAME FROM FILE_INFO WHERE FILE_SN = (SELECT MAX(FILE_SN) FROM FILE_INFO WHERE FILE_SETTING = 'seal')) AS SVFI_NAME
+        FROM SALARY_CERT S
+		        INNER JOIN PD_HISTORY P ON S.SC_NO = P.SC_NO
+		        INNER JOIN EMP E ON S.EMP_NO = E.EMP_NO
+		        INNER JOIN DEPT D ON E.DCODE = D.DCODE
+		        INNER JOIN CNTHX C ON E.EMP_NO = C.EMP_NO
+        WHERE S.SC_NO=#{scNo}
+        ORDER BY P.PD_TYPE, P.PD_NO
+	</select>
+	
+	<!-- 급여명세서 발급 INSERT (파라미터 : scNo, scIsRsn, scType, empNo)-->
+	<insert id="insertSC" parameterType="SalaryCertVO">
+		<selectKey resultType="int" order="BEFORE" keyProperty="scIsNo">
+			SELECT (NVL(MAX(SC_IS_NO),0) + 1) FROM SC_ISSUE
+		</selectKey>
+		INSERT INTO SC_ISSUE(SC_IS_NO, SC_NO, SC_IS_DATE, SC_IS_RSN, SC_TYPE, EMP_NO)
+        VALUES(#{scIsNo}, #{scNo}, SYSDATE, #{scIsRsn}, #{scType}, #{empNo})
+	</insert>  
+	
+	<!-- 명세서 발급 내역 출력 -->
+	<select id="selectScIssueList" resultType="SalaryCertVO" >
+		SELECT I.SC_IS_NO
+			 , I.SC_NO
+			 , TO_CHAR(I.SC_IS_DATE, 'YYYY-MM-DD') AS SC_IS_DATE
+			 , I.SC_TYPE
+			 , E.EMP_NO
+			 , E.EMP_NM
+			 , E.EMP_MAIL
+			 , I.SC_IS_RSN
+			 , S.PR_MTH
+			 , (SELECT CM_NM FROM CMCODE WHERE CM_CODE=(SELECT ST_CLF_CD FROM EMP WHERE EMP_NO=E.EMP_NO)) as  ST_CLF_CD_NM
+     	FROM SC_ISSUE I 
+	        INNER JOIN SALARY_CERT S ON (I.SC_NO=S.SC_NO)
+	        INNER JOIN EMP E ON(S.EMP_NO=E.EMP_NO)
+    	ORDER BY I.SC_IS_NO DESC
+	</select>
+	
+	<!-- 해당 연도별 누적 수령액, 급여명세서 리스트, 해당연도 최신월 정보 (파라미터 : empNo, prYr)-->
+	<select id="selectPrYrSumNetAmt" parameterType="SalaryCertVO" resultType="SalaryCertVO">
+		SELECT ( SELECT SUM(NET_AMT)
+                 FROM SALARY_CERT
+                 WHERE EMP_NO = #{empNo} AND PR_YR = #{prYr}
+                ) AS SUM_NET_AMT                
+		    , SC_NO
+		    , EMP_NO
+		    , PT_NO
+		    , PR_YR
+		    , PR_MTH
+		    , PYTL_AMT
+		    , DDTL_AMT
+		    , NET_AMT
+		    , TO_CHAR(PR_PDATE, 'YYYY-MM-DD') AS PR_PDATE
+	    FROM SALARY_CERT
+	    WHERE EMP_NO = #{empNo} AND PR_YR = #{prYr}
+	    ORDER BY PR_MTH DESC
+	</select>
+	
+	<select id="loadYear" parameterType="String" resultType="SalaryCertVO">
+		select pr_yr from SALARY_CERT
+		where emp_no = #{empNo}
+		GROUP by pr_yr
+		order by pr_yr desc
+	</select>
+	
+</mapper>

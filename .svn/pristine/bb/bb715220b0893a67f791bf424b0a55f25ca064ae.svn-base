@@ -1,0 +1,15 @@
+package kr.or.ddit.common.service;
+
+import java.util.List;
+
+import kr.or.ddit.vo.EmpVO;
+
+public interface CommonService {
+	
+	//검색 기능
+	public List<EmpVO> suchEmp(String keyword);
+	
+	//사원 한명 검색
+	public EmpVO SelectEmp(String EmpNo);
+	
+}

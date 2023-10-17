@@ -1,0 +1,122 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+/* 링크 스타일 */
+a {
+	text-decoration: none; /* 밑줄 제거 */
+	color: #333; /* 일반 텍스트 색상 */
+	margin-right: 20px; /* 각 링크 사이의 간격 조절 */
+}
+
+/* 활성 링크 스타일 */
+a:hover {
+	color: #007bff; /* 호버 시 텍스트 색상 변경 */
+}
+
+/* 가로로 정렬되도록 스타일 추가 */
+div>div>a {
+	display: inline-block; /* 인라인 레벨로 표시하여 가로 정렬 */
+}
+/* '사원 추가하기' 버튼을 우측으로 배치 */
+button.btn-primary {
+    float: right;
+    margin-right: 20px;
+}
+/* 세로 폭을 3배로 늘립니다. */
+.nav-tabs {
+    padding-top: 30px; /* 늘리고자 하는 세로 폭 설정 */
+}
+
+#btnalldw {
+    float: right;
+    margin-right: 20px;	
+}
+
+</style>
+</head>
+<body>
+	
+	<div>
+		<div>
+			<a href=""> <!-- "사원" 링크에 href 속성 추가 -->
+				<h2>사원</h2>
+			</a> <a href=""> <!-- "인사발령" 링크에 href 속성 추가 -->
+				<h2>인사발령</h2>
+			</a>
+			<button type="button" class="btn mb-2 btn-primary">사원 추가하기</button>
+		</div>
+	</div>
+
+	<ul class="nav nav-tabs mb-3" id="myTab" role="tablist">
+		<li class="nav-item"><a class="nav-link active" id="home-tab"
+			data-toggle="tab" href="#home" role="tab" aria-controls="home"
+			aria-selected="true"><h3>전체</h3></a></li>
+		<li class="nav-item"><a class="nav-link" id="profile-tab"
+			data-toggle="tab" href="#profile" role="tab" aria-controls="profile"
+			aria-selected="false"><h3>계약상태</h3></a></li>
+
+		<li class="nav-item" id="btnalldw">
+        <button type="button" class="btn mb-2 btn-secondary">
+            <span class="fe fe-download fe-10"><span></span></span>
+        </button>
+		</li>
+		<li class="nav-item" id="btnalldw">
+        <button type="button" class="btn mb-2 btn-secondary">
+       		<span class="fe fe-grid fe-16"><span></span></span>
+        </button>
+		</li>
+    	
+	</ul>
+	
+	<div class="container-fluid">
+          <div class="row justify-content-center">
+            <div class="col-12">
+
+              <!-- table -->
+              <div class="card shadow">
+                <div class="card-body">
+                  <table class="table table-borderless table-hover">
+                    <thead>
+                      <tr>
+                        <th>
+                          <div class="custom-control custom-checkbox">
+                            <input type="checkbox" class="custom-control-input" id="all2">
+                            <label class="custom-control-label" for="all2"></label>
+                          </div>
+                        </th>
+                        <th>ID</th>
+                        <th>User</th>
+   
+                      </tr>
+                    </thead>
+                    <tbody>                                                                             
+                      <tr>
+                       
+                      </tr>
+                      <tr>
+                   
+                      </tr>
+                      <tr>
+                        
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+              <nav aria-label="Table Paging" class="my-3">
+                <ul class="pagination justify-content-end mb-0">
+                  <li class="page-item"><a class="page-link" href="#">Previous</a></li>
+                  <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                  <li class="page-item"><a class="page-link" href="#">2</a></li>
+                  <li class="page-item"><a class="page-link" href="#">3</a></li>
+                  <li class="page-item"><a class="page-link" href="#">Next</a></li>
+                </ul>
+              </nav>
+            </div> <!-- .col-12 -->
+          </div> <!-- .row -->
+        </div>
+</body>
+</html>

@@ -1,0 +1,147 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<style type="text/css">
+a:link {
+	color: black;
+	text-decoration: none;
+}
+
+a:visited {
+	color: black;
+	text-decoration: none;
+}
+
+a {
+	text-decoration-line: none;
+}
+
+
+.table th, .table td {
+  padding: 10px; /* 셀 내 여백을 조절합니다. 원하는 크기로 조정할 수 있습니다. */
+  text-align: left; /* 셀 내 텍스트 정렬을 조절합니다. 필요에 따라 변경할 수 있습니다. */
+  border: 1px solid #ddd; /* 셀 경계선 스타일을 지정합니다. */
+  color: black;
+  
+}
+.table {
+  table-layout: fixed; /* 테이블 레이아웃을 고정으로 설정합니다. */
+  width: 100%; /* 테이블 전체 너비를 100%로 설정합니다. */
+  border-collapse: collapse; /* 테이블 셀 간의 경계를 합칩니다. */
+  text-align: left;
+}
+.table td{
+ 	text-align:right;
+}
+
+
+
+</style>
+</head>
+<body>
+	<div>
+		<h2>
+			<font style="vertical-align: inherit;"><a href="/vct/main">내 휴가&nbsp;&nbsp;&nbsp;&nbsp;</a></font>
+		</h2>
+		<hr>
+		<h4>
+			<font style="vertical-align: inherit;"><a href="/vct/main">휴가&nbsp;&nbsp;</a></font>
+			<font style="vertical-align: inherit;"><a href="/vct/Annual">&nbsp;&nbsp;&nbsp;연차&nbsp;&nbsp;</a></font>
+			<font style="vertical-align: inherit;"><a href="/vct/bkApply">&nbsp;&nbsp;&nbsp;휴직/복직</a></font>
+		</h4>
+		<hr>
+	</div>
+			 <div style="vertical-align: inherit; margin-left:1%">
+					<h2 class="card-title">
+				<font style="vertical-align: inherit;">연차 현황 </font>
+					</h2>
+			 </div>
+			 
+		<div class="col" style="margin-left:18%; margin-top: 7%;">
+	<div class="d-flex" style=""> 
+	    <div class="shadow p-3 mb-5 bg-body-tertiary rounded" style="width:300px; height:150px;">
+	      <strong style="display: block;  font-size: 16px; color: black">부여 연차</strong>
+	      <strong style="display: block; text-align: center; font-size: 50px; color: blue;">+3</strong>
+	    </div>
+	    <div class="shadow p-3 mb-5 bg-body-tertiary rounded" style="width:300px; height:150px;">
+	       <strong style="display: block;  font-size: 16px;">조정 연차</strong>
+	       <strong style="display: block; text-align: center; font-size: 50px; color: black;">0</strong>
+	    </div>
+	    <div class="shadow p-3 mb-5 bg-body-tertiary rounded" style="width:300px; height:150px;">  
+		    <strong style="display: block;  font-size: 16px;">사용한 연차</strong>
+		    <strong style="display: block; text-align: center; font-size: 50px; color: red;">-1</strong>
+	    </div>
+	    <div class="shadow p-3 mb-5 bg-body-tertiary rounded" style="width:300px; height:150px;">
+		    <strong style="display: block;  font-size: 16px;">사용가능한 연차</strong>
+		    <strong style="display: block; text-align: center; font-size: 50px; color: green;">+2</strong>	    
+	    </div>
+	</div>
+	</div> 
+		<div class="card-body" >
+			<div class="d-flex justify-content-end">
+			    <form class="d-flex" role="search" style="width:15%;">
+			        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+			        <button class="btn btn-outline-success" type="submit">Search</button>
+			    </form>
+				<ul class="pagination justify-content-end mb-0">
+					<li class="page-item"><a class="fe fe-24 fe-chevron-left"
+						href="#"></a></li>
+					<li class="page-item"><a class="fe fe-24 fe-chevron-right"
+						href="#"></a></li>
+				</ul>
+			</div>
+                  <table class="table table-bordered table-hover mb-0">
+                    <thead>
+                      <tr>
+                        <th>날짜</th>
+				        <th>부여 연차</th>
+				        <th>조정 연차</th>
+				        <th>사용한 연차</th>
+				        <th>사용가능한 연차</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>2023-09-05</td>
+                        <td>+1</td>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>0</td>
+                      </tr>
+                      <tr>
+                        <td>2023-10-05</td>
+                        <td>+1</td>
+                        <td>0</td>
+                        <td>-3</td>
+                        <td>0</td>
+                      </tr>
+                      <tr>
+                       <td>2023-11-05</td>
+                        <td>+1</td>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>0</td>
+                      </tr>
+                      <tr>
+                        <td>2023-12-05</td>
+                        <td>+1</td>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>0</td>
+                      </tr>
+                      <tr>
+                       <td>2023-09-05</td>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>0</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+</body>
+</html>

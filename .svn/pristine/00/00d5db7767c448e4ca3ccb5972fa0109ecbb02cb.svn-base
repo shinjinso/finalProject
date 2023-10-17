@@ -1,0 +1,40 @@
+package kr.or.ddit.statistics.service.Impl;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import kr.or.ddit.statistics.mapper.StatisticsMapper;
+import kr.or.ddit.statistics.service.StatisticsService;
+import kr.or.ddit.vo.EmpStatsVO;
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
+@Service
+public class StatisticsServiceImpl implements StatisticsService {
+	
+	@Autowired
+	StatisticsMapper statisticsMapper;
+
+
+
+	@Override
+	public List<Integer> mFcount(List<String> labels) {
+		
+		List<Integer> result = statisticsMapper.mFcount(labels);
+		log.info("statisticsMapper -> result" + result);
+		return result;
+	}
+
+
+	@Override
+	public List<EmpStatsVO> tltime(String ptnCode) {
+		// TODO Auto-generated method stub
+		return statisticsMapper.workHr(ptnCode);
+	}
+	
+
+
+	
+}

@@ -1,0 +1,18 @@
+package kr.or.ddit.setting.service;
+
+import java.util.List;
+
+import kr.or.ddit.vo.AcntAuthorVO;
+import kr.or.ddit.vo.MenuVO;
+
+public interface CompAuthService {
+
+	List<AcntAuthorVO> getAuthList1();
+
+	List<AcntAuthorVO> getAuthList2();
+
+	List<MenuVO> getMenuList1();
+
+	List<MenuVO> getMenuList2();
+
+}

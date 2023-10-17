@@ -1,0 +1,710 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
+<%@ taglib uri="http://www.springframework.org/security/tags"  prefix="sec"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<script>
+$(function(){
+		
+    var urlParams = new URLSearchParams(window.location.search);
+    var loadedEmpNo = urlParams.get('empNo');
+	
+	const resultHt = $("#result"); //결과창
+	const resultHt2 = $("#result2"); //결과창2
+	const $myFile = $("input[name='file']"); //파일
+	const $tempFile = $("input[name='tempFile']"); //직인파일
+	const $preImg = $("#preImg")//이미지
+	const $update = $("#update")// 수정버튼
+	const myimg = document.querySelector("#myImg");
+	
+
+	
+	//내정보 가져오기
+	function myInfo(){
+		 $.ajax({
+		 url:"/common/selectEmp",
+		 type:"get",
+		 data: { empNo: loadedEmpNo }, // empNo 값을 전달
+		 dataType:"json",
+		 success:function(result){
+			 // 예제로 사용한 타임스탬프 값
+			 const timestamp = result.entDate;
+
+			 // 타임스탬프 값을 Date 객체로 변환
+			 const date = new Date(Number(timestamp));
+
+			 // 로컬 날짜 형식으로 변환
+			 const formattedDate = date.toLocaleDateString();
+			 console.log("formattedDate"+formattedDate);
+			 
+			 console.log("통신결과",result);
+			 let htmlCode = "";
+			 htmlCode += "<table width='70%' style='font-size: 15px; margin: 10px;'>";
+			 htmlCode += "<tr colspan='2' style='font-size: 20px; font-weight: bold;'>";
+			 htmlCode += "<td style='padding-bottom: 20px;'>인사 정보</td>";
+			 htmlCode += "</tr>";
+			 htmlCode += "<tr><td>사번</td><td>"+result.empNo+"</td></tr>";
+             if (formattedDate === null || formattedDate === undefined) {
+                 htmlCode += "<tr><td>입사일</td><td>정보 미입력</td></tr>";
+             } else {
+                 htmlCode += "<tr><td>입사일</td><td>" + formattedDate + "</td></tr>";
+             }
+             if (result.entCaseNm === null || result.entCaseNm === undefined) {
+                 htmlCode += "<tr><td>입사유형</td><td>정보 미입력</td></tr>";
+             } else {
+                 htmlCode += "<tr><td>입사유형</td><td>" + result.entCaseNm + "</td></tr>";
+             }
+             if (result.dtCodeNm === null || result.dtCodeNm === undefined) {
+                 htmlCode += "<tr><td>조직/직책</td><td>정보 미입력</td></tr>";
+             } else {
+                 htmlCode += "<tr><td>조직/직책</td><td>" + result.dtCodeNm + "</td></tr>";
+             }
+             if (result.jcodeNm === null || result.jcodeNm === undefined) {
+                 htmlCode += "<tr><td>직무</td><td>정보 미입력</td></tr>";
+             } else {
+                 htmlCode += "<tr><td>직무</td><td>" + result.jcodeNm + "</td></tr>";
+             }
+             if (result.ptnCodeNm === null || result.ptnCodeNm === undefined) {
+                 htmlCode += "<tr><td>직위</td><td>정보 미입력</td></tr>";
+             } else {
+                 htmlCode += "<tr><td>직위</td><td>" + result.ptnCodeNm + "</td></tr>";
+             }
+             if (result.grdCodeNm === null || result.grdCodeNm === undefined) {
+                 htmlCode += "<tr><td>직급</td><td>정보 미입력</td></tr>";
+             } else {
+                 htmlCode += "<tr><td>직급</td><td>" + result.grdCodeNm + "</td></tr>";
+             }
+			 htmlCode += "<tr colspan='2' style='font-size: 20px; font-weight: bold;'>";
+			 htmlCode += "<td style='padding-bottom: 20px; padding-top: 20px;'>근무 정보</td>";
+			 htmlCode += "</tr>";
+             if (result.waType === null || result.waType === undefined) {
+                 htmlCode += "<tr><td>근무유형</td><td>정보 미입력</td></tr>";
+             } else {
+                 htmlCode += "<tr><td>근무유형</td><td>" + result.waType + "</td></tr>";
+             }
+             if (result.wkNm === null || result.wkNm === undefined) {
+                 htmlCode += "<tr><td>선택적 근무제</td><td>정보 미입력</td></tr>";
+             } else {
+                 htmlCode += "<tr><td>선택적 근무제</td><td>" + result.wkNm + "</td></tr>";
+             }
+             if (result.wkDay === null || result.wkDay === undefined) {
+                 htmlCode += "<tr><td>일하는 날</td><td>정보 미입력</td></tr>";
+             } else {
+                 htmlCode += "<tr><td>일하는 날</td><td>" + result.wkDay + "</td></tr>";
+             }
+             if (result.whStime === null || result.whStime === undefined) {
+                 htmlCode += "<tr><td>출근 시간</td><td>정보 미입력</td></tr>";
+             } else {
+                 htmlCode += "<tr><td>출근 시간</td><td>" + result.whStime + "</td></tr>";
+             }
+             if (result.whTltime === null || result.whTltime === undefined) {
+                 htmlCode += "<tr><td>일하는 시간</td><td>정보 미입력</td></tr>";
+             } else {
+                 htmlCode += "<tr><td>일하는 시간</td><td>" + result.whTltime + "</td></tr>";
+             }
+			 htmlCode += "</table>";
+			 resultHt.html(htmlCode)
+		 }
+		 });
+	};
+	
+	//내정보 불러오기
+	myInfo();
+	
+	//인사정보 클릭시
+	$("#resultInfo1").on("click",function(){
+		myInfo();
+	});
+	
+	//개인정보 클릭시
+	$("#resultInfo2").on("click",function(){
+		$.ajax({
+			url:"/common/selectEmp",
+			type:"get",
+			data: { empNo: loadedEmpNo }, // empNo 값을 전달
+			dataType:"json",
+			success:function(result){
+			console.log("통신결과",result);
+			let htmlCode = "";
+			let htmlCode2 ="";
+			
+			htmlCode += "<table width='70%' style='font-size: 15px; margin: 10px;'>";
+			htmlCode += "<tr colspan='2' style='font-size: 20px; font-weight: bold;'>";
+			htmlCode += "<td style='padding-bottom: 20px;'>개인 정보</td>";
+			htmlCode += "</tr>";
+			if (result.empMail === null || result.empMail === undefined) {
+				htmlCode += "<tr><td>이메일</td><td>정보 미입력</td></tr>";
+			} else {
+				htmlCode += "<tr><td>이메일</td><td>" + result.empMail + "</td></tr>";
+			}
+			if (result.empNm === null || result.empNm === undefined) {
+				htmlCode += "<tr><td>이름</td><td>정보 미입력</td></tr>";
+			} else {
+				htmlCode += "<tr><td>이름</td><td>" + result.empNm + "</td></tr>";
+			}
+			if (result.empBrdt === null || result.empBrdt === undefined) {
+				htmlCode += "<tr><td>생년월일</td><td>정보 미입력</td></tr>";
+			} else {
+				htmlCode += "<tr><td>생년월일</td><td>" + result.empBrdt + "</td></tr>";
+			}
+			if (result.regn === null || result.regn === undefined) {
+				htmlCode += "<tr><td>주민등록번호</td><td>정보 미입력</td></tr>";
+			} else {
+				htmlCode += "<tr><td>주민등록번호</td><td>" + result.regn + "</td></tr>";
+			}
+			if (result.cpNo === null || result.cpNo === undefined) {
+				htmlCode += "<tr><td>휴대전화번호</td><td>정보 미입력</td></tr>";
+			} else {
+				htmlCode += "<tr><td>휴대전화번호</td><td>" + result.cpNo + "</td></tr>";
+			}
+			if (result.empAddr1 === null || result.empAddr1 === undefined) {
+				htmlCode += "<tr><td>집주소</td><td>정보 미입력</td></tr>";
+			} else {
+				htmlCode += "<tr><td>집주소</td><td>" + result.empAddr1 + "</td></tr>";
+			}
+			if (result.acctNo === null || result.acctNo === undefined) {
+				htmlCode += "<tr><td>급여계좌</td><td>정보 미입력</td></tr>";
+			} else {
+				htmlCode += "<tr><td>급여계좌</td><td>" + result.acctNo + "</td></tr>";
+			}
+			htmlCode += "</table>";
+			//htmlCode2 += "<button type='button' id='open-modal' class='btn btn-primary btn-icon-split btn-sm' style='width: 35px; height: 35px; margin-left: 270px;'><span class='fe fe-24 fe-edit-3'></span></button>";
+			resultHt.html(htmlCode);
+			//resultHt2.html(htmlCode2);
+			
+			
+		
+
+			},
+	        error: function () {
+	            console.error("데이터를 가져오는 중에 오류가 발생했습니다.");
+	        }
+		});
+	});
+	
+	//계약 정보 클릭시
+	$("#resultInfo3").on("click",function(){
+		 $.ajax({
+			 url:"/common/myCnthx",
+			 type:"get",
+			 data: { empNo: loadedEmpNo }, // empNo 값을 전달
+			 dataType:"json",
+			 success:function(result){
+				// 예제로 사용한 타임스탬프 값
+				 const timestamp1 = result[0].blctSdate;
+				 const timestamp2 = result[0].blctEdate;
+				 const timestamp3 = result[0].bwctSdate;
+				 const timestamp4 = result[0].bwctEdate;
+
+				 // 타임스탬프 값을 Date 객체로 변환
+				 const date1 = new Date(Number(timestamp1));
+				 const date2 = new Date(Number(timestamp2));
+				 const date3 = new Date(Number(timestamp3));
+				 const date4 = new Date(Number(timestamp4));
+
+				 // 로컬 날짜 형식으로 변환
+				 const formattedDate1 = date1.toLocaleDateString();
+				 const formattedDate2 = date2.toLocaleDateString();
+				 const formattedDate3 = date3.toLocaleDateString();
+				 const formattedDate4 = date4.toLocaleDateString();
+				 console.log("formattedDate"+formattedDate1);
+				 
+				 console.log("통신결과",result);
+				 let htmlCode = "";
+				 htmlCode += "<table width='70%' style='font-size: 15px; margin: 10px;'>";
+				 htmlCode += "<tr colspan='2' style='font-size: 20px; font-weight: bold;'>";
+				 htmlCode += "<td style='padding-bottom: 20px;'>근로 계약</td>";
+				 htmlCode += "</tr>";
+				 if (result[0].ctrtCaseCodeNm === null || result[0].ctrtCaseCodeNm === undefined) {
+	                 htmlCode += "<tr><td>근로 유형</td><td>정보 미입력</td></tr>";
+	             } else {
+	                 htmlCode += "<tr><td>근로 유형</td><td>" + result[0].ctrtCaseCodeNm + "</td></tr>";
+	             }
+				 if (formattedDate1 === null || formattedDate1 === undefined) {
+	                 htmlCode += "<tr><td>근로계약 기간</td><td>정보 미입력</td></tr>";
+	             } else {
+	                 htmlCode += "<tr><td>근로계약 기간</td><td>" + formattedDate1+"~"+formattedDate2 + "</td></tr>";
+	             }
+				 htmlCode += "<tr colspan='2' style='font-size: 20px; font-weight: bold;'>";
+				 htmlCode += "<td style='padding-bottom: 20px; padding-top: 20px;'>임금계약</td>";
+				 htmlCode += "</tr>";
+				 htmlCode += "<tr><td>소득 구분</td><td>근로소득</td></tr>";
+				 if (formattedDate3 === null || formattedDate3 === undefined) {
+	                 htmlCode += "<tr><td>임금계약 기간</td><td>정보 미입력</td></tr>";
+	             } else {
+	                 htmlCode += "<tr><td>임금계약 기간</td><td>" + formattedDate3+"~"+formattedDate4 + "</td></tr>";
+	             }
+				 if (result[0].bcntAmt === null || result[0].bcntAmt === undefined) {
+	                 htmlCode += "<tr><td>계약 금액</td><td>정보 미입력</td></tr>";
+	             } else {
+	                 htmlCode += "<tr><td>계약 금액</td><td>" + result[0].bcntAmt + "</td></tr>";
+	             }
+				 htmlCode += "</table>";
+				 resultHt.html(htmlCode);
+			 },
+	         error: function () {
+	            console.error("데이터를 가져오는 중에 오류가 발생했습니다.");
+	         }
+		 });
+	});
+	
+	//경력/학력 클릭시
+	$("#resultInfo4").on("click",function(){
+		 $.ajax({
+			 url:"/common/mtAcca",
+			 type:"get",
+			 dataType:"json",
+			 data: { empNo: loadedEmpNo }, // empNo 값을 전달
+			 success:function(result){
+				 console.log("통신결과",result);
+		            let htmlCode = "";
+		            
+		            if (!result || $.isEmptyObject(result)) {
+		                // 데이터가 없는 경우 빈 테이블을 생성
+		                htmlCode = "<p>데이터가 없습니다.</p>";
+		            } else {
+		                // 데이터가 있는 경우 테이블을 생성
+					    htmlCode += "<table width='70%' style='font-size: 15px; margin: 10px;'>";
+					    htmlCode += "<tr colspan='2' style='font-size: 20px; font-weight: bold;'>";
+		                htmlCode += "<td style='padding-bottom: 20px;'>학력정보</td>";
+		                htmlCode += "</tr>";
+		                htmlCode += "<tr><td>학교명</td><td>"+result.acNm+"</td></tr>";
+		                htmlCode += "<tr><td>입학일자</td><td>"+result.acEtdate+"</td></tr>";
+		                htmlCode += "<tr><td>졸업일자</td><td>"+result.acEdate+"</td></tr>";
+		                htmlCode += "<tr><td>졸업 여부</td><td>"+result.gradClfNm+"</td></tr>";
+		                htmlCode += "<tr><td>전공</td><td>"+result.maj+"</td></tr>";
+		                htmlCode += "</table>";
+		            }
+
+		            resultHt.html(htmlCode);
+		        },
+		        error: function () {
+		            console.error("데이터를 가져오는 중에 오류가 발생했습니다.");
+		        }
+		    });
+		});
+	
+	//문서
+	$("#resultInfo5").on("click",function(){
+		 $.ajax({
+			 url:"/common/selectEmp",
+			 type:"get",
+			 dataType:"json",
+			 data: { empNo: loadedEmpNo }, // empNo 값을 전달
+			 success:function(result){
+				 console.log("통신결과",result);
+				 let htmlCode = "";
+				 htmlCode += "<table width='70%' style='font-size: 15px; margin: 10px;'>";
+				 htmlCode += "<tr colspan='2' style='font-size: 20px; font-weight: bold;'>";
+				 htmlCode += "<td style='padding-bottom: 20px;'>내문서</td><td style='padding-bottom: 20px;'>파일</td><td style='padding-bottom: 20px;'>수정일</td>";
+				 htmlCode += "</tr>";
+				 htmlCode += "<tr><td>주민등록등본</td><td><a>파일 다운로드</a></td><td>22.11.23</td></tr>";
+				 htmlCode += "<tr><td>가족관계증명서</td><td><a>파일 다운로드</a></td><td>22.11.23</td></tr>";
+				 htmlCode += "</table>";
+				 resultHt.html(htmlCode);
+			 },
+	         error: function () {
+	            console.error("데이터를 가져오는 중에 오류가 발생했습니다.");
+	         }
+		 });
+	});
+	
+	//커스텀 정보
+	$("#resultInfo6").on("click",function(){
+		 $.ajax({
+			 url:"/common/selectEmp",
+			 type:"get",
+			 data: { empNo: loadedEmpNo }, // empNo 값을 전달
+			 dataType:"json",
+			 success:function(result){
+				 console.log("통신결과",result);
+				 let htmlCode = "";
+				 resultHt.html(htmlCode);
+			 },
+	         error: function () {
+	            console.error("데이터를 가져오는 중에 오류가 발생했습니다.");
+	         }
+		 });
+	});
+	
+	//파일미리보기
+	$myFile.on("change",()=>{
+		var formData = new FormData();
+		formData.append("file",$myFile[0].files[0]);
+
+		$.ajax({
+              type : "post",
+              url : "/common/preview",
+              data : formData,    //JSON.stringify 하지 않음에 주의!
+              contentType:false,  //defult값이 application/x-www-form-urlencoded
+              processData:false,  //defult값이 application/x-www-form-urlencoded
+              cache:false,        //요건 선택 권장!
+              dataType : "text",
+              beforeSend:function(xhr){
+			  xhr.setRequestHeader("${_csrf.headerName}","${_csrf.token}");
+			  },
+              success : function(rslt){
+            	    var newImg = $("#myImg")
+            	        .attr("src", rslt)
+            	        .css({
+            	            width: "180px",
+            	            height: "180px"
+            	        });
+            	    $(function() {
+            	    	$('#myImg').before(`<span id="overlay" class="fe fe-24 fe-camera" onclick="document.getElementById('file').click();"></span>`);
+            	    	
+            	    	
+            	    });
+
+            	    $preImg.empty().append(newImg);
+              },
+              error:function(xhr, status, error){
+                  console.log("code: " + xhr.status)
+                  console.log("message: " + xhr.responseText)
+                  console.log("error: " + error);
+              }
+         });
+	});
+	
+	//이미지 수정
+	$update.on("click",()=>{
+		var formData = new FormData();
+		formData.append("file",$myFile[0].files[0])
+		formData.append("empNo",loadedEmpNo)
+		$.ajax({
+			url:"/common/fileUpdate",
+			type:"post",
+			data:formData,
+            contentType:false,  //defult값이 application/x-www-form-urlencoded
+            processData:false,  //defult값이 application/x-www-form-urlencoded
+            cache:false,        //요건 선택 권장!
+			dataType:"text",
+            beforeSend:function(xhr){
+  			  xhr.setRequestHeader("${_csrf.headerName}","${_csrf.token}");
+			},
+			success : function(result){
+				if(result!=null || result !=""){
+					console.log(result)
+					myimg.src = result;
+				}
+			},
+            error:function(xhr, status, error){
+                console.log("code: " + xhr.status)
+                console.log("message: " + xhr.responseText)
+                console.log("error: " + error);
+            }
+			
+		});
+	})
+	
+	//직인 등록
+	$tempFile.on("change",function(){
+		var formData = new FormData();
+		formData.append("file",$tempFile[0].files[0])
+		formData.append("empNo",loadedEmpNo)
+		console.log($tempFile[0].files[0],"test : " + loadedEmpNo )
+		$.ajax({
+			url:"/common/tempUpload",
+			type:"post",
+			data:formData,
+            contentType:false,  //defult값이 application/x-www-form-urlencoded
+            processData:false,  //defult값이 application/x-www-form-urlencoded
+            cache:false,        //요건 선택 권장!
+            dataType:"text",
+            beforeSend:function(xhr){
+    			  xhr.setRequestHeader("${_csrf.headerName}","${_csrf.token}");
+  			},
+  			success : function(result){
+  				if(result!=null || result !=""){
+  					alert("직인등록 성공");
+  				}
+  			},
+            error:function(xhr, status, error){
+                console.log("code: " + xhr.status)
+                console.log("message: " + xhr.responseText)
+                console.log("error: " + error);
+            }
+		});
+	});
+	
+	  
+})//function
+</script> 
+
+
+<script>
+$(function() {
+	$('#myImg').before(`<span id="overlay" class="fe fe-24 fe-camera" onclick="document.getElementById('file').click();"></span>`);
+	
+	
+});
+
+</script>
+<script>
+//핸드폰 번호 복사
+function copyPhNo() {
+    // 텍스트 입력란의 값을 가져옵니다.
+    var text = document.getElementById("textToPhNoCopy");
+
+    // 텍스트를 클립보드에 복사합니다.
+    text.select();
+    document.execCommand("copy");
+
+    // 복사가 완료되면 메시지를 표시합니다.
+    alert("텍스트가 복사되었습니다.");
+}
+
+</script>
+<script>
+//전화번호 복사
+    function copyPhNo(val) {
+    var t = document.createElement("textarea");
+    document.body.appendChild(t);
+    t.value = val;
+    t.select();
+    document.execCommand('copy');
+    document.body.removeChild(t);
+    alert("복사됨");
+    }
+//이메일 주소 복사
+    function copyEmail(val) {
+    var t = document.createElement("textarea");
+    document.body.appendChild(t);
+    t.value = val;
+    t.select();
+    document.execCommand('copy');
+    document.body.removeChild(t);
+    alert("복사됨");
+    }
+</script>
+<style>
+div{
+/* border: 1px solid red; */
+}
+a{text-decoration: none; color:black}
+#menuBar{list-style: none;}
+#menuBar li{display: inline; margin: 20px;}
+#result{
+	height: 500px;
+}
+.preImg {
+    margin: 20px;
+    margin-right: 40px;
+}
+.det {
+	margin: 10px;
+}
+#myImg {
+    height: 180px;
+    width: 180px;
+    border-radius: 40px;
+}
+#upd {
+    height: 40px;
+    width: 40px;
+}
+#overlay
+{
+    padding:10px;
+    position: absolute;
+    margin-left: 140px;
+    margin-top: 140px;
+    color: aliceblue;
+    background-color: rgb(75, 75, 236);
+    border-radius: 40px;
+    cursor:pointer;
+}
+table {
+    border-collapse: separate; /* 셀 간의 여백을 사용하도록 설정 */
+}
+
+tr{
+	
+}
+td {
+    padding: 7px; /* 셀 내용 주위의 여백을 설정 */
+    line-height: 1; /* 줄 간격을 조절 */
+}
+//현학이 버튼 스타일
+.mainBtn {
+   background: linear-gradient(to right, #05CA1B, #11C2C0);
+   border-radius: 10px;
+   padding: 10px 20px;
+    color: white;
+    cursor: pointer;
+    border: none;
+}
+
+
+//모달창 css
+
+
+ .modal1{  
+   position:fixed; 
+   width:100%; 
+   height:100%; 
+   background: rgba(0,0,0,0.8); 
+   top:0; 
+   left:0; 
+   display:none; 
+   z-index: 1;
+   outline: 0;
+ } 
+
+ .modal_content1{ 
+   width:60%; height:60%; 
+   background:#fff; border-radius:10px; 
+   position:relative; top:50%; left:50%; 
+   margin-top:0px; margin-left:-200px; 
+   text-align:center; 
+   box-sizing:border-box; padding:20px 0; 
+   line-height:25px; cursor:pointer; 
+   z-index: 2;
+ } 
+
+ .cl { 
+   color: gray; 
+   position: absolute; 
+   top: 15px; /* 아래에서 10px 떨어진 위치 */ 
+   right: 15px; /* 왼쪽에서 10px 떨어진 위치 */ 
+   font-size: 28px; 
+   font-weight: bold; 
+   z-index: 3;
+ } 
+
+ .cl:hover, 
+ .cl:focus { 
+   color: #000; 
+   text-decoration: none; 
+   cursor: pointer; 
+ } 
+ .modalbtn1 { 
+ 	background-color: rgb(30, 83, 255); 
+ 	color: #fff; 
+ 	border-radius: 5px; 
+ 	position: absolute; 
+     bottom: 15px; /* 아래에서 10px 떨어진 위치 */ 
+     right: 15px; /* 오른쪽에서 10px 떨어진 위치 */ 
+     padding: 5px 10px; /* 상하 여백은 5px, 좌우 여백은 10px로 지정 */ 
+ } 
+ .modalbtn2 { 
+ 	background-color: rgb(255, 64, 30); 
+ 	color: #fff; 
+ 	border-radius: 5px; 
+ 	position: absolute; 
+     bottom: 15px; /* 아래에서 10px 떨어진 위치 */ 
+     left: 15px; /* 왼쪽에서 10px 떨어진 위치 */ 
+    padding: 5px 10px; /* 상하 여백은 5px, 좌우 여백은 10px로 지정 */ 
+ } 
+
+
+
+</style>
+
+<body>
+
+    <div>
+        <h6>구성원/${vo.empNm}</h6>
+    </div>
+
+    <div>
+        <div style="margin: 20px; position: relative; display: flex; align-items: stretch; width: 100%;">
+            <div id="preImg" style="display: flex; justify-content: center;">
+                 <img id="myImg" src="${vo.fileList[0].svfiName }" alt="프로필사진">               
+                 <input type="file" name="file" id="file" style="display:none;"> 
+            </div>
+            
+			
+            <div class="det" style="margin-left: 50px;">
+                <div id="nm" style="">
+                    <h3>${vo.empNm}</h3>
+                </div>
+                <div id="if">
+                    <p style="margin-bottom: 5px; margin-top: 10px;">조직 : ${vo.dtCodeNm}</p>
+                    <p>직무 : ${vo.jcodeNm}</p>
+                </div>
+                <div id="butn" style="position: relative; display: flex; align-items: stretch; width: 100%; margin-top: 30px;">
+                    <button class="btn btn-primary btn-icon-split btn-sm" style="margin-right: 5px;" onclick="copyPhNo('${vo.cpNo}')"><span class="fe fe-24 fe-phone"></span></button> 
+                    <button class="btn btn-primary btn-icon-split btn-sm" style="margin-right: 5px;" onclick="copyEmail('${vo.empMail}')"><span class="fe fe-24 fe-mail"></span></button>
+                    <button class="btn btn-primary btn-icon-split btn-sm" style="margin-right: 5px;"><span>${vo.stClfCdNm}</span></button>
+                    <input class="btn btn-primary btn-icon-split btn-sm" style="margin-right: 5px;" id="update" type="button" value="수정">
+                    <label class="btn btn-primary btn-icon-split btn-sm" for="tempFile" style="margin-left:5px;">직인등록</label>
+                    <input type="file" id="tempFile" name="tempFile" style="display:none;">
+                </div>
+            </div>
+        </div>
+    </div> 
+	<nav id="menuBar">
+		<ul class="nav nav-tabs mb-3" id="myTab" role="tablist" style="display: flex;">
+			<li><a id="resultInfo1" href="#"><h3>인사 정보</h3></a></li>
+			<li><a id="resultInfo2" href="#"><h3>개인 정보</h3></a></li>
+			<li><a id="resultInfo3" href="#"><h3>계약 정보</h3></a></li>
+			<li><a id="resultInfo4" href="#"><h3>경력/학력</h3></a></li>
+			<li><a id="resultInfo5" href="#"><h3>문서</h3></a></li>
+			<li><a id="resultInfo6" href="#"><h3>커스텀 정보</h3></a></li>
+		</ul>
+	</nav>
+	
+	<div class="row" style="overflow-y: scroll; max-height: 450px;">
+       <div id="result" class="col-8"></div>
+       <div id="result2" >
+       <button type="button" id="open-modal" class="btn btn-primary btn-icon-split btn-sm" style="width: 35px; height: 35px; margin-left: 270px;"><span class="fe fe-24 fe-edit-3"></span></button>
+       </div>
+    </div>
+    
+    <!-- The Modal 모달창-->
+
+	
+	<div class="modal1">
+	  <div class="modal_content1" >
+	  	<div class="modal-header1" >
+	      <h2>개인정보 수정</h2>
+	      <span class="cl">&times;</span>
+	    </div>
+	    <div class="modal-body1">
+	
+	    	<div style="position: relative; display: flex;" >
+				<div>
+				사번<input>
+				이름<input>
+				주민등록번호<input>
+				주소1<input>
+				주소2<input>
+				주소3<input>
+				비번<input>
+				</div>
+				<div>
+				몰라<input>
+				</div>
+				<div>
+				몰라<input>
+				</div>
+			
+			</div>
+	    </div>
+	    <div class="modal-footer1">
+			<button class="modalbtn2">취소</button><button class="modalbtn1">수정완료</button>
+	    </div>
+	  </div>
+	</div>
+		
+</body>
+<!-- 모달창 스크립트 -->
+<script>
+// 모달 열기 버튼 클릭 이벤트 처리
+$("#open-modal").click(function() {
+  alert("잘되냐??????");
+  $(".modal1").fadeIn();
+});
+console.log("있냐?",$(".cl"));
+// 닫기 버튼 클릭 이벤트 처리
+$(".cl").click(function() {
+	  alert("잘되냐?");
+  $(".modal").fadeOut();
+  
+});
+
+
+</script>
+

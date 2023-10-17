@@ -1,0 +1,86 @@
+package kr.or.ddit.salary.controller;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
+
+@RequestMapping("/salary")
+@Controller
+public class SalaryController {
+	
+
+	@GetMapping("/home")
+	public String home() {
+		return "salary/salaryHome";
+	}
+	
+	@GetMapping("/pastPayroll")
+	public String pastPayroll() {
+		return "salary/pastPayroll";
+	}
+	
+	@GetMapping("/payList")
+	public String payList() {
+		return "salary/payList";
+	}
+	
+	@PostMapping("/payListPost")
+	public String payListPost() {
+		return "salary/payListPost";
+	}
+	
+	@GetMapping("/dedList")
+	public String dedList() {
+		return "salary/dedList";
+	}
+	
+	@PostMapping("/dedListPost")
+	public String dedListPost() {
+		return "salary/dedListPost";
+	}
+	
+	@GetMapping("/payInsert")
+	public String payInsert() {
+		return "salary/payInsert";
+	}
+	
+	@GetMapping("/payUpdate") 
+	public String payUpdate() {
+		return "salary/payUpdate";
+	}
+	
+	@GetMapping("/salaryEmp")
+	public String salaryEmp() {
+		return "salary/salaryEmp";
+	}
+	
+	@GetMapping("/dedInsert")
+	public String dedInsert() {
+		return "salary/dedInsert";
+	}
+	
+	@GetMapping("/dedUpdate")
+	public String dedUpdate() {
+		return "salary/dedUpdate";
+	}
+	
+	@GetMapping("/wageRes")
+	public String wageRes() {
+		return "salary/wageRes";
+	}
+	
+	@GetMapping("/wageEmp")
+	public String wageEmp() {
+		return "salary/wageEmp";
+	}
+	
+	
+	
+	
+	
+	
+}

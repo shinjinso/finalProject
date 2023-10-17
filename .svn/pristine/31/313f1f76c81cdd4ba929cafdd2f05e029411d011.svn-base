@@ -1,0 +1,13 @@
+package kr.or.ddit.setting.mapper;
+
+import java.util.List;
+
+import org.apache.ibatis.annotations.Mapper;
+
+import kr.or.ddit.setting.vo.CompanyHoliVO;
+
+@Mapper
+public interface CompHoliMapper {
+
+	public List<CompanyHoliVO> compHoliSelect();
+}

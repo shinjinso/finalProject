@@ -1,0 +1,19 @@
+package kr.or.ddit.vo;
+
+import java.util.Date;
+
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
+@Getter
+@Setter
+@ToString
+public class CtrvReqVO {
+	private String dftNo;
+	private String ctCont;
+	private Date ctRqdate;
+	private Date ctSdate;
+	private Date ctEdate;
+	private int ctAmt;
+}

@@ -1,0 +1,528 @@
+package kr.or.ddit.salary.controller;
+
+import java.security.Principal;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpSession;
+
+import org.apache.commons.collections4.map.HashedMap;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import kr.or.ddit.common.service.CommonService;
+import kr.or.ddit.common.vo.EmpVO;
+import kr.or.ddit.personnel.service.MemberService;
+import kr.or.ddit.salary.service.PayTplService;
+import kr.or.ddit.salary.service.SalaryService;
+import kr.or.ddit.salary.vo.PageVO;
+import kr.or.ddit.salary.vo.PayDedVO;
+import kr.or.ddit.salary.vo.PayTplVO;
+import kr.or.ddit.salary.vo.SalaryCertVO;
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
+@RequestMapping("/salary")
+@Controller
+public class SalaryController {
+	
+	@Autowired
+	PayTplService payTplService;
+	
+	@Autowired
+	CommonService comService;
+	
+	@Autowired
+	MemberService ppservice;
+	
+	@Autowired
+	SalaryService salaryService;
+	
+//	//급여정산 홈 화면  (세션에 담는 법)
+//	@GetMapping("/home")
+//	public String home(HttpSession session) {
+//		Map<String,Object> map = new HashMap<String,Object>();
+//		map.put("name", "9월 정기 급여");
+//		map.put("yymm", "2023년 03월");
+//		map.put("payday", "2023-09-30");
+//		
+//		session.setAttribute("map", map);
+//		
+//		return "salary/salaryHome"; 
+//	}
+	
+	//급여정산 홈 화면 
+	@GetMapping("/home")
+	public String home(Principal principal, Model model) {
+		String empNo = principal.getName();
+		EmpVO vo =  comService.SelectEmp(empNo);
+		model.addAttribute("empVO",vo);
+		
+		return "salary/salaryHome";
+	}
+		
+		
+	//지난 정산 내역 화면
+	@GetMapping("/pastPayroll")
+	public String pastPayroll() {
+		return "salary/pastPayroll";
+	}
+	
+	//급여정산하기 모달창 form 태그 전송 (post) (다음페이지로 매개변수로 받은 vo 전달)
+	@PostMapping(value="/startPR", produces="text/plain;charset=utf-8") 
+	public String startPR(@ModelAttribute SalaryCertVO salaryCertVO, HttpSession session) {
+		log.info("salaryCertVO 넘어온 값 : " + salaryCertVO);
+		// salaryCertVO 넘어온 값 : SalaryCertVO(scNo=null, empNo=null, ptNo=0, scIsdate=null, 
+		// prYr=2023, prMth=9, pytlAmt=0, ddtlAmt=0, netAmt=0, prFdate=null, finYn=null, prPdate=2023-09-21, prStlNm=9월 정기급여, prYM=2023-09)
+		
+		String prYM = salaryCertVO.getPrYM();
+		
+		int prYr = Integer.parseInt(prYM.split("-")[0]);
+		int prMth = Integer.parseInt(prYM.split("-")[1]);
+		
+		salaryCertVO.setPrYr(prYr);
+		salaryCertVO.setPrMth(prMth);
+		
+		session.setAttribute("SCVO", salaryCertVO); //세션에 값 담음
+
+		
+		return "redirect:/salary/wageEmp";
+	}
+	
+	
+//	//급여정산하기 모달창 Ajax (세션에 담기)           //세션에 담으면 브라우저 두개 띄우고 8월급여정산, 9월급여정산 따로따로 작업할 때 세션값 충돌이 됨.
+//	@ResponseBody
+//	@PostMapping(value="/startPR", produces="text/plain;charset=utf-8")    //consumes는 클라이언트->서버 보내는 데이터 타입을 명시. produces는 서버->클라이언트 반환하는 데이터 타입을 명시.
+//	public String startPR(@RequestBody SalaryCertVO salaryCertVO, HttpSession session) {
+//		log.info("salaryCertVO 넘어온 값 : " + salaryCertVO);
+//		// salaryCertVO 넘어온 값 : SalaryCertVO(scNo=null, empNo=null, ptNo=0, scIsdate=null, 
+//		// prYr=2023, prMth=9, pytlAmt=0, ddtlAmt=0, netAmt=0, prFdate=null, finYn=null, prPdate=2023-09-21, prStlNm=9월 정기급여)
+//		
+//		int prYr = salaryCertVO.getPrYr();
+//		int prMth = salaryCertVO.getPrMth();
+//		String prPdate = salaryCertVO.getPrPdate();
+//		String prStlNm = salaryCertVO.getPrStlNm();
+//		int ptNo = salaryCertVO.getPtNo();
+//		
+//		session.setAttribute("prYr", prYr);
+//		session.setAttribute("prMth", prMth);
+//		session.setAttribute("prPdate", prPdate);
+//		session.setAttribute("prStlNm", prStlNm);
+//		session.setAttribute("ptNo", ptNo);
+//		
+//		return "세션에 저장 성공";
+//	}
+	
+	
+	
+	//정산대상자 선택 화면
+	@GetMapping("/wageEmp")
+	public String wageEmp(HttpSession session, Model model) {
+//	public String wageEmp(@RequestParam int ptNo, Model model) {
+		
+		SalaryCertVO vo = (SalaryCertVO)session.getAttribute("SCVO");
+		log.info("세션 값 나와라? : " + vo);
+		
+		int ptNo = vo.getPtNo();
+		
+		PayTplVO payTplVO = payTplService.selectTpl(ptNo);
+		String ptNm = payTplVO.getPtNm();
+		
+		model.addAttribute("ptNm", ptNm);
+		
+		return "salary/wageEmp";
+	}
+	
+	//정산대상자 사원정보리스트 select (Ajax)
+	@ResponseBody
+	@PostMapping("/wageEmpListAjax") 
+	public Map<String,Object> wageEmpListAjax(@RequestBody PageVO pageVO){
+		
+//		log.debug("pageVO 나와라 {}", pageVO);
+		log.debug("pageVO 나와라 "+ pageVO); //PageVO(total=0, currentPage=3, pageCnt=0, startPage=0, pageSize=15, endPage=0, keyword=null, condition=null)
+																
+		int total = salaryService.getTotal(pageVO);
+		log.info("total 몇개?" + total); //40
+		
+		int startPage =(pageVO.getCurrentPage()-1) * pageVO.getPageSize() +1;
+		
+		int endPage = pageVO.getCurrentPage()*pageVO.getPageSize();	
+		
+		if(endPage > total) {
+			endPage = total;
+		}
+		
+		pageVO.setStartPage(startPage);
+		pageVO.setEndPage(endPage);
+		
+		log.info("startPage : " + startPage);
+		log.info("endPage : " + endPage);
+		
+		List<EmpVO> empList = salaryService.selectEmpList(pageVO);
+		log.info("empList?? " + empList);
+		
+		Map<String,Object> pageMap = new HashedMap<String, Object>();
+		pageMap.put("total", total);
+		pageMap.put("startPage", startPage);
+		pageMap.put("endPage", endPage);
+		pageMap.put("pageData", empList);
+		
+		log.debug("pageMap {}",pageMap);
+		/* 
+		    토탈갯수 : select
+		  pageSize: 받아와야하는 값 
+		  curPage:  받아와야 함
+		  페이지수 : 계산가능 
+		  
+		*/
+		
+		return pageMap;
+	}
+	
+	//정산대상자 추가(insert) _ Ajax
+	@ResponseBody
+	@PostMapping("/checkedEmpList")
+	public String checkedEmpList(@RequestBody List<String> checkedEmpList, HttpSession session) { 
+
+		log.info("checkedEmpList : " + checkedEmpList);
+		
+//		 List<EmpVO> checkedEmpList = new ArrayList<EmpVO>();
+		
+		
+		SalaryCertVO svo = (SalaryCertVO) session.getAttribute("SCVO");
+		SalaryCertVO newSvo = new SalaryCertVO(); //세션 객체 데이터 복사
+		
+		log.info("svo1 : " + svo); //SalaryCertVO(scNo=0, empNo=null, ptNo=1, scIsdate=null, prYr=2023, prMth=9, pytlAmt=0, ddtlAmt=0, netAmt=0, prFdate=null, finYn=null, prPdate=2023-09-30, prStlNm=9월 급여, prYM=2023-09, pdNm=null, pdAmt=0, empNm=null, basePay=0, basicHourWage=0, totalAdmitTime=0, totalExtime=0, totalNightime=0, totalHdtime=0, overtimePay=0, nightimePay=0, hdtimePay=0, totalExPay=0)
+		
+		int result = 0;
+	    
+		// checkedEmpList의 각 문자열을 EmpVO 객체로 변환하여 리스트에 추가
+	    for (String empNo : checkedEmpList) {
+	    	
+    		log.info("newSvo1 : " + newSvo); //SalaryCertVO(scNo=0, empNo=null, ptNo=0, scIsdate=null, prYr=0, prMth=0, pytlAmt=0, ddtlAmt=0, netAmt=0, prFdate=null, finYn=null, prPdate=null, prStlNm=null, prYM=null, pdNm=null, pdAmt=0, empNm=null, basePay=0, basicHourWage=0, totalAdmitTime=0, totalExtime=0, totalNightime=0, totalHdtime=0, overtimePay=0, nightimePay=0, hdtimePay=0, totalExPay=0)
+	    	
+	    	newSvo.setEmpNo(empNo);
+	    	newSvo.setPtNo(svo.getPtNo());
+	    	newSvo.setPrYr(svo.getPrYr());
+	    	newSvo.setPrMth(svo.getPrMth());
+	    	newSvo.setPrPdate(svo.getPrPdate());
+	    	newSvo.setPrStlNm(svo.getPrStlNm()); //세션 데이터 복사 (세션값 변경 방지)
+	        
+	        result += salaryService.insertPR(newSvo);
+	        
+	        log.info("result" + result);
+//		        empList.add(empVO);
+	    }
+	    log.info("svo2 : " + svo); //SalaryCertVO(scNo=0, empNo=null, ptNo=1, scIsdate=null, prYr=2023, prMth=9, pytlAmt=0, ddtlAmt=0, netAmt=0, prFdate=null, finYn=null, prPdate=2023-09-30, prStlNm=9월 급여, prYM=2023-09, pdNm=null, pdAmt=0, empNm=null, basePay=0, basicHourWage=0, totalAdmitTime=0, totalExtime=0, totalNightime=0, totalHdtime=0, overtimePay=0, nightimePay=0, hdtimePay=0, totalExPay=0)
+	    log.info("newSvo2 : " + newSvo);//SalaryCertVO(scNo=2, empNo=202309001, ptNo=1, scIsdate=null, prYr=2023, prMth=9, pytlAmt=0, ddtlAmt=0, netAmt=0, prFdate=null, finYn=null, prPdate=2023-09-30, prStlNm=9월 급여, prYM=null, pdNm=null, pdAmt=0, empNm=null, basePay=0, basicHourWage=0, totalAdmitTime=0, totalExtime=0, totalNightime=0, totalHdtime=0, overtimePay=0, nightimePay=0, hdtimePay=0, totalExPay=0)
+		    
+//	svo1 : SalaryCertVO(scNo=null, empNo=null, ptNo=30, scIsdate=null, prYr=2023, prMth=9, pytlAmt=0, ddtlAmt=0, netAmt=0, prFdate=null, finYn=null, prPdate=2023-09-26, prStlNm=9월 정기급여, prYM=2023-09)
+//	svo2 : SalaryCertVO(scNo=null, empNo=202101011, ptNo=30, scIsdate=null, prYr=2023, prMth=9, pytlAmt=0, ddtlAmt=0, netAmt=0, prFdate=null, finYn=null, prPdate=2023-09-26, prStlNm=9월 정기급여, prYM=2023-09)
+		    						
+	    if(result >= 1) {
+	    	return "success";
+	    }else {
+	    	return "fail";
+	    }
+		
+	}
+	
+	//정산 - 지급  화면
+	@GetMapping("/wagePay")
+	public String wagePay(HttpSession session, Model model) throws Exception {
+		
+		SalaryCertVO scVo = (SalaryCertVO)session.getAttribute("SCVO");
+		log.info("scVo 뭐들어있어?? :" + scVo); //SalaryCertVO(scNo=0, empNo=null, ptNo=1, scIsdate=null, prYr=2023, prMth=9, pytlAmt=0, ddtlAmt=0, netAmt=0, prFdate=null, finYn=null, prPdate=2023-09-30, prStlNm=9월 급여, prYM=2023-09, pdNm=null, pdAmt=0, empNm=null, basePay=0, basicHourWage=0, totalAdmitTime=0, totalExtime=0, totalNightime=0, totalHdtime=0, overtimePay=0, nightimePay=0, hdtimePay=0, totalExPay=0)
+		
+		/////////////////////////////////////////////////////////SalaryCertVO(scNo=17, empNo=202101011, ptNo=1, scIsdate=null, prYr=2023, prMth=9, pytlAmt=0, ddtlAmt=0, netAmt=0, prFdate=null, finYn=null, prPdate=2023-09-27, prStlNm=9월 정기급여, prYM=2023-09)
+		int ptNo = scVo.getPtNo();
+		
+		PayTplVO payTplVO = payTplService.selectTpl(ptNo);
+		String ptNm = payTplVO.getPtNm();
+		
+		///////////////////////////////////////////////////////////////
+		//선택한 정산대상자 리스트		
+		List<SalaryCertVO> checkedEmpNoList = salaryService.selectCheckedEmpNoList(scVo);
+		log.info("checkedEmpNoList: " + checkedEmpNoList);
+ 		
+		List<List<PayDedVO>> pdTotalList = new ArrayList<List<PayDedVO>>();   
+		List<SalaryCertVO> exPayList = new ArrayList<SalaryCertVO>();   
+		
+		SalaryCertVO newScVo = new SalaryCertVO();
+		
+		for(SalaryCertVO empVo : checkedEmpNoList) {
+			
+			String empNo = empVo.getEmpNo();
+			String empNm = empVo.getEmpNm();
+			
+			log.info("empNo : " + empNo);
+			log.info("empNm : " + empNm);
+
+			newScVo.setEmpNo(empNo);
+			newScVo.setPrYr(scVo.getPrYr());
+			newScVo.setPrMth(scVo.getPrMth());
+			newScVo.setPtNo(scVo.getPtNo());
+			
+			List<PayDedVO> pdVOList = salaryService.selectPaySummary(newScVo);
+//			EmpVO empBS = salaryService.selectBaseSalary(empVo); //각 선택된 정산대상자마다 기본급 뽑기
+			log.info("pdVOList : " + pdVOList);
+			
+			//ajax의 경우 @responseBody에 내장되어있는 코드 형식. 모델로 forwarding할 때 ObjectMapper로 json문자열로 만들어서 보냄
+			ObjectMapper pdVOMapper = new ObjectMapper();
+			
+			String pdVOListJson= pdVOMapper.writeValueAsString(pdVOList);
+			//log.debug("체킁:{}",pdVOMapper.writeValueAsString(pdVOList));
+			
+			
+			model.addAttribute("pdVOList", pdVOList);
+			model.addAttribute("pdVOListJson", pdVOListJson);
+			
+			pdTotalList.add(pdVOList);
+			
+			/////////////////////////////////////////////////////////////
+			// 기본급 / 초과근무수당 - 연장, 야간, 휴일별 금액 각각 산출
+			SalaryCertVO exPay = salaryService.selectOverTimePay(newScVo); 
+			log.info("exPay :" + exPay);
+			
+			if(exPay != null) {
+				exPay.setEmpNo(empNo);
+				exPay.setEmpNm(empNm);
+				int overtimePay = exPay.getOvertimePay();
+				int nightimePay = exPay.getNightimePay();
+				int hdtimePay = exPay.getHdtimePay();
+				
+				log.info("overtimePay : " + overtimePay);
+				log.info("nightimePay : " + nightimePay);
+				log.info("hdtimePay : " + hdtimePay);
+				
+				exPayList.add(exPay);
+			}
+			log.info("exPayList : " + exPayList);
+//			
+		}//for끝
+
+		model.addAttribute("ptNm", ptNm);
+		model.addAttribute("pdTotalList", pdTotalList);
+		model.addAttribute("exPayList", exPayList);
+		
+//		model.addAttribute("empCnt", empCnt);
+//		model.addAttribute("sumPdAmt1", sumPdAmt1);
+//		model.addAttribute("sumPdAmt2", sumPdAmt2);
+//		model.addAttribute("sumPdAmt3", sumPdAmt3);
+//		model.addAttribute("sumPdAmt4", sumPdAmt4);
+//		model.addAttribute("sumPdAmt5", sumPdAmt5);
+//		model.addAttribute("sumPdAmt6", sumPdAmt6);
+//		model.addAttribute("sumPdAmt7", sumPdAmt7);
+		
+		return "salary/wagePay";
+	}
+	
+	
+	
+	//정산 지급항목 이력 - 기본급 insert (ajax)
+	@ResponseBody
+	@PostMapping("/insertBasePay")
+	public String insertBasePay(@RequestBody SalaryCertVO scVo) {
+		
+		int insertBPres = salaryService.insertBasePay(scVo);
+		
+		
+		if(insertBPres >= 1) {
+	    	return "success";
+	    }else {
+	    	return "fail";
+	    }
+	}
+	
+	//정산 지급항목 이력 - 초과근무수당 insert (ajax)
+	@ResponseBody
+	@PostMapping("/insertOvertimePay")
+	public String insertOvertimePay(@RequestBody SalaryCertVO scVo) {
+		
+		int insertOtPres = salaryService.insertOvertimePay(scVo);
+		
+		
+		if(insertOtPres >= 1) {
+	    	return "success";
+	    }else {
+	    	return "fail";
+	    }
+	}
+	
+	//정산 지급항목 이력 - 기타수당 항목별로 insert (ajax)
+	@ResponseBody
+	@PostMapping("/insertOtherPay")
+	public String insertOtherPay(@RequestBody SalaryCertVO scVo) {
+		
+		int insertOPres = salaryService.insertOtherPay(scVo);
+		
+		
+		if(insertOPres >= 1) {
+	    	return "success";
+	    }else {
+	    	return "fail";
+	    }
+	}
+	//////////////////////////////////////////////////////////////////////////////////////////
+	
+	//정산 - 공제 화면
+	@GetMapping("/wageDed")
+	public String wageDed(HttpSession session, Model model) {
+		
+		SalaryCertVO scVo = (SalaryCertVO)session.getAttribute("SCVO");
+		int ptNo = scVo.getPtNo();
+		
+		PayTplVO payTplVO = payTplService.selectTpl(ptNo);
+		String ptNm = payTplVO.getPtNm();
+		
+		///////////////////////////////////////////////////////////////
+		//선택한 정산대상자 리스트		
+		List<SalaryCertVO> checkedEmpNoList = salaryService.selectCheckedEmpNoList(scVo);
+		log.info("checkedEmpNoList: " + checkedEmpNoList);
+		
+		List<List<PayDedVO>> pdTotalList = new ArrayList<List<PayDedVO>>();   
+		List<SalaryCertVO> exPayList = new ArrayList<SalaryCertVO>();   
+		
+		SalaryCertVO newScVo = new SalaryCertVO();
+		
+		for(SalaryCertVO empVo : checkedEmpNoList) {
+		
+		String empNo = empVo.getEmpNo();
+		String empNm = empVo.getEmpNm();
+		
+		log.info("empNo : " + empNo);
+		log.info("empNm : " + empNm);
+		
+		newScVo.setEmpNo(empNo);
+		newScVo.setPrYr(scVo.getPrYr());
+		newScVo.setPrMth(scVo.getPrMth());
+		newScVo.setPtNo(scVo.getPtNo());
+		
+		List<PayDedVO> pdVOList = salaryService.selectPaySummary(newScVo);
+		//EmpVO empBS = salaryService.selectBaseSalary(empVo); //각 선택된 정산대상자마다 기본급 뽑기
+		log.info("pdVOList : " + pdVOList);
+		
+		//ajax의 경우 @responseBody에 내장되어있는 코드 형식. 모델로 forwarding할 때 ObjectMapper로 json문자열로 만들어서 보냄
+//		ObjectMapper pdVOMapper = new ObjectMapper();
+		
+//		String pdVOListJson= pdVOMapper.writeValueAsString(pdVOList);
+		//log.debug("체킁:{}",pdVOMapper.writeValueAsString(pdVOList));
+		
+		
+		model.addAttribute("pdVOList", pdVOList);
+//		model.addAttribute("pdVOListJson", pdVOListJson);
+		
+		pdTotalList.add(pdVOList);
+		
+		/////////////////////////////////////////////////////////////
+		// 기본급 / 초과근무수당 - 연장, 야간, 휴일별 금액 각각 산출
+		SalaryCertVO exPay = salaryService.selectOverTimePay(newScVo); 
+		log.info("exPay :" + exPay);
+		
+		if(exPay != null) {
+		exPay.setEmpNo(empNo);
+		exPay.setEmpNm(empNm);
+		int overtimePay = exPay.getOvertimePay();
+		int nightimePay = exPay.getNightimePay();
+		int hdtimePay = exPay.getHdtimePay();
+		
+		log.info("overtimePay : " + overtimePay);
+		log.info("nightimePay : " + nightimePay);
+		log.info("hdtimePay : " + hdtimePay);
+		
+		exPayList.add(exPay);
+		}
+		log.info("exPayList : " + exPayList);
+		//
+		}//for끝
+		
+		model.addAttribute("ptNm", ptNm);
+		model.addAttribute("pdTotalList", pdTotalList);
+		model.addAttribute("exPayList", exPayList);
+		
+		return "salary/wageDed";
+	}
+	
+	//정산 결과 페이지 화면
+	@GetMapping("/wageRes")
+	public String wageRes(HttpSession session, Model model) {
+		
+		SalaryCertVO vo = (SalaryCertVO)session.getAttribute("SCVO");
+		int ptNo = vo.getPtNo();
+		
+		PayTplVO payTplVO = payTplService.selectTpl(ptNo);
+		String ptNm = payTplVO.getPtNm();
+		
+		model.addAttribute("ptNm", ptNm);
+		
+		return "salary/wageRes";
+	}
+	
+	
+
+	
+}
+
+//log.info("pdTotalList : " + pdTotalList);
+
+
+//int sumPdAmt1 = 0;//기본급
+//int sumPdAmt2 = 0;//초과근무수당
+//int sumPdAmt3 = 0;//자녀보육수당
+//int sumPdAmt4 = 0;//차량유지비
+//int sumPdAmt5 = 0;//과세금액
+//int sumPdAmt6 = 0;//식비
+//int sumPdAmt7 = 0;//연구활동비
+
+//for (List<PayDedVO> list : paySummaryList) {			
+//	 for (PayDedVO payDedVO : list) {
+//		if((payDedVO.getPdNm()).equals("기본급")) {
+//			sumPdAmt1 += payDedVO.getPdAmt(); 
+//		}
+//		if(payDedVO.getPdNm() == "초과근무수당") {
+//			sumPdAmt2 += payDedVO.getPdAmt(); 
+//		}
+//		if(payDedVO.getPdNm() == "자녀보육수당") {
+//			sumPdAmt3 += payDedVO.getPdAmt(); 
+//		}
+//		if(payDedVO.getPdNm() == "차량유지비2") {
+//			sumPdAmt4 += payDedVO.getPdAmt(); 
+//		}
+//		if(payDedVO.getPdNm() == "과세금액") {
+//			sumPdAmt5 += payDedVO.getPdAmt(); 
+//		}
+//		if(payDedVO.getPdNm() == "식비") {
+//			sumPdAmt6 += payDedVO.getPdAmt(); 
+//		}
+//		if(payDedVO.getPdNm() == "연구활동비") {
+//			sumPdAmt7 += payDedVO.getPdAmt(); 
+//		}
+//	 }
+//} 
+
+//log.info("sumPdAmt1" + sumPdAmt1);
+
+//List<PayDedVO> firstList = paySummaryList.get(0);
+
+//int sumPdAmt = 0;
+//for (PayDedVO payDedVO : firstList) {
+//	if(payDedVO.getPdNm() == "기본급") {
+//		sumPdAmt += payDedVO.getPdAmt(); 
+//	}
+//}
+//
+//log.debug("체킁:",sumPdAmt);
+
+//정산대상자 수 뽑기
+//int empCnt = salaryService.selectEmpCnt(scVo);

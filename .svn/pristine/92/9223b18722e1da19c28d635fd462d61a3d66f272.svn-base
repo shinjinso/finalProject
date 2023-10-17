@@ -1,0 +1,16 @@
+package kr.or.ddit.vacation.service;
+
+import java.util.List;
+import java.util.Map;
+
+import kr.or.ddit.vacation.vo.VacApplyVO;
+
+public interface AdminVacationListService {
+
+	//휴가 내역 조회
+		public List<VacApplyVO> vacationSelectList(Map<String, Object> map);
+
+		List<VacApplyVO> vacationSelectList();
+
+
+}

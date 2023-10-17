@@ -1,0 +1,20 @@
+package kr.or.ddit.payment.vo;
+
+import java.util.Date;
+
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
+@Getter
+@Setter
+@ToString
+public class ApboxVO {
+	private int snNo;
+	private String dftNo;
+	private String apPers;
+	private Date apDate;
+	private String rejRsn;
+	private String arbSt;
+	private String finAuthSt;
+}

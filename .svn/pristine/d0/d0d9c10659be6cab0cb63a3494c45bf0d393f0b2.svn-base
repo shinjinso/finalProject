@@ -1,0 +1,28 @@
+package kr.or.ddit.common.controller;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+@Controller
+@RequestMapping("/common")
+public class CommonController {
+
+	/**
+	 * 로그인 화면으로 가기
+	 * @return
+	 */
+	@GetMapping("/login")
+	public String login() {
+		return "/common/login";
+	}
+	
+	/**
+	 * 홈피드 화면으로 가기
+	 * @return
+	 */
+	@GetMapping("/home")
+	public String home() {
+		return "common/home";
+	}
+}

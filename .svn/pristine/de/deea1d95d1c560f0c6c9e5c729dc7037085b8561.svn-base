@@ -1,0 +1,28 @@
+package kr.or.ddit.salary.vo;
+
+
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
+@Getter
+@Setter
+@ToString
+public class SalaryCertVO { 	//급여명세서
+	
+	private int scNo; 		//급여명세서번호 (PK)
+	private String empNo; 		//급여정산대상자(사원번호, FK)
+	private int ptNo; 			//급여템플릿번호 (FK)
+	private String scIsdate; 	//급여명세서발급일자 (Date)
+	private int prYr; 			//급여정산귀속연도
+	private int prMth; 			//급여정산귀속월
+	private int pytlAmt; 		//지급총액
+	private int ddtlAmt; 		//공제총액
+	private int netAmt; 		//실지급액
+	private String prFdate; 	//정산완료일자 (Date)
+	private String finYn; 		//정산여부코드
+	private String prPdate; 	//급여지급일자 (Date)
+	private String prStlNm;		//급여정산명
+	
+	private String prYM; //급여정산 귀속년월
+}

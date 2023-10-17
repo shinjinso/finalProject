@@ -1,0 +1,20 @@
+package kr.or.ddit.vo;
+
+import java.util.Date;
+
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
+@Getter
+@Setter
+@ToString
+public class BkApply {	
+	private int bkNo;
+	private String empNo;
+	private String bkCode;
+	private Date bkSdate;
+	private Date bkEdate;
+	private String bkRsn;
+	private String bkApstCode;
+}

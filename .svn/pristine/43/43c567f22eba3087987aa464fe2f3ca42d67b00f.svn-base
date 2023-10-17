@@ -1,0 +1,92 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>사원 추가</title>
+<style type="text/css">
+    #header2 {
+        display: flex;
+        align-items: center; /* 수직 정렬 중앙 정렬 */
+        height: 60%; /* 부모 높이에 맞게 설정 */
+    }
+    #header2>div {
+        display: flex;
+        align-items: center; /* 수직 정렬 중앙 정렬 */
+        height: 100%; /* 부모 높이에 맞게 설정 */
+    }
+    #body1 {
+    	align-items: center;
+    	padding-left : 15%;
+    	padding-right : 15%;
+    }
+
+    button.btn-primary {
+        margin-left: auto;
+        margin-right: 20px;
+    }
+    
+</style>
+
+</head>
+<body>
+사원추가 내용 넣을꺼임
+
+<div id="header1">
+	<div id="header2">
+		<button type="button" class="btn mb-2 btn-outline-secondary">나가기<span class="fe fe-24 fe-bell"></span></button>
+		<button type="button" class="btn mb-2 btn-primary"><span class="fe fe-24 fe-send"></span>입력완료</button>
+	</div>
+</div>
+<div id="body">
+
+	<div id="body1">
+	<div class="accordion w-100" id="accordion1">
+      <div class="card shadow">
+        <div class="card-header" id="heading1">
+          <a role="button" href="#collapse1" data-toggle="collapse" data-target="#collapse1" aria-expanded="false" aria-controls="collapse1" class="collapsed">
+            <strong>기본정보입력</strong>
+          </a>
+        </div>
+        <div id="collapse1" class="collapse" aria-labelledby="heading1" data-parent="#accordion1" style="">
+          <div class="card-body"> Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. </div>
+        </div>
+      </div>
+      <div class="card shadow">
+        <div class="card-header" id="heading1">
+          <a role="button" href="#collapse2" data-toggle="collapse" data-target="#collapse2" aria-expanded="false" aria-controls="collapse2">
+            <strong>인사정보입력</strong>
+          </a>
+        </div>
+        <div id="collapse2" class="collapse" aria-labelledby="heading2" data-parent="#accordion1">
+          <div class="card-body"> Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. </div>
+        </div>
+      </div>
+      <div class="card shadow">
+        <div class="card-header" id="heading1">
+          <a role="button" href="#collapse3" data-toggle="collapse" data-target="#collapse3" aria-expanded="false" aria-controls="collapse3">
+            <strong>근로계약 정보입력</strong>
+          </a>
+        </div>
+        <div id="collapse3" class="collapse" aria-labelledby="heading3" data-parent="#accordion1">
+          <div class="card-body"> Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. </div>
+        </div>
+      <div class="card shadow">
+        <div class="card-header" id="heading1">
+          <a role="button" href="#collapse3" data-toggle="collapse" data-target="#collapse3" aria-expanded="false" aria-controls="collapse3">
+            <strong>임금계약 정보입력</strong>
+          </a>
+        </div>
+        <div id="collapse3" class="collapse" aria-labelledby="heading3" data-parent="#accordion1">
+          <div class="card-body"> Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. </div>
+        </div>
+      </div>
+    </div>
+	</div>
+
+</div>
+
+</body>
+</html>

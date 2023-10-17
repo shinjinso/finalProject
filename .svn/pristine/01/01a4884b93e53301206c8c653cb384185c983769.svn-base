@@ -1,0 +1,36 @@
+package kr.or.ddit.salary.service.Impl;
+
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import kr.or.ddit.salary.mapper.PayTplMapper;
+import kr.or.ddit.salary.service.PayTplService;
+import kr.or.ddit.salary.vo.PayTplVO;
+
+@Service
+public class PayTplServiceImpl implements PayTplService {
+	
+	//DI, IoC
+	@Autowired
+	private PayTplMapper payTplMapper;
+
+	//한 건 검색
+	@Override
+	public PayTplVO selectTpl(int ptNo) {
+		return this.payTplMapper.selectTpl(ptNo);
+	}
+	
+	//템플릿 추가
+	@Override
+	public int insertTpl(PayTplVO payTplVO) {
+		return payTplMapper.insertTpl(payTplVO);
+	}
+
+	//템플릿 변경
+	@Override
+	public int updateTpl(PayTplVO payTplVO) {
+		return payTplMapper.updateTpl(payTplVO);
+	}
+	
+}

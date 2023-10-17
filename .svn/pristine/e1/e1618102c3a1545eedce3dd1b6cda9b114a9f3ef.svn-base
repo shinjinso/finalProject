@@ -1,0 +1,40 @@
+package kr.or.ddit.common.service.impl;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import kr.or.ddit.common.mapper.EmpMapper;
+import kr.or.ddit.common.service.CommonService;
+import kr.or.ddit.common.vo.EmpVO;
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
+@Service
+public class CommonServiceImpl implements CommonService{
+
+	@Autowired
+	EmpMapper empMapper;
+	
+	@Override
+	public List<EmpVO> suchEmp(String keyword) {
+		log.info("keyword : " + keyword);
+		
+		List<EmpVO> list = empMapper.suchEmp(keyword);
+		log.info("list : " + list);
+		
+		return list;
+	}
+
+	@Override
+	public EmpVO SelectEmp(String EmpNo) {
+		log.info("EmpNo : " + EmpNo);
+		
+		EmpVO Vo = empMapper.SelectEmp(EmpNo);
+		log.info("Vo : " + Vo);
+		
+		return Vo;
+	}
+
+}

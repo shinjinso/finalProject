@@ -1,0 +1,259 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>설정</title>
+<style>
+	div{
+/*    		border:1px solid blue;     */
+	}
+	#header {
+		height:15vh;
+	}
+	#cont {
+		height:70vh;
+		padding-left: 60px;
+	}
+	.row1 {
+		margin: 3px;
+		display: inline-block;
+		width:21vw;
+		height:30vh;
+	}
+	.row2 {
+		margin: 3px;
+		display: inline-block;
+		width:21vw;
+		height:30vh;
+	}
+	.jstree-contextmenu {
+	    z-index: 1060; /* 모달의 z-index보다 큰 값으로 설정 */
+	}
+	
+</style>
+
+</head>
+<script>
+
+$(function(){
+	
+	
+	$(document).on("click","#openModal1",function(){
+		//jstree결과값 받기
+		$.ajax({
+	        type:'get',
+	        url:'/approval/organizationChart',
+	        dataType:'json',
+	        success: function(data) {
+				console.log("체킁 : ",data);
+	        	let listOne = data.one;
+	        	
+	            var company = new Array();
+	            
+	            company.push({ id: "root", parent: "#", text: "조직도" });
+	            // 데이터 받아옴
+	            $.each(listOne, function(idx, item){
+	            	if(item.uprDcode==0){
+	            		item.uprDcode = "root";
+	            	}
+					company.push({id:item.dcode+"", parent:item.uprDcode+"", text:item.dnm});
+	            });
+	           	console.log("최종",company);
+				// 트리 생성
+	            $('#compTree').jstree({
+	                core: {
+	                	data: company,    //데이터 연결
+	                	"check_callback": true
+	                    },
+	                    types: {
+	                           'default': {
+	                                'icon': 'jstree-folder'
+	                            }
+	                           
+	                    },
+	                    plugins: ['wholerow', 'types','search','dnd','contextmenu'],
+	                    'contextmenu' : {
+	                		"items" : {
+	                			"test" : { //사실상 "test"라는 이름은 변수에 가깝기 때문에 뭐든 상관없다 생각한다.
+	                        		"separator_before" : false,
+	                				"separator_after" : true,
+	                				"label" : "추가하기",
+	                				"action" : function(){
+		                					var ref = $('#compTree').jstree(true),
+	                						sel = ref.get_selected();
+	                						    
+	                					if (!sel.length) {
+	                						return false;
+	                					}
+	                						    
+	                					sel = sel[0];
+	                					console.log("선택된노드:",sel);
+	                						    
+	                					// 선택한 노드의 id 값을 가져옴
+	                			        var selectedNodeId = sel;
+	                					var children = ref.get_node(sel).children;
+	                					var lastChild = children[children.length - 1];
+	                					var nextId = parseInt(lastChild) + 1;
+	                					
+	                			        console.log("자식자식자식::",nextId);
+	                			        // 새로운 폴더 노드를 생성하고 선택한 노드의 하위로 추가
+	                			        var newNode = {
+	                			        	"id": nextId,
+	                			            "text": "새 조직", // 원하는 폴더 이름으로 수정
+	                			            "parent": selectedNodeId,
+	                			            "type": "default" // 적절한 유형으로 수정
+	                			        };
+	                			        
+	                			        console.log(newNode);
+	                			        
+	                			        // 새로운 노드를 생성
+	                			        var newFolderNode = ref.create_node(sel, newNode);
+										
+	                			        console.log("newFolderNode:::",newFolderNode);
+	                			        
+	                			        // 새로 생성된 노드를 편집 모드로 변경
+		                			    ref.edit(newFolderNode);
+	                				}
+	                			},
+	                			"test1" : {
+	                				"separator_before" : false,
+	                				"separator_after" : true,
+	                				"label" : "이름 변경",
+	                				"action" : function(obj){alert('메뉴테스트2')}
+	                			},
+	                			"test2" : {
+	                				"separator_before" : false,
+	                				"separator_after" : true,
+	                				"label" : "삭제하기",
+	                				"action" : function(obj){alert('메뉴테스트3')}
+	                			}
+	                		}
+	                	}  
+	             })
+	             .on('loaded.jstree', function(event, data){
+	                 //트리 로딩 완료 이벤트
+	                 $("#save").on("click",function() {
+	                	 $('#compTree').jstree("destroy");//트리 초기화
+	                	 
+	                	 
+	                 });
+	                    
+	                    
+	             })
+	             .on('select_node.jstree', function(event, data){
+	            	 console.log("선택한노드:", data.node);
+	            	 if(data.node.original.id != null){
+	            		 
+// 						 $.ajax({
+// 							 url : "/approval/selectEmp?keyword=" + data.node.original.id,
+// 							 dataType : "json",
+// 							 type : "get",
+// 							 success : function(result){
+// 							 }
+// 	            		 });
+
+	            	 };
+	             });
+	        },
+	        error: function (xhr, status, error) {
+				console.log("code: " + xhr.status);
+				console.log("message: " + xhr.responseText);
+				console.log("error: " + error);
+			},
+	   });
+		
+	});
+
+}); //$function 끝
+
+//jsTree 열고/닫기
+let openTemp = false;
+$("#open").on("click",function(){
+	
+	if(openTemp == false){
+		$("#compTree").jstree("open_all");
+	}else{
+		$("#compTree").jstree("close_all");
+	}
+	openTemp = !openTemp;
+});
+
+
+</script>
+
+<body>
+	
+	<!-- 조직도 설정 모달 -->
+	<div class="modal fade modal-right1 modal-slide" id="rightModal1" tabindex="-1"
+		role="dialog" aria-labelledby="defaultModalLabel"
+		style="display: none;" aria-hidden="true">
+		<div class="modal-dialog modal-lg" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h4>조직도 설정</h4>
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">×</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<h7>마우스 우클릭 버튼으로 설정해 주세요.</h7><br><br>
+					 <button type="button" id="open" class="btn mb-2 btn-outline-link"><span class="fe fe-24 fe-book-open"></span></button>
+				     <div id="compTree"></div>    
+				     <input type="text" id="schText" value="">
+				     <button class="btn mb-2 btn-secondary"  onclick="fSch()">찾아볼까낭</button> <!--검색기능-->
+				</div>
+				<div class="modal-footer">
+					<button class="btn mb-2 btn-primary" type="button" id="save">저장</button>
+					<button type="button" class="btn mb-2 btn-secondary"
+						data-dismiss="modal">닫기</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	
+	<div id="myWrap">
+		<div id="header" style="margin-left: 15px;">
+			<h2>설정</h2>
+			<br><hr><br>
+		</div>
+		<div id="cont">
+			<div class="row1">
+				<h5>회사 정보 설정</h5>
+				<a href="/setting/companyinfo">회사 정보 설정</a><br>
+				<a href="/setting/companyseal">회사 직인 설정</a><br>
+				<a href="/setting/companyholiday">회사 휴일 설정</a><br><br><br>
+			</div>
+			<div class="row1">
+				<h5>인사 정보 설정</h5>
+				<div data-toggle="modal" data-target=".modal-right1" id="openModal1"><a href="#">조직도 설정</a></div>
+				<div data-toggle="modal" data-target=".modal-right2"><a href="#">직위 설정</a></div>
+				<a href="#">직책 설정</a><br>
+				<a href="#">직무 설정</a><br>
+				<a href="#">직급 설정</a><br>
+			</div>
+			<div class="row1">
+				<h5>근무 설정</h5>
+				<a href="#">근무 설정</a><br><br><br><br><br>
+			</div>
+			<div class="row2">
+				<h5>휴가 설정</h5>
+				<a href="#">휴가 설정</a><br><br><br><br><br>
+			</div>
+			<div class="row2">
+				<h5>급여정산 설정</h5>
+				<a href="#">급여 설정</a><br><br><br><br><br>
+			</div>
+			<div class="row2">
+				<h5>계정 설정</h5>
+				<a href="#">권한 설정</a><br>
+				<a href="#">로그인 이력 확인</a><br><br><br><br>
+			</div>
+		</div>
+	</div>
+	
+</body>
+</html>

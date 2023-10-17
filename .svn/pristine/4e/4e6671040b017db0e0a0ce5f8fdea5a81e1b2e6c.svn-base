@@ -1,0 +1,11 @@
+package kr.or.ddit.setting.mapper;
+
+import java.util.List;
+
+import kr.or.ddit.common.vo.FileInfoVO;
+
+public interface CompVacMapper {
+
+	List<FileInfoVO> selectFileList();
+
+}

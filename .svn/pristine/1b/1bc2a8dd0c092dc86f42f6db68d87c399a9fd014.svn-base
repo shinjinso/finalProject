@@ -1,0 +1,58 @@
+package kr.or.ddit.personnel.service;
+
+import java.util.List;
+import java.util.Map;
+
+import kr.or.ddit.common.vo.CnthxVO;
+import kr.or.ddit.common.vo.DeptVO;
+import kr.or.ddit.common.vo.EmpVO;
+import kr.or.ddit.vo.AsgmtVO;
+
+public interface MemberService {
+	//메소드 시그니처
+	
+	//회원정보 가져오기
+	public EmpVO read(EmpVO empNo);
+	
+	//전체 회원 정보 가져오기(병철이)
+	public List<EmpVO> memberList();
+	
+	//전체 회원 정보 가져오기(우재)
+	public List<EmpVO> empList();
+
+	//인사발령 업데이트
+	public int therr(DeptVO deptVO, EmpVO empVO, AsgmtVO asgmtVO);
+
+	//부서정보 가져오기 (본부정보)
+	public List<DeptVO> Acenter();
+
+	//부서정보 가져오기 (부서정보)
+	public List<DeptVO> Adept(String Anum);
+
+	//부서정보 가져오기 (팀정보)
+	public List<DeptVO> Ateam(String Anum2);
+
+	//인사발령 대기상태 인설
+	public int asgmtInsert(List<Map<String, String>> rowData, DeptVO deptVO, EmpVO empVO, AsgmtVO asgmtVO);
+
+	//인사발령 목록 리스트
+	public List<AsgmtVO> asgmtlist();
+
+	
+	//사원 추가하기
+	public int insertEMP(EmpVO empVO,CnthxVO cnthxVO);
+
+	//발령 상세보기
+	public List<AsgmtVO> asgmtDetail(AsgmtVO asgmtVO);
+
+	//현재 본부 부서 등 현재정보
+	public EmpVO nowdetail(String number);
+
+	//발령 취소 업데이트
+	public int cancelupdate(List<Map<String, String>> empNoList);
+
+	//인사발령 업데이트
+	public int sUpdate(List<Map<String, String>> empNoList);
+	
+	
+}

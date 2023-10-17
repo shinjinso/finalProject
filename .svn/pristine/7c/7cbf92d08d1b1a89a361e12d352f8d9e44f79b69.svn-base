@@ -1,0 +1,27 @@
+package kr.or.ddit.vo;
+
+import java.util.Date;
+
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
+@Getter
+@Setter
+@ToString
+public class NoticeVO {
+	// 글번호
+	private int postNo;
+	// 관리자 (사원번호)
+	private String wriNo;
+	// 글분류
+	private String postClf;
+	// 글제목
+	private String postTitle;
+	// 글내용
+	private String postCont;
+	// 작성일자
+	private Date wriDate;
+	// 첨부파일번호
+	private String fileNo;
+}

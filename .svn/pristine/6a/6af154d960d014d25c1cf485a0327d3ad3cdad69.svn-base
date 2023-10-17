@@ -1,0 +1,28 @@
+package kr.or.ddit.vacation.controller;
+
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+@RequestMapping("/vct")
+@Controller
+public class VacationController {
+	
+	@GetMapping("/main")
+	public String Main(){
+		return "vacation/vacMain";
+	}
+
+	@GetMapping("/Annual")
+	public String annual(){
+		return "vacation/vacAnnual";
+	}
+	@GetMapping("/bkApply")
+	public String BkApply(){
+		return "vacation/bkApply";
+	}
+}
+
+
+

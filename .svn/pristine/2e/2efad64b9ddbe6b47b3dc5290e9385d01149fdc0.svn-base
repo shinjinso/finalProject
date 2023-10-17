@@ -1,0 +1,75 @@
+package kr.or.ddit.setting.controller;
+
+import java.security.Principal;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+import kr.or.ddit.common.vo.FileInfoVO;
+import kr.or.ddit.setting.service.CompHoliService;
+import kr.or.ddit.setting.service.CompanyInfoService;
+import kr.or.ddit.setting.vo.CompanyHoliVO;
+import kr.or.ddit.setting.vo.CompanyInfoVO;
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
+@RequestMapping("/setting")
+@Controller
+public class SetController {
+	
+	@Autowired
+	CompanyInfoService companyInfoSVC;
+	
+	@Autowired
+	CompHoliService compHoliSVC;
+
+	@GetMapping("/test")
+	public String test() {
+		return "setting/test";
+	}
+	
+	@GetMapping("/setmain")
+	public String setMain() {
+		return "setting/setmain";
+	}
+	
+	@GetMapping(value="/companyinfo", produces = "application/json;charset=utf-8")
+	public String companyInfo(Principal principal,Model model) {
+		CompanyInfoVO companyInfoVO = companyInfoSVC.selectData();
+		log.debug("companyInfoVO는? : " + companyInfoVO);
+		
+		String EmpNo = principal.getName();
+		List<FileInfoVO> myFileList = companyInfoSVC.fileSelect(EmpNo);
+		companyInfoVO.setFileList(myFileList);
+		model.addAttribute("companyInfoVO", companyInfoVO);
+		
+		
+		return "setting/companyinfo";
+	}
+	
+	@GetMapping("/companyseal")
+	public String companySeal() {
+		return "setting/companyseal";
+	}
+	
+	@GetMapping("/companyholiday")
+	public String companyHoliday(Model model) {
+		List<CompanyHoliVO> list = compHoliSVC.compHoliSelect();
+		log.debug("compHoliVO는? : " + list);
+		
+		model.addAttribute("companyHoliVO", list);
+		
+		return "setting/companyholiday";
+	}
+	
+	@GetMapping("/compTree")
+	public String compTree() {
+		return "setting/compTree";
+	}
+	
+	
+}

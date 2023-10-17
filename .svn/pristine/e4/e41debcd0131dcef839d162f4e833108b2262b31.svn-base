@@ -1,0 +1,138 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>회사 휴일 설정</title>
+<style>
+div {
+   	border: 1px solid blue;
+	
+}
+
+#header {
+	height: 15vh;
+}
+#example-select {
+	display: inline-block;
+	width: 150px;
+}
+#holidayInsert {
+	float: right;
+	width: 150px;
+}
+
+#plus {
+	display: inline-block;
+}
+#hol {
+	display: inline-block;
+	vertical-align: top;
+	margin-top: 3px;
+}
+.card-body {
+	display: flex; 
+  	align-items: center;
+	border-bottom: 1px solid rgb(222, 222, 222);
+}
+.icon {
+	display: flex; 
+  	align-items: center;
+}
+.form-group.mb-3 {
+	display: flex; 
+  	align-items: center;
+  	width: 100vw;
+}
+.holidayType {
+	margin-left: auto;
+}
+.holidayCol {
+	margin-left: 20px;
+}
+.lzy.lazyload--done {
+	width : 50px;
+	height : 50px;
+}
+.lazyload.lazyload--done {
+	width : 50px;
+	height : 50px;
+}
+</style>
+</head>
+<body>
+<div class="modal fade modal-right modal-slide" tabindex="-1" role="dialog" aria-labelledby="defaultModalLabel" style="display: none;" aria-hidden="true">
+   <div class="modal-dialog modal-sm" role="document">
+     <div class="modal-content">
+       <div class="modal-header">
+         <h5 class="modal-title" id="defaultModalLabel">Modal title</h5>
+         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+           <span aria-hidden="true">×</span>
+         </button>
+       </div>
+       <div class="modal-body">
+       </div>
+       <div class="modal-footer">
+         <button type="button" class="btn mb-2 btn-secondary" data-dismiss="modal">Close</button>
+         <button type="button" class="btn mb-2 btn-primary">Save changes</button>
+       </div>
+     </div>
+   </div>
+</div>
+	<div id="myWrap">
+		<div id="header" style="margin-left: 15px;">
+			<h2>회사 휴일 설정</h2>
+			<br>
+			<hr>
+			<br>
+		</div>
+		<div class="card shadow mb-4">
+			<div class="card-header">
+				<select class="form-control" id="example-select">
+					<option>2024년</option>
+					<option selected="2023">2023년</option>
+					<option>2022년</option>
+				</select>
+				<button type="button" class="form-control" id="holidayInsert" data-toggle="modal" data-target=".modal-right">
+					<div id="plus"><span class="fe fe-24 fe-plus"></span></div>
+					<div id="hol">쉬는 날 추가</div>
+				</button>
+			</div>
+			<div class="card-body">
+				<div class="form-group mb-3">
+					<div class="icon"><img src="https://cdn-icons-png.flaticon.com/128/7776/7776312.png" data-src="https://cdn-icons-png.flaticon.com/128/7776/7776312.png" alt="일출-알트 " title="일출-알트 " width="64" height="64" class="lzy lazyload--done" srcset="https://cdn-icons-png.flaticon.com/128/7776/7776312.png 4x"></div>
+					<div class="holidayCol"><b>1월 1일</b><br>1월 1일</div>
+					<div class="holidayType">
+						<button type="button" class="btn mb-2 btn-danger">필수</button>
+						<button type="button" class="btn mb-2 btn-info">매년</button>
+						<button type="button" class="btn mb-2 btn-outline-danger"><span class="fe fe-24 fe-trash-2"></span></button>
+					</div>
+				</div>
+			</div>
+			<div class="card-body">
+				<div class="form-group mb-3">
+					<div class="icon"><img src="https://cdn-icons-png.flaticon.com/128/6458/6458103.png" data-src="https://cdn-icons-png.flaticon.com/128/6458/6458103.png" alt="복주머니 " title="복주머니 " width="64" height="64" class="lzy lazyload--done" srcset="https://cdn-icons-png.flaticon.com/128/6458/6458103.png 4x"></div>
+					<div class="holidayCol"><b>설날</b><br>1월 21일 - 1월 23일 (음력 12월 30일 - 1월 2일)</div>
+					<div class="holidayType">
+						<button type="button" class="btn mb-2 btn-danger">필수</button>
+						<button type="button" class="btn mb-2 btn-info">매년</button>
+						<button type="button" class="btn mb-2 btn-outline-danger"><span class="fe fe-24 fe-trash-2"></span></button>
+					</div>
+				</div>
+			</div>
+			<div class="card-body">
+				<div class="form-group mb-3">
+					<div class="icon"><img class="lazyload lazyload--done" alt="550453855" src="https://t3.ftcdn.net/jpg/05/50/45/38/240_F_550453855_sdAUSiRIZ0wmci32qjynKthUKs2pqR5n.jpg"></div>
+					<div class="holidayCol"><b>3.1 절</b><br>3월 1일</div>
+					<div class="holidayType">
+						<button type="button" class="btn mb-2 btn-danger">필수</button>
+						<button type="button" class="btn mb-2 btn-info">매년</button>
+						<button type="button" class="btn mb-2 btn-outline-danger"><span class="fe fe-24 fe-trash-2"></span></button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

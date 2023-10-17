@@ -1,0 +1,51 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>근무 설정</title>
+</head>
+<body>
+	<div id="myWrap">
+		<div id="header" style="margin-left: 15px;">
+			<h2>근무 설정</h2>
+			<br>
+			<hr>
+			<br>
+		</div>
+		<div class="card shadow mb-4">
+			<div class="card-body">
+				<div id="workHeadDiv">
+					<h5 id="workTypeHead">근무 종류</h5>
+					<button type="button" class="form-control" id="workInsertBtn" data-toggle="modal"
+						data-target=".modal-right">
+						<div id="plus">
+							<span class="fe fe-24 fe-plus"></span>
+						</div>
+						<div class="workInsert">근무 추가</div>
+					</button>
+				</div>
+				<br>
+				<!-- this를 쓰거나, divline2.eq(0) 를써서 데이터를 넘긴다 -->
+				<c:forEach var="vacTypeVO" items="${vacTypeList}" varStatus="status">
+					<div class="card-body divline2 edit-vacation" data-vacation-id="${vacTypeVO.vacTypeNo}" <c:if test="${vacTypeVO.vacTypeName eq '반차'}">style="display: none;"</c:if> <c:if test="${vacTypeVO.vacTypeYn eq 'N'}">style="display: none;"</c:if>>
+						<img src="${vacTypeVO.imgRoot}" class="divVacImg" id="imgNo${vacTypeVO.vacTypeNo}" >
+						<div class="dropdown">
+	                        <button class="btn btn-sm dropdown-toggle more-vertical" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+	                            <span class="text-muted sr-only">Action</span>
+	                        </button>
+	                        <div class="dropdown-menu dropdown-menu-right" style="">
+	                            <div data-toggle="modal" data-target=".modal-right1" class="openModal" id="openModal1"><a class="dropdown-item" href="#">수정하기</a></div>
+	                            <a class="dropdown-item" id="delNo${vacTypeVO.vacTypeNo}" href="#" onclick="fDel(this)">삭제하기</a>
+	                        </div>
+	                    </div>
+						<br><br><br>
+						<p class="vacTypeNm">${vacTypeVO.vacTypeName}</p>
+					</div>
+				</c:forEach>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

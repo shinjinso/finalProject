@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.ddit.vacation.mapper.AdminVacationListMapper">
+
+
+<select id="vacationSelectList" resultType="VacApplyVO">
+		SELECT VAAP_CODE, VAAP_EMP, 
+	       TO_CHAR(VAAP_DATE, 'yyyy-MM-dd') VAAP_DATE , VAAP_DAYS, (select CM_NM from CMCODE where CM_CODE= VAAP_APST_CODE) VAAP_APST_CODE,
+	       TO_CHAR(VAAP_START, 'yyyy-MM-dd') VAAP_START, TO_CHAR(VAAP_END, 'yyyy-MM-dd') VAAP_END, VAAP_TYPE, EMP_NO, 
+	       VAC_TYPE_NAME, VAC_TYPE_USE_DATE
+		FROM vac_APPLY
+</select>
+
+
+</mapper>
+
+

@@ -1,0 +1,24 @@
+package kr.or.ddit.vo;
+
+import java.util.Date;
+
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
+@Getter
+@Setter
+@ToString
+public class EmpStatsVO {
+	private int empStatsNo;
+	private Date empStatsDate;
+	private int empPer;
+	private int empMper;
+	private int empFper;
+	private int empAvrgAge;
+	private int empEcnyAge;
+	private int empAvrgSalary;
+	private int avrgWorkHr;
+	private int avrgAttendTime;
+	private int avrgLvffcTime;
+}

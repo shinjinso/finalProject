@@ -1,0 +1,341 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+  	div {  
+  		border : 1px solid blue;  
+  	}  
+	/* 링크 스타일 */
+	a {
+		text-decoration: none; /* 밑줄 제거 */
+		color: #333; /* 일반 텍스트 색상 */
+		margin-right: 20px; /* 각 링크 사이의 간격 조절 */
+	}
+	
+	/* 활성 링크 스타일 */
+	a:hover {
+		color: #007bff; /* 호버 시 텍스트 색상 변경 */
+	}
+	.col-md-3 {
+		margin-left : 10px;
+		margint-right : 10px;
+	}
+	.card-body {
+		height : 150px;
+	}
+</style>
+<meta charset="UTF-8">
+<title>지급 항목</title>
+<script>
+
+	function addPay() {
+		location.href = "/salary/payInsert?ptNo=${param.ptNo}";
+	}//addPay()끝
+	
+</script>
+</head>
+<body>
+
+	<h5>
+		<a href="/salary/home"><span class="fe fe-24 fe-chevron-left"></span></a>&nbsp
+		<a href="/salary/home">정산템플릿 설정</a>
+	</h5>
+	<hr>
+	<h5>
+		<a href="/salary/tmpUpdate?ptNo=${param.ptNo}">기본 설정</a>&nbsp;&nbsp; 
+		<a href="/salary/payList?ptNo=${param.ptNo}">지급 항목</a>&nbsp;&nbsp; 
+		<a href="/salary/dedList?ptNo=${param.ptNo}">공제 항목</a>
+	</h5>
+	<hr>
+	
+	<button type="button" class="btn mb-2 btn-outline-primary" style="float:right;margin-bottom:60px;" onclick="addPay()"> + 지급항목 추가</button>
+	<br><br>
+	
+	<div style="position: relative;">
+    	<div class="mb-4" style="width:7%">법정필수 항목</div>
+    	<hr class="secondary" style="position: absolute; top: 50%; right: 0; width: 93%; margin-top: 0;">
+	</div>
+	
+	<!-- 토글키 새로 추가할때마다 id 다르게 부여해야 함!! -->
+	<div class="row">
+                <div class="col-md-3">
+                  <div class="card shadow mb-4">
+                    <div class="card-body text-center">
+                      <div class="card-text my-2 ml-1 mr-1 row justify-content-between">
+                        <div>
+                        	<strong class="card-title my-0">기본급 </strong>
+                        </div>
+                        <div class="custom-control custom-switch">
+					      <input type="checkbox" class="custom-control-input" id="c1" checked="">
+					      <label class="custom-control-label" for="c1"></label>
+				    	</div>
+                      </div>
+                      <br><br>
+                      <div class="text-left">
+                      	<span class="badge badge-pill badge-danger bg-danger-dark">법정필수</span>
+                   	  </div>
+                    </div> <!-- ./card-text -->
+                  </div>
+                </div> <!-- .col -->
+                
+                <div class="col-md-3">
+                  <div class="card shadow mb-4">
+                    <div class="card-body text-center">
+                      <div class="card-text my-2 ml-1 mr-1 row justify-content-between">
+                        <strong class="card-title my-0">고정초과근무수당 </strong>
+                        <div class="custom-control custom-switch">
+					      <input type="checkbox" class="custom-control-input" id="c2" checked="">
+					      <label class="custom-control-label" for="c2"></label>
+				    	</div>
+                      </div>
+                      <br><br>
+                      <div class="text-left">
+                      	<span class="badge badge-pill badge-danger bg-danger-dark">법정필수</span>
+                   	  </div>
+                    </div> <!-- ./card-text -->
+                  </div>
+                </div> <!-- .col -->
+                
+                <div class="col-md-3">
+                  <div class="card shadow mb-4">
+                    <div class="card-body text-center">
+                      <div class="card-text my-2 ml-1 mr-1 row justify-content-between">
+                        <strong class="card-title my-0">초과근무수당 </strong>
+                        <div class="custom-control custom-switch">
+					      <input type="checkbox" class="custom-control-input" id="c3" checked="">
+					      <label class="custom-control-label" for="c3"></label>
+				    	</div>
+                      </div>
+                      <br><br>
+                      <div class="text-left">
+                      	<span class="badge badge-pill badge-danger bg-danger-dark">법정필수</span>
+                   	  </div>
+                    </div> <!-- ./card-text -->
+                  </div>
+                </div> <!-- .col -->
+                
+                <div class="col-md-3">
+                  <div class="card shadow mb-4">
+                    <div class="card-body text-center">
+                      <div class="card-text my-2 ml-1 mr-1 row justify-content-between">
+                        <strong class="card-title my-0">야간근무수당 </strong>
+                        <div class="custom-control custom-switch">
+					      <input type="checkbox" class="custom-control-input" id="c4" checked="">
+					      <label class="custom-control-label" for="c4"></label>
+				    	</div>
+                      </div>
+                      <br><br>
+                      <div class="text-left">
+                      	<span class="badge badge-pill badge-danger bg-danger-dark">법정필수</span>
+                   	  </div>
+                    </div> <!-- ./card-text -->
+                  </div>
+                </div> <!-- .col -->
+                
+               <div class="col-md-3">
+                  <div class="card shadow mb-4">
+                    <div class="card-body text-center">
+                      <div class="card-text my-2 ml-1 mr-1 row justify-content-between">
+                        <strong class="card-title my-0">휴일근무수당 </strong>
+                        <div class="custom-control custom-switch">
+					      <input type="checkbox" class="custom-control-input" id="c5" checked="">
+					      <label class="custom-control-label" for="c5"></label>
+				    	</div>
+                      </div>
+                      <br><br>
+                      <div class="text-left">
+                      	<span class="badge badge-pill badge-danger bg-danger-dark">법정필수</span>
+                   	  </div>
+                    </div> <!-- ./card-text -->
+                  </div>
+                </div> <!-- .col -->
+                
+                <div class="col-md-3">
+                  <div class="card shadow mb-4">
+                    <div class="card-body text-center">
+                      <div class="card-text my-2 ml-1 mr-1 row justify-content-between">
+                        <strong class="card-title my-0">주휴수당 </strong>
+                        <div class="custom-control custom-switch">
+					      <input type="checkbox" class="custom-control-input" id="c6" checked="">
+					      <label class="custom-control-label" for="c6"></label>
+				    	</div>
+                      </div>
+                      <br><br>
+                      <div class="text-left">
+                      	<span class="badge badge-pill badge-danger bg-danger-dark">법정필수</span>
+                   	  </div>
+                    </div> <!-- ./card-text -->
+                  </div>
+                </div> <!-- .col -->
+                
+                <div class="col-md-3">
+                  <div class="card shadow mb-4">
+                    <div class="card-body text-center">
+                      <div class="card-text my-2 ml-1 mr-1 row justify-content-between">
+                        <strong class="card-title my-0">미사용연차수당 </strong>
+                        <div class="custom-control custom-switch">
+					      <input type="checkbox" class="custom-control-input" id="c7" checked="">
+					      <label class="custom-control-label" for="c7"></label>
+				    	</div>
+                      </div>
+                      <br><br>
+                      <div class="text-left">
+                      	<span class="badge badge-pill badge-danger bg-danger-dark">법정필수</span>
+                   	  </div>
+                    </div> <!-- ./card-text -->
+                  </div>
+                </div> <!-- .col -->
+                
+                <div class="col-md-3">
+                  <div class="card shadow mb-4">
+                    <div class="card-body text-center">
+                      <div class="card-text my-2 ml-1 mr-1 row justify-content-between">
+                        <strong class="card-title my-0">보상휴가수당 </strong>
+                        <div class="custom-control custom-switch">
+					      <input type="checkbox" class="custom-control-input" id="c8" checked="">
+					      <label class="custom-control-label" for="c8"></label>
+				    	</div>
+                      </div>
+                      <br><br>
+                      <div class="text-left">
+                      	<span class="badge badge-pill badge-danger bg-danger-dark">법정필수</span>
+                   	  </div>
+                    </div> <!-- ./card-text -->
+                  </div>
+                </div> <!-- .col -->
+                
+                <div class="col-md-3">
+                  <div class="card shadow mb-4">
+                    <div class="card-body text-center">
+                      <div class="card-text my-2 ml-1 mr-1 row justify-content-between">
+                        <strong class="card-title my-0">출산전후휴가수당 </strong>
+                        <div class="custom-control custom-switch">
+					      <input type="checkbox" class="custom-control-input" id="c9" checked="">
+					      <label class="custom-control-label" for="c9"></label>
+				    	</div>
+                      </div>
+                      <br><br>
+                      <div class="text-left">
+                      	<span class="badge badge-pill badge-danger bg-danger-dark">법정필수</span>
+                   	  </div>
+                    </div> <!-- ./card-text -->
+                  </div>
+                </div> <!-- .col -->
+                
+                <div class="col-md-3">
+                  <div class="card shadow mb-4">
+                    <div class="card-body text-center">
+                      <div class="card-text my-2 ml-1 mr-1 row justify-content-between">
+                        <strong class="card-title my-0">휴업수당 </strong>
+                        <div class="custom-control custom-switch">
+					      <input type="checkbox" class="custom-control-input" id="c10" checked="">
+					      <label class="custom-control-label" for="c10"></label>
+				    	</div>
+                      </div>
+                      <br><br>
+                      <div class="text-left">
+                      	<span class="badge badge-pill badge-danger bg-danger-dark">법정필수</span>
+                   	  </div>
+                    </div> <!-- ./card-text -->
+                  </div>
+                </div> <!-- .col -->
+    </div> 
+    <br><br>            
+	<div style="position: relative;">
+    	<div class="mb-4" style="width:7%">추가한 항목</div>
+    	<hr class="secondary" style="position: absolute; top: 50%; right: 0; width: 93%; margin-top: 0;">
+	</div>        
+    
+    <div class="row">
+           
+           <div class="col-md-3">
+        	<div class="card shadow mb-4">
+            	<div class="card-body" style="height:200px;">
+          			<div class="card-text my-2 ml-1 mr-1 mb-3 row justify-content-between">
+                		<div>
+               				<strong class="card-title my-0">식비 </strong>
+               			</div>
+               			<div class="row">
+               				
+               				<div class="custom-control custom-switch mr-3">
+	  							<input type="checkbox" class="custom-control-input" id="c1" checked="">
+	  							<label class="custom-control-label" for="c1"></label>
+							</div>
+               				
+               				<div class="file-action mr-3">
+								<button type="button"
+									class="btn btn-link dropdown-toggle more-vertical p-0 text-muted mx-auto"
+									data-toggle="dropdown" aria-haspopup="true"
+									aria-expanded="false">
+									<span class="text-muted sr-only">Action</span>
+								</button>
+								<div class="dropdown-menu m-2">
+									<a class="dropdown-item" href="#">
+										<i class="fe fe-mail fe-12 mr-4"></i>지급항목 수정</a> 
+									<a class="dropdown-item" href="#">
+										<i class="fe fe-delete fe-12 mr-4"></i>삭제하기</a>
+								</div>
+							</div>
+	               			
+						</div>
+           			</div>
+            		<div class="mt-2 mb-2"><strong>100,000원</strong></div>
+            		<div class="mt-3 mb-3" style=font-size:0.5rem;">매월 지급</div>
+            		<div class="text-left">
+               			<span class="badge badge-light text-muted mr-1 mt-2">기타수당</span>
+               			<span class="badge badge-light text-muted mt-2">비과세</span>
+              		</div>
+          		</div> <!-- ./card-text -->
+        	</div>
+      	</div> <!-- .col -->     
+      	
+           <div class="col-md-3">
+        	<div class="card shadow mb-4">
+            	<div class="card-body" style="height:200px;">
+          			<div class="card-text my-2 ml-1 mr-1 mb-3 row justify-content-between">
+                		<div>
+               				<strong class="card-title my-0">식비 </strong>
+               			</div>
+               			<div class="row">
+               				
+               				<div class="custom-control custom-switch mr-3">
+	  							<input type="checkbox" class="custom-control-input" id="c1" checked="">
+	  							<label class="custom-control-label" for="c1"></label>
+							</div>
+               				
+               				<div class="file-action mr-3">
+								<button type="button"
+									class="btn btn-link dropdown-toggle more-vertical p-0 text-muted mx-auto"
+									data-toggle="dropdown" aria-haspopup="true"
+									aria-expanded="false">
+									<span class="text-muted sr-only">Action</span>
+								</button>
+								<div class="dropdown-menu m-2">
+									<a class="dropdown-item" href="#">
+										<i class="fe fe-mail fe-12 mr-4"></i>지급항목 수정</a> 
+									<a class="dropdown-item" href="#">
+										<i class="fe fe-delete fe-12 mr-4"></i>삭제하기</a>
+								</div>
+							</div>
+	               			
+						</div>
+           			</div>
+            		<div class="mt-2 mb-2"><strong>100,000원</strong></div>
+            		<div class="mt-3 mb-3" style=font-size:0.5rem;">매월 지급</div>
+            		<div class="text-left">
+               			<span class="badge badge-light text-muted mr-1 mt-2">기타수당</span>
+               			<span class="badge badge-light text-muted mt-2">비과세</span>
+              		</div>
+          		</div> <!-- ./card-text -->
+        	</div>
+      	</div> <!-- .col -->     
+      	
+	</div>
+	
+	
+	
+	
+</body>
+</html>

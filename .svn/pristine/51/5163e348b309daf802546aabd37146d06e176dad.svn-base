@@ -1,0 +1,40 @@
+package kr.or.ddit.approval.mapper;
+
+import java.util.List;
+
+import org.apache.ibatis.annotations.Mapper;
+
+import kr.or.ddit.approval.vo.ApboxVO;
+import kr.or.ddit.approval.vo.DocKindVO;
+import kr.or.ddit.approval.vo.DocWriVO;
+import kr.or.ddit.approval.vo.FixturesVO;
+import kr.or.ddit.common.vo.DeptVO;
+
+@Mapper
+public interface ApprovalMapper {
+
+	//조직도
+	public List<DeptVO> organizationChartOne();
+	public List<DeptVO> organizationChartTwo();
+	
+	//문서종류 가져오기
+	public DocKindVO selectDocKind(String dokKind);
+	
+	//문서작성
+	public int docInsert(DocWriVO vo);
+	
+	//문서 번호 가져오기
+	public int docMaxNoSelect();
+	
+	//비품신청서
+	public int fixInsert(FixturesVO vo);
+	
+	//결제선 INSERT
+	public int apboxInsert(ApboxVO vo);
+	
+	//내가할일(비품신청)
+	public List<ApboxVO> myDocList(String empNo);
+	
+	//결제문서번호에 해당하는 결제자 출력
+	public List<ApboxVO> deptApboxList(ApboxVO DftNo);
+}

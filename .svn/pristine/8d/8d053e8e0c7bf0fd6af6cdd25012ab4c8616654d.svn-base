@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.ddit.statistics.mapper.StatisticsMapper">
+
+
+	
+<select id="mFcount" parameterType="java.util.List" resultType="Integer">
+    SELECT COUNT(*) FROM EMP
+    WHERE GEN_CODE IN
+    <foreach item="item" collection="list" open="(" separator="," close=")">
+        FN_GET_CM_CODE(#{item})
+    </foreach>
+    GROUP BY GEN_CODE
+</select>
+
+
+<select id="workHr" parameterType="String" resultType="EmpStatsVO">
+<!-- select t.quarter, t.ptnCode, AVG(t.wh_tltime) as avrgWorkHr
+from 
+(
+    SELECT 
+        CASE 
+            WHEN EXTRACT(MONTH FROM wa_date) BETWEEN 1 AND 3 THEN 1
+            WHEN EXTRACT(MONTH FROM wa_date) BETWEEN 4 AND 6 THEN 2
+            WHEN EXTRACT(MONTH FROM wa_date) BETWEEN 7 AND 9 THEN 3
+            WHEN EXTRACT(MONTH FROM wa_date) BETWEEN 10 AND 12 THEN 4
+        END AS quarter,
+        FN_GET_CM_NM(b.ptn_code) as ptnCode,
+        a.wh_tltime
+    FROM wk_hr a
+    INNER JOIN emp b ON a.emp_no = b.emp_no
+    WHERE EXTRACT(YEAR FROM wa_date) = EXTRACT(YEAR FROM sysdate)
+    and b.ptn_code=#{ptnCode}
+) t
+GROUP by t.quarter, t.ptnCode -->
+
+SELECT 
+  t.quarter, 
+  t.ptnCode, 
+  AVG(t.wh_tltime) AS avrgWorkHr,
+  (avg(to_char(wh_stime, 'HH24')*60*60 + to_char(wh_stime, 'MI')*60) /60 /60 ) AS avgrStime,
+  (avg(to_char(wh_etime, 'HH24')*60*60 + to_char(wh_etime, 'MI')*60) /60 /60 ) AS avgrEtime
+FROM 
+(
+    SELECT 
+        CASE 
+            WHEN EXTRACT(MONTH FROM wa_date) BETWEEN 1 AND 3 THEN '1'
+            WHEN EXTRACT(MONTH FROM wa_date) BETWEEN 4 AND 6 THEN '2'
+            WHEN EXTRACT(MONTH FROM wa_date) BETWEEN 7 AND 9 THEN '3'
+            WHEN EXTRACT(MONTH FROM wa_date) BETWEEN 10 AND 12 THEN '4'
+        END AS quarter,
+        FN_GET_CM_NM(b.ptn_code) AS ptnCode,
+        a.wh_tltime,
+        a.wh_stime,
+        a.wh_etime
+    FROM wk_hr a
+    INNER JOIN emp b ON a.emp_no = b.emp_no
+    WHERE EXTRACT(YEAR FROM wa_date) = EXTRACT(YEAR FROM sysdate)
+    AND b.ptn_code = #{ptnCode}
+) t
+GROUP BY t.quarter, t.ptnCode
+</select>
+
+<select id="setime" parameterType="String" resultType="EmpStatsVO">
+<![CDATA[
+SELECT
+  t.dateday,
+  (avg(to_char(wh_stime, 'HH24')*60*60 + to_char(wh_stime, 'MI')*60) /60 /60 ) AS avrgAttendTime,
+  (avg(to_char(wh_etime, 'HH24')*60*60 + to_char(wh_etime, 'MI')*60) /60 /60 ) AS avrgLvffcTime
+FROM (
+  SELECT
+    CASE
+      WHEN to_char(wa_date, 'D') = '1' THEN '일요일'
+      WHEN to_char(wa_date, 'D') = '2' THEN '월요일'
+      WHEN to_char(wa_date, 'D') = '3' THEN '화요일'
+      WHEN to_char(wa_date, 'D') = '4' THEN '수요일'
+      WHEN to_char(wa_date, 'D') = '5' THEN '목요일'
+      WHEN to_char(wa_date, 'D') = '6' THEN '금요일'
+      WHEN to_char(wa_date, 'D') = '7' THEN '토요일'
+    END AS dateday,
+    wh_stime,
+    wh_etime
+  FROM wk_hr
+  WHERE EXTRACT(YEAR FROM wa_date) = EXTRACT(YEAR FROM sysdate)
+  and   CASE
+    WHEN EXTRACT(MONTH FROM wa_date) BETWEEN 1 AND 3 THEN 1 
+    WHEN EXTRACT(MONTH FROM wa_date) BETWEEN 4 AND 6 THEN 2 
+    WHEN EXTRACT(MONTH FROM wa_date) BETWEEN 7 AND 9 THEN 3 
+    WHEN EXTRACT(MONTH FROM wa_date) BETWEEN 10 AND 12 THEN 4 
+  END = #{quarter}
+) t
+GROUP BY t.dateday
+ORDER BY 
+  CASE t.dateday
+    WHEN '월요일' THEN 1
+    WHEN '화요일' THEN 2
+    WHEN '수요일' THEN 3
+    WHEN '목요일' THEN 4
+    WHEN '금요일' THEN 5
+    WHEN '토요일' THEN 6
+    WHEN '일요일' THEN 7
+  END
+]]>
+</select>
+
+
+<select id="salary" parameterType="String" resultType="EmpStatsVO">
+SELECT ptn_code, avg(emp_salary * 12 / 10000) AS yearSalary
+FROM (
+    SELECT 
+        CASE
+            WHEN ptn_code ='A0101' THEN '사원'
+            WHEN ptn_code ='A0102' THEN '주임'
+            WHEN ptn_code ='A0103' THEN '대리'
+            WHEN ptn_code ='A0104' THEN '과장'
+            WHEN ptn_code ='A0105' THEN '차장'
+            WHEN ptn_code ='A0106' THEN '부장'
+        END AS ptn_code,
+        emp_salary
+    FROM emp
+)  t
+GROUP BY ptn_code
+</select>
+
+</mapper>

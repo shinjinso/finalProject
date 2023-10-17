@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.ddit.statistics.mapper.StatisticsMapper">
+
+
+	
+<select id="mFcount" parameterType="java.util.List" resultType="Integer">
+    SELECT COUNT(*) FROM EMP
+    WHERE GEN_CODE IN
+    <foreach item="item" collection="list" open="(" separator="," close=")">
+        FN_GET_CM_CODE(#{item})
+    </foreach>
+    GROUP BY GEN_CODE
+</select>
+
+
+<select id="workHr" parameterType="String" resultType="EmpStatsVO">
+select t.quarter, t.ptnCode, AVG(t.wh_tltime) as avrgWorkHr
+from 
+(
+    SELECT 
+        CASE 
+            WHEN EXTRACT(MONTH FROM wa_date) BETWEEN 1 AND 3 THEN 1
+            WHEN EXTRACT(MONTH FROM wa_date) BETWEEN 4 AND 6 THEN 2
+            WHEN EXTRACT(MONTH FROM wa_date) BETWEEN 7 AND 9 THEN 3
+            WHEN EXTRACT(MONTH FROM wa_date) BETWEEN 10 AND 12 THEN 4
+        END AS quarter,
+        FN_GET_CM_NM(b.ptn_code) as ptnCode,
+        a.wh_tltime
+    FROM wk_hr a
+    INNER JOIN emp b ON a.emp_no = b.emp_no
+    WHERE EXTRACT(YEAR FROM wa_date) = EXTRACT(YEAR FROM sysdate)
+    and b.ptn_code=#{ptnCode}
+) t
+GROUP by t.quarter, t.ptnCode
+</select>
+
+
+</mapper>

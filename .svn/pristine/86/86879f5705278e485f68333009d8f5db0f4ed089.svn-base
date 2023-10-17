@@ -1,0 +1,25 @@
+package kr.or.ddit.salary.vo;
+
+import java.util.Date;
+
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
+@Getter
+@Setter
+@ToString
+public class SalaryCertVO {
+	private String scNo;
+	private String empNo;
+	private int ptNo;
+	private Date scIsdate;
+	private int prYr;
+	private int prMth;
+	private int pytlAmt;
+	private int ddtlAmt;
+	private int netAmt;
+	private Date prFdate;
+	private String finYn;
+	private Date prPdate;
+}

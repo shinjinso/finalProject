@@ -1,0 +1,57 @@
+package kr.or.ddit.salary.service;
+
+import java.util.List;
+import java.util.Map;
+
+import kr.or.ddit.common.vo.EmpVO;
+import kr.or.ddit.salary.vo.PageVO;
+import kr.or.ddit.salary.vo.PayDedVO;
+import kr.or.ddit.salary.vo.SalaryCertVO;
+
+public interface SalaryService {
+	
+	//사원정보 리스트 출력
+	public List<EmpVO> selectEmpList(PageVO pageVO);
+	
+	//전체 글 수 조회
+	public int getTotal(PageVO pageVO);
+	
+	//1명의 급여정산번호 insert
+	public int insertPR(SalaryCertVO salaryCertVO);
+	
+	//정산대상자 명수
+	public int selectEmpCnt(SalaryCertVO salaryCertVO);
+	
+	//salary_Cert 테이블에서 pt_no가 1번이고, pr_Yr, pr_Mth가 2023, 9인 사원 번호 리스트를 찾기. 
+	public List<SalaryCertVO> selectCheckedEmpNoList(SalaryCertVO salaryCertVO);
+		
+	//한사람의 기본급 가져오는 쿼리 select
+	public EmpVO selectBaseSalary(EmpVO empVO);
+	
+	//지급항목 - 기타수당 부분에 들어갈 내용 select
+	public List<PayDedVO> selectOtherPay(SalaryCertVO salaryCertVO);
+	
+	//지급항목이력 추가 insert
+	public int insertPayHistory(SalaryCertVO salaryCertVO);
+	
+	//초과근무수당 - 연장, 야간, 휴일별 금액 각각 산출
+	public SalaryCertVO selectOverTimePay(SalaryCertVO salaryCertVO);
+	
+	//정산 지급항목 이력 - 기본급 insert 
+	public int insertBasePay(SalaryCertVO salaryCertVO);
+	
+	//정산 지급항목 이력 - 초과근무수당 insert
+	public int insertOvertimePay(SalaryCertVO salaryCertVO);
+	
+	//정산 지급항목 이력 - 기타수당 항목별로 insert
+	public int insertOtherPay(SalaryCertVO salaryCertVO);
+	
+	//공제항목 - 법정 공제 항목 금액 전체 select (파라미터 : empNo, ptNo) 
+	public List<SalaryCertVO> selectDedSummary(SalaryCertVO salaryCertVO);
+	
+	//공제항목 - 기타 공제 항목 금액 전체 select (파라미터 : empNo, ptNo) 
+	public List<SalaryCertVO> selectOtherDed(SalaryCertVO salaryCertVO);
+	
+	//정산 공제항목 이력 - 공제항목 insert (법정공제항목, 기타공제항목 쿼리 동일)
+	public int insertWageDed(SalaryCertVO salaryCertVO);
+}

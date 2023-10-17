@@ -1,0 +1,26 @@
+package kr.or.ddit.setting.service.Impl;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import kr.or.ddit.setting.mapper.CompanyInfoMapper;
+import kr.or.ddit.setting.service.CompanyInfoService;
+import kr.or.ddit.vo.CompanyInfoVO;
+
+@Service
+public class CompanyInfoServiceImpl implements CompanyInfoService {
+	
+	@Autowired
+	private CompanyInfoMapper companyInfoMapper;
+
+	@Override
+	public int updateData(CompanyInfoVO companyInfoVO) {
+		return companyInfoMapper.updateData(companyInfoVO);
+	}
+
+	@Override
+	public int updateFile(CompanyInfoVO companyInfoVO) {
+		return companyInfoMapper.updateFile(companyInfoVO);
+	}
+
+}

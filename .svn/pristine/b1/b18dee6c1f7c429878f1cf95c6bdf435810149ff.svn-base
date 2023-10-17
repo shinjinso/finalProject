@@ -1,0 +1,526 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+	div {
+		border : 1px solid blue;
+	}
+	#aside {
+		border : 1px solid red;
+	}
+	#bside {
+		border : 1px solid red;
+	}
+	 .icon {
+    	background-image : url(/resources/images/search-magnifier.png);
+    	background-repeat: no-repeat;
+    	background-position: 10px center;
+    	padding-left: 40px;
+    	box-sizing: border-box;
+    	background-size: 14px 14px; /* 원하는 가로 및 세로 크기로 설정합니다. */
+    }
+    .updown {
+    	border: 2px solid gray;
+        width: 0.1px;
+        height: 10px;
+        text-align : center;
+    }
+</style>
+<meta charset="UTF-8">
+<title>급여정산 결과</title>
+<style>
+	.steps {
+		display : flex;
+	}
+</style>
+</head>
+<body>
+
+<div class="steps" style="height: 100vh;">
+	<div id="aside" class="ml-4" style="width:15%;height:100%;">
+		<div>
+		정기 급여 샘플<br>
+		지급일 2022. 11. 20.
+		</div>
+		<div>
+			<span class="badge badge-pill badge-success">근로소득</span> 
+		</div>
+		<div>
+			<div class="steps">
+				<div><span class="fe fe-24 fe-users"></span></div>
+				<div>Step1<br>
+				정산대상자
+				</div>
+			</div>
+			<div class="updown"></div>
+			<div class="steps">
+				<div><span class="fe fe-24 fe-users"></span></div>
+				<div>Step2<br>
+				지급 항목
+				</div>
+			</div>
+			<div class="updown"></div>
+			<div class="steps">
+				<div><span class="fe fe-24 fe-users"></span></div>
+				<div>Step3<br>
+				공제 항목
+				</div>
+			</div>
+			<div class="updown"></div>
+			<div class="steps">
+				<div><span class="fe fe-24 fe-users"></span></div>
+				<div>Step4<br>
+				결과 미리보기
+				</div>
+			</div>
+			<div class="updown"></div>
+			<div class="steps">
+				<div><span class="fe fe-24 fe-users"></span></div>
+				<div>Step5<br>
+				정산 완료
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<div class="container-fluid">
+          <div class="row justify-content-center">
+            <div class="col-12">
+              <p class="card-text">테스트템플릿 / <strong>테스트 정기급여</strong></p>
+              <h2 class="mb-2 page-title">정산대상자</h2>
+              <button type="button" class="btn btn-success" style="float:right;color:white;margin-bottom:20px;">→ 지급항목</button>
+              <div class="row my-4">
+                <!-- Small table -->
+                <div class="col-md-12">
+                  <div class="card shadow">
+                    <div class="card-body">
+                      <!-- table -->
+                      <div id="dataTable-1_wrapper" class="dataTables_wrapper dt-bootstrap4 no-footer"><div class="row"><div class="col-sm-12 col-md-6"><div class="dataTables_length" id="dataTable-1_length"><label>Show <select name="dataTable-1_length" aria-controls="dataTable-1" class="custom-select custom-select-sm form-control form-control-sm"><option value="16">16</option><option value="32">32</option><option value="64">64</option><option value="-1">All</option></select> entries</label></div></div><div class="col-sm-12 col-md-6"><div id="dataTable-1_filter" class="dataTables_filter"><label>Search:<input type="search" class="form-control form-control-sm" placeholder="" aria-controls="dataTable-1"></label></div></div></div><div class="row"><div class="col-sm-12"><table class="table datatables dataTable no-footer" id="dataTable-1" role="grid" aria-describedby="dataTable-1_info">
+                        <thead>
+                          <tr role="row"><th class="sorting" tabindex="0" aria-controls="dataTable-1" rowspan="1" colspan="1" aria-label=": activate to sort column ascending" style="width: 6px;"></th><th class="sorting" tabindex="0" aria-controls="dataTable-1" rowspan="1" colspan="1" aria-label="#: activate to sort column ascending" style="width: 9.5625px;">#</th><th class="sorting" tabindex="0" aria-controls="dataTable-1" rowspan="1" colspan="1" aria-label="Name: activate to sort column ascending" style="width: 56.0156px;">Name</th><th class="sorting" tabindex="0" aria-controls="dataTable-1" rowspan="1" colspan="1" aria-label="Phone: activate to sort column ascending" style="width: 40.2812px;">Phone</th><th class="sorting" tabindex="0" aria-controls="dataTable-1" rowspan="1" colspan="1" aria-label="Department: activate to sort column ascending" style="width: 75.8281px;">Department</th><th class="sorting" tabindex="0" aria-controls="dataTable-1" rowspan="1" colspan="1" aria-label="Company: activate to sort column ascending" style="width: 59.8281px;">Company</th><th class="sorting_desc" tabindex="0" aria-controls="dataTable-1" rowspan="1" colspan="1" aria-label="Address: activate to sort column ascending" aria-sort="descending" style="width: 66.3281px;">Address</th><th class="sorting" tabindex="0" aria-controls="dataTable-1" rowspan="1" colspan="1" aria-label="City: activate to sort column ascending" style="width: 75.3125px;">City</th><th class="sorting" tabindex="0" aria-controls="dataTable-1" rowspan="1" colspan="1" aria-label="Date: activate to sort column ascending" style="width: 29.1406px;">Date</th><th class="sorting" tabindex="0" aria-controls="dataTable-1" rowspan="1" colspan="1" aria-label="Action: activate to sort column ascending" style="width: 40.4219px;">Action</th></tr>
+                        </thead>
+                        <tbody>
+                         
+                        <tr role="row" class="odd">
+                            <td class="">
+                              <div class="custom-control custom-checkbox">
+                                <input type="checkbox" class="custom-control-input">
+                                <label class="custom-control-label"></label>
+                              </div>
+                            </td>
+                            <td>443</td>
+                            <td>Scarlett Anderson</td>
+                            <td>(486) 309-3564</td>
+                            <td>Tech Support</td>
+                            <td>Yahoo</td>
+                            <td class="sorting_1">P.O. Box 988, 7282 Lobortis Avenue</td>
+                            <td class="">Lot</td>
+                            <td>Dec 27, 2019</td>
+                            <td><button class="btn btn-sm dropdown-toggle more-horizontal" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <span class="text-muted sr-only">Action</span>
+                              </button>
+                              <div class="dropdown-menu dropdown-menu-right">
+                                <a class="dropdown-item" href="#">Edit</a>
+                                <a class="dropdown-item" href="#">Remove</a>
+                                <a class="dropdown-item" href="#">Assign</a>
+                              </div>
+                            </td>
+                          </tr><tr role="row" class="even">
+                            <td class="">
+                              <div class="custom-control custom-checkbox">
+                                <input type="checkbox" class="custom-control-input">
+                                <label class="custom-control-label"></label>
+                              </div>
+                            </td>
+                            <td>388</td>
+                            <td>Honorato Nichols</td>
+                            <td>(561) 758-1908</td>
+                            <td>Legal Department</td>
+                            <td>Microsoft</td>
+                            <td class="sorting_1">P.O. Box 925, 286 Ipsum Street</td>
+                            <td class="">St. John's</td>
+                            <td>Aug 29, 2020</td>
+                            <td><button class="btn btn-sm dropdown-toggle more-horizontal" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <span class="text-muted sr-only">Action</span>
+                              </button>
+                              <div class="dropdown-menu dropdown-menu-right">
+                                <a class="dropdown-item" href="#">Edit</a>
+                                <a class="dropdown-item" href="#">Remove</a>
+                                <a class="dropdown-item" href="#">Assign</a>
+                              </div>
+                            </td>
+                          </tr><tr role="row" class="odd">
+                            <td class="">
+                              <div class="custom-control custom-checkbox">
+                                <input type="checkbox" class="custom-control-input">
+                                <label class="custom-control-label"></label>
+                              </div>
+                            </td>
+                            <td>346</td>
+                            <td>Evan Figueroa</td>
+                            <td>(803) 974-4759</td>
+                            <td>Payroll</td>
+                            <td>Yahoo</td>
+                            <td class="sorting_1">P.O. Box 801, 9864 Lobortis Ave</td>
+                            <td class="">Santa Bárbara</td>
+                            <td>Jun 4, 2020</td>
+                            <td><button class="btn btn-sm dropdown-toggle more-horizontal" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <span class="text-muted sr-only">Action</span>
+                              </button>
+                              <div class="dropdown-menu dropdown-menu-right">
+                                <a class="dropdown-item" href="#">Edit</a>
+                                <a class="dropdown-item" href="#">Remove</a>
+                                <a class="dropdown-item" href="#">Assign</a>
+                              </div>
+                            </td>
+                          </tr><tr role="row" class="even">
+                            <td class="">
+                              <div class="custom-control custom-checkbox">
+                                <input type="checkbox" class="custom-control-input">
+                                <label class="custom-control-label"></label>
+                              </div>
+                            </td>
+                            <td>455</td>
+                            <td>Mohammad Whitfield</td>
+                            <td>(550) 107-4320</td>
+                            <td>Accounting</td>
+                            <td>Macromedia</td>
+                            <td class="sorting_1">P.O. Box 790, 9677 Purus Rd.</td>
+                            <td class="">Deline</td>
+                            <td>Nov 21, 2020</td>
+                            <td><button class="btn btn-sm dropdown-toggle more-horizontal" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <span class="text-muted sr-only">Action</span>
+                              </button>
+                              <div class="dropdown-menu dropdown-menu-right">
+                                <a class="dropdown-item" href="#">Edit</a>
+                                <a class="dropdown-item" href="#">Remove</a>
+                                <a class="dropdown-item" href="#">Assign</a>
+                              </div>
+                            </td>
+                          </tr><tr role="row" class="odd">
+                            <td class="">
+                              <div class="custom-control custom-checkbox">
+                                <input type="checkbox" class="custom-control-input">
+                                <label class="custom-control-label"></label>
+                              </div>
+                            </td>
+                            <td>281</td>
+                            <td>Kevyn Snyder</td>
+                            <td>(659) 649-4750</td>
+                            <td>Customer Relations</td>
+                            <td>Macromedia</td>
+                            <td class="sorting_1">P.O. Box 731, 7143 Sem Rd.</td>
+                            <td class="">Taber</td>
+                            <td>Mar 1, 2021</td>
+                            <td><button class="btn btn-sm dropdown-toggle more-horizontal" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <span class="text-muted sr-only">Action</span>
+                              </button>
+                              <div class="dropdown-menu dropdown-menu-right">
+                                <a class="dropdown-item" href="#">Edit</a>
+                                <a class="dropdown-item" href="#">Remove</a>
+                                <a class="dropdown-item" href="#">Assign</a>
+                              </div>
+                            </td>
+                          </tr><tr role="row" class="even">
+                            <td class="">
+                              <div class="custom-control custom-checkbox">
+                                <input type="checkbox" class="custom-control-input">
+                                <label class="custom-control-label"></label>
+                              </div>
+                            </td>
+                            <td>345</td>
+                            <td>Kevyn Mills</td>
+                            <td>(976) 873-4833</td>
+                            <td>Tech Support</td>
+                            <td>Sibelius</td>
+                            <td class="sorting_1">P.O. Box 666, 9803 Sed Avenue</td>
+                            <td class="">Fino Mornasco</td>
+                            <td>Dec 24, 2020</td>
+                            <td><button class="btn btn-sm dropdown-toggle more-horizontal" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <span class="text-muted sr-only">Action</span>
+                              </button>
+                              <div class="dropdown-menu dropdown-menu-right">
+                                <a class="dropdown-item" href="#">Edit</a>
+                                <a class="dropdown-item" href="#">Remove</a>
+                                <a class="dropdown-item" href="#">Assign</a>
+                              </div>
+                            </td>
+                          </tr><tr role="row" class="odd">
+                            <td class="">
+                              <div class="custom-control custom-checkbox">
+                                <input type="checkbox" class="custom-control-input">
+                                <label class="custom-control-label"></label>
+                              </div>
+                            </td>
+                            <td>316</td>
+                            <td>Cairo Villarreal</td>
+                            <td>(410) 944-9399</td>
+                            <td>Sales and Marketing</td>
+                            <td>Borland</td>
+                            <td class="sorting_1">P.O. Box 631, 8966 Dapibus Street</td>
+                            <td class="">Alingsås</td>
+                            <td>Jan 10, 2020</td>
+                            <td><button class="btn btn-sm dropdown-toggle more-horizontal" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <span class="text-muted sr-only">Action</span>
+                              </button>
+                              <div class="dropdown-menu dropdown-menu-right">
+                                <a class="dropdown-item" href="#">Edit</a>
+                                <a class="dropdown-item" href="#">Remove</a>
+                                <a class="dropdown-item" href="#">Assign</a>
+                              </div>
+                            </td>
+                          </tr><tr role="row" class="even">
+                            <td class="">
+                              <div class="custom-control custom-checkbox">
+                                <input type="checkbox" class="custom-control-input">
+                                <label class="custom-control-label"></label>
+                              </div>
+                            </td>
+                            <td>272</td>
+                            <td>Brenna Reid</td>
+                            <td>(925) 647-2628</td>
+                            <td>Finances</td>
+                            <td>Microsoft</td>
+                            <td class="sorting_1">P.O. Box 604, 587 Ac Street</td>
+                            <td class="">Gallicchio</td>
+                            <td>Jul 1, 2019</td>
+                            <td><button class="btn btn-sm dropdown-toggle more-horizontal" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <span class="text-muted sr-only">Action</span>
+                              </button>
+                              <div class="dropdown-menu dropdown-menu-right">
+                                <a class="dropdown-item" href="#">Edit</a>
+                                <a class="dropdown-item" href="#">Remove</a>
+                                <a class="dropdown-item" href="#">Assign</a>
+                              </div>
+                            </td>
+                          </tr><tr role="row" class="odd">
+                            <td class="">
+                              <div class="custom-control custom-checkbox">
+                                <input type="checkbox" class="custom-control-input">
+                                <label class="custom-control-label"></label>
+                              </div>
+                            </td>
+                            <td>314</td>
+                            <td>Oleg Mckay</td>
+                            <td>(634) 227-2714</td>
+                            <td>Research and Development</td>
+                            <td>Apple Systems</td>
+                            <td class="sorting_1">P.O. Box 600, 1974 Arcu. Street</td>
+                            <td class="">Ancarano</td>
+                            <td>Feb 28, 2020</td>
+                            <td><button class="btn btn-sm dropdown-toggle more-horizontal" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <span class="text-muted sr-only">Action</span>
+                              </button>
+                              <div class="dropdown-menu dropdown-menu-right">
+                                <a class="dropdown-item" href="#">Edit</a>
+                                <a class="dropdown-item" href="#">Remove</a>
+                                <a class="dropdown-item" href="#">Assign</a>
+                              </div>
+                            </td>
+                          </tr><tr role="row" class="even">
+                            <td class="">
+                              <div class="custom-control custom-checkbox">
+                                <input type="checkbox" class="custom-control-input">
+                                <label class="custom-control-label"></label>
+                              </div>
+                            </td>
+                            <td>493</td>
+                            <td>Arden Harrington</td>
+                            <td>(380) 763-0890</td>
+                            <td>Quality Assurance</td>
+                            <td>Altavista</td>
+                            <td class="sorting_1">P.O. Box 485, 2533 Tincidunt Road</td>
+                            <td class="">Central Jakarta</td>
+                            <td>Feb 29, 2020</td>
+                            <td><button class="btn btn-sm dropdown-toggle more-horizontal" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <span class="text-muted sr-only">Action</span>
+                              </button>
+                              <div class="dropdown-menu dropdown-menu-right">
+                                <a class="dropdown-item" href="#">Edit</a>
+                                <a class="dropdown-item" href="#">Remove</a>
+                                <a class="dropdown-item" href="#">Assign</a>
+                              </div>
+                            </td>
+                          </tr><tr role="row" class="odd">
+                            <td class="">
+                              <div class="custom-control custom-checkbox">
+                                <input type="checkbox" class="custom-control-input">
+                                <label class="custom-control-label"></label>
+                              </div>
+                            </td>
+                            <td>498</td>
+                            <td>Ishmael Aguirre</td>
+                            <td>(594) 850-4912</td>
+                            <td>Media Relations</td>
+                            <td>Yahoo</td>
+                            <td class="sorting_1">P.O. Box 398, 8254 Pede, Av.</td>
+                            <td class="">Cannes</td>
+                            <td>Jul 5, 2019</td>
+                            <td><button class="btn btn-sm dropdown-toggle more-horizontal" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <span class="text-muted sr-only">Action</span>
+                              </button>
+                              <div class="dropdown-menu dropdown-menu-right">
+                                <a class="dropdown-item" href="#">Edit</a>
+                                <a class="dropdown-item" href="#">Remove</a>
+                                <a class="dropdown-item" href="#">Assign</a>
+                              </div>
+                            </td>
+                          </tr><tr role="row" class="even">
+                            <td class="">
+                              <div class="custom-control custom-checkbox">
+                                <input type="checkbox" class="custom-control-input">
+                                <label class="custom-control-label"></label>
+                              </div>
+                            </td>
+                            <td>247</td>
+                            <td>Lance Bush</td>
+                            <td>(197) 616-3571</td>
+                            <td>Finances</td>
+                            <td>Lavasoft</td>
+                            <td class="sorting_1">P.O. Box 377, 2374 Pellentesque. Road</td>
+                            <td class="">Kapuskasing</td>
+                            <td>May 11, 2019</td>
+                            <td><button class="btn btn-sm dropdown-toggle more-horizontal" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <span class="text-muted sr-only">Action</span>
+                              </button>
+                              <div class="dropdown-menu dropdown-menu-right">
+                                <a class="dropdown-item" href="#">Edit</a>
+                                <a class="dropdown-item" href="#">Remove</a>
+                                <a class="dropdown-item" href="#">Assign</a>
+                              </div>
+                            </td>
+                          </tr><tr role="row" class="odd">
+                            <td class="">
+                              <div class="custom-control custom-checkbox">
+                                <input type="checkbox" class="custom-control-input">
+                                <label class="custom-control-label"></label>
+                              </div>
+                            </td>
+                            <td>294</td>
+                            <td>Aquila James</td>
+                            <td>(944) 277-4831</td>
+                            <td>Quality Assurance</td>
+                            <td>Apple Systems</td>
+                            <td class="sorting_1">P.O. Box 306, 6025 Justo Rd.</td>
+                            <td class="">Offida</td>
+                            <td>Jul 18, 2019</td>
+                            <td><button class="btn btn-sm dropdown-toggle more-horizontal" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <span class="text-muted sr-only">Action</span>
+                              </button>
+                              <div class="dropdown-menu dropdown-menu-right">
+                                <a class="dropdown-item" href="#">Edit</a>
+                                <a class="dropdown-item" href="#">Remove</a>
+                                <a class="dropdown-item" href="#">Assign</a>
+                              </div>
+                            </td>
+                          </tr><tr role="row" class="even">
+                            <td class="">
+                              <div class="custom-control custom-checkbox">
+                                <input type="checkbox" class="custom-control-input">
+                                <label class="custom-control-label"></label>
+                              </div>
+                            </td>
+                            <td>341</td>
+                            <td>Zorita Moran</td>
+                            <td>(840) 554-9481</td>
+                            <td>Accounting</td>
+                            <td>Lycos</td>
+                            <td class="sorting_1">P.O. Box 290, 9398 Quam Rd.</td>
+                            <td class="">Viddalba</td>
+                            <td>Jun 16, 2019</td>
+                            <td><button class="btn btn-sm dropdown-toggle more-horizontal" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <span class="text-muted sr-only">Action</span>
+                              </button>
+                              <div class="dropdown-menu dropdown-menu-right">
+                                <a class="dropdown-item" href="#">Edit</a>
+                                <a class="dropdown-item" href="#">Remove</a>
+                                <a class="dropdown-item" href="#">Assign</a>
+                              </div>
+                            </td>
+                          </tr><tr role="row" class="odd">
+                            <td class="">
+                              <div class="custom-control custom-checkbox">
+                                <input type="checkbox" class="custom-control-input">
+                                <label class="custom-control-label"></label>
+                              </div>
+                            </td>
+                            <td>361</td>
+                            <td>Ishmael Mcleod</td>
+                            <td>(148) 643-9938</td>
+                            <td>Customer Service</td>
+                            <td>Yahoo</td>
+                            <td class="sorting_1">P.O. Box 253, 2328 Mauris St.</td>
+                            <td class="">San Juan del Río</td>
+                            <td>Feb 13, 2020</td>
+                            <td><button class="btn btn-sm dropdown-toggle more-horizontal" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <span class="text-muted sr-only">Action</span>
+                              </button>
+                              <div class="dropdown-menu dropdown-menu-right">
+                                <a class="dropdown-item" href="#">Edit</a>
+                                <a class="dropdown-item" href="#">Remove</a>
+                                <a class="dropdown-item" href="#">Assign</a>
+                              </div>
+                            </td>
+                          </tr><tr role="row" class="even">
+                            <td class="">
+                              <div class="custom-control custom-checkbox">
+                                <input type="checkbox" class="custom-control-input">
+                                <label class="custom-control-label"></label>
+                              </div>
+                            </td>
+                            <td>323</td>
+                            <td>Jerry Guzman</td>
+                            <td>(293) 790-5171</td>
+                            <td>Public Relations</td>
+                            <td>Borland</td>
+                            <td class="sorting_1">P.O. Box 140, 3346 Mauris Ave</td>
+                            <td class="">Bury St. Edmunds</td>
+                            <td>Feb 15, 2020</td>
+                            <td><button class="btn btn-sm dropdown-toggle more-horizontal" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <span class="text-muted sr-only">Action</span>
+                              </button>
+                              <div class="dropdown-menu dropdown-menu-right">
+                                <a class="dropdown-item" href="#">Edit</a>
+                                <a class="dropdown-item" href="#">Remove</a>
+                                <a class="dropdown-item" href="#">Assign</a>
+                              </div>
+                            </td>
+                          </tr></tbody>
+                      </table></div></div><div class="row"><div class="col-sm-12 col-md-5"><div class="dataTables_info" id="dataTable-1_info" role="status" aria-live="polite">Showing 1 to 16 of 63 entries</div></div><div class="col-sm-12 col-md-7"><div class="dataTables_paginate paging_simple_numbers" id="dataTable-1_paginate"><ul class="pagination"><li class="paginate_button page-item previous disabled" id="dataTable-1_previous"><a href="#" aria-controls="dataTable-1" data-dt-idx="0" tabindex="0" class="page-link">Previous</a></li><li class="paginate_button page-item active"><a href="#" aria-controls="dataTable-1" data-dt-idx="1" tabindex="0" class="page-link">1</a></li><li class="paginate_button page-item "><a href="#" aria-controls="dataTable-1" data-dt-idx="2" tabindex="0" class="page-link">2</a></li><li class="paginate_button page-item "><a href="#" aria-controls="dataTable-1" data-dt-idx="3" tabindex="0" class="page-link">3</a></li><li class="paginate_button page-item "><a href="#" aria-controls="dataTable-1" data-dt-idx="4" tabindex="0" class="page-link">4</a></li><li class="paginate_button page-item next" id="dataTable-1_next"><a href="#" aria-controls="dataTable-1" data-dt-idx="5" tabindex="0" class="page-link">Next</a></li></ul></div></div></div></div>
+                    </div>
+                  </div>
+                </div> <!-- simple table -->
+              </div> <!-- end section -->
+            </div> <!-- .col-12 -->
+          </div> <!-- .row -->
+        </div>
+	
+	
+<!-- 	<div id="bside" style="margin-left:10px;width:85%"> -->
+<!-- 		<div id="bTop"> -->
+<!-- 			<div> -->
+<!-- 				테스트템플릿 / <strong>테스트 정기급여</strong> -->
+<!-- 			</div> -->
+<!-- 			<br> -->
+<!-- 			<h2>정산대상자</h2> -->
+<!-- 		</div> -->
+<!-- 			<button type="button" class="btn mb-3 btn-success" style="float:right;color:white;">→ 지급항목</button> -->
+<!-- 		<div id="bBotton"> -->
+<!-- 			<div class="row"> -->
+<!-- 				<div>대상자 &nbsp&nbsp | &nbsp&nbsp<input type="text" id="simpleinput" class="form-control icon" /></div> -->
+<!-- 				<div> -->
+				
+<!-- 				</div> -->
+<!-- 			</div> -->
+<!-- 		</div> -->
+<!-- 	</div> -->
+	
+	
+	
+	
+</div>
+
+</body>
+</html>

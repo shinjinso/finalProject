@@ -1,0 +1,92 @@
+package kr.or.ddit.approval.service.impl;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import kr.or.ddit.approval.mapper.ApprovalMapper;
+import kr.or.ddit.approval.service.ApprovalService;
+import kr.or.ddit.approval.vo.ApboxVO;
+import kr.or.ddit.approval.vo.DocKindVO;
+import kr.or.ddit.approval.vo.DocWriVO;
+import kr.or.ddit.approval.vo.FixturesVO;
+import kr.or.ddit.common.vo.DeptVO;
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
+@Service
+public class ApprovalServiceImpl implements ApprovalService {
+
+	@Autowired
+	ApprovalMapper approvalMapper;
+
+	// 조직도
+	@Override
+	public List<DeptVO> organizationChartOne() {
+		return approvalMapper.organizationChartOne();
+	}
+
+	@Override
+	public List<DeptVO> organizationChartTwo() {
+		return approvalMapper.organizationChartTwo();
+	}
+
+	// 문서종류 가져오기
+	@Override
+	public DocKindVO selectDocKind(String dokKind) {
+		return approvalMapper.selectDocKind(dokKind);
+	}
+
+	// 문서작성,비품,결제선
+	@Transactional
+	@Override
+	public int docInsert(DocWriVO docVo, List<FixturesVO> fixList, List<ApboxVO> apboxList) {
+		log.info("ApprovalServiceImpl -> docVo : " + docVo);
+		log.info("ApprovalServiceImpl -> fixList : " + fixList);
+		log.info("ApprovalServiceImpl -> apboxList : " + apboxList);
+		int result = 0;
+
+		
+		int maxDocNo = approvalMapper.docMaxNoSelect() + 1;
+		log.info("ApprovalServiceImpl -> maxDocNo : " + maxDocNo);
+
+		docVo.setDftNo(maxDocNo);
+		int docCnt = approvalMapper.docInsert(docVo);
+		result += docCnt;
+
+		
+		for (FixturesVO fixVO : fixList) {
+			fixVO.setDftNo(maxDocNo);
+			int fixCnt = approvalMapper.fixInsert(fixVO);
+			result += fixCnt;
+		}
+		
+
+		for (ApboxVO apboxVO : apboxList) {
+			apboxVO.setDftNo(maxDocNo);
+			int apboxCnt = approvalMapper.apboxInsert(apboxVO);
+			result += apboxCnt;
+		}
+
+		log.info("ApprovalServiceImpl -> result : " + result);
+
+		return result;
+	}
+
+	//내가할일(비품신청)
+	@Override
+	public List<ApboxVO> myDocList(String empNo) {
+		return approvalMapper.myDocList(empNo);
+	}
+	
+	//결제문서번호에 해당하는 결제자 출력
+	@Override
+	public List<ApboxVO> deptApboxList(ApboxVO DftNo) {
+		return approvalMapper.deptApboxList(DftNo);
+	}
+	
+
+
+}

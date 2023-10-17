@@ -1,0 +1,12 @@
+package kr.or.ddit.personnel.service;
+
+import kr.or.ddit.vo.EmpVO;
+import kr.or.ddit.vo.MemberVO;
+
+public interface MemberService {
+	//메소드 시그니처
+	
+	//회원정보 가져오기
+	public EmpVO read(String empNo);
+	
+}

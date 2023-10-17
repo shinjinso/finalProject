@@ -1,0 +1,389 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
+<sec:authorize access="isAuthenticated()">
+   <sec:authentication property="principal.EmpVO" var="empVO" />
+   <%-- <div>세션체킁: ${empVO }</div> --%>
+</sec:authorize>
+<script>
+   ///////////////////////////웹 소켓////////////////////////////////
+	let webSocket;
+   const myEmpNo = ${empVO.empNo};
+   function notifucationCount(){
+      $.ajax ({
+            url:"/approval/notifucationCount",
+            dataType:"json",
+            type:"get",
+            success:function(result){
+               let list = result;
+               console.log(list)
+               let count = result.length;
+               if(count > 0){
+                  let htmlCode = `<span class="badge badge-pill badge-primary">\${count}</span>`;
+                  $("#newInfo").html(htmlCode);
+                  
+                  let infoCode ="<table border=1px; class='table table-hover table-sm'>";
+                  $.each(result, function(idx, test){
+                     infoCode += `<tr>
+                                    <td>
+                                       <div class="notiCheck" href="\${test.ntcnUrl}" style="cursor : pointer;">'\${test.empNm}'님이 보내신 \${test.ntcnTitle}</div>
+                                       <input class="myNtcnId" type="hidden" value="\${test.ntcnId}">
+                                    </td>
+                                 </tr>
+                     `
+                  })
+                  $("#showNewWindow").html(infoCode);
+               }
+            }
+         })
+   }
+
+   //연결
+   connect();
+   function connect() {
+      webSocket = new WebSocket("ws://localhost/ws-chat"); // End Point
+      //이벤트에 이벤트핸들러 뜽록 
+      webSocket.onopen = fOpen; // 소켓 접속되면 짜똥 실행할 함수(fOpen)
+      webSocket.onmessage = fMessage; // 써버에서 메쎄징 오면  짜똥 실행할 함수(fMessage) 
+   }
+
+   //연결 시 자동실행 함수
+   function fOpen() {
+      webSocket.send("자동 실행될 함수"); 
+      notifucationCount();
+   } 
+   // 연결 끊깅 함수
+   // disconnect();
+
+   //보낼 함수
+   function send() {  // 써버로 메쎄찡 떤쏭하는 함수
+		webSocket.send("서버로 메세지 전송하는 함수");
+	}
+
+   //받은메세지로 실행할 함수
+   function fMessage() {
+      let data = event.data;
+      notifucationCount();
+   }
+   function disconnect() { //써버와 인연 끊는 함쑹
+      webSocket.close();
+   }
+   ///////////////////////////웹 소켓////////////////////////////////
+   
+   
+   //새로운소식 확인
+   $(document).on("click",".notiCheck",function(){
+	  let $myNtcnId = $(this).next()[0];
+   	  let ntcnId = $myNtcnId.value;
+   	  console.log("테스트",ntcnId);
+   	  data = {
+   			"ntcnId":ntcnId
+   	  }
+   	  
+   	  $.ajax({
+	   	 url:"/approval/notiCheck",
+	   	 data:JSON.stringify(data),
+	   	 type:"post",
+	   	 dataType:"text",
+	   	 contentType:"application/json; charset:utf-8",
+	   	 beforeSend:function(xhr){
+			 xhr.setRequestHeader("${_csrf.headerName}","${_csrf.token}");
+		 },
+	   	 success:function(result){
+	   		 console.log("값 : ",result);
+	   		 if(result > 2){
+	   			webSocket.send(myEmpNo);
+	   		 }else{
+	   			 alert("오류 발생 관리자 문의바람")
+	   		 }
+	   	 }
+   	  });
+   });
+   
+   
+   
+   //새로운소식 마우스 오버/마우스 아웃
+   $(function() {
+    $(".newInfoContaner").mouseover(function(){
+      $(this).css("background-color","#0000002b");
+    });
+
+    $(".newInfoContaner").mouseout(function(){
+       $(this).css("background-color","white");
+    });
+	  //커멘드
+	  let suchBut = document.querySelector("#suchCom");
+	  window.addEventListener("keydown", (e)=> myCom(e))
+     var temp = false; 
+     var tempArray = [];
+     function myCom(e) {
+
+       if(tempArray.length != 0 &&(e.key == "b")&&(temp == true)){
+         suchBut.click();
+         tempArray.length = 0;
+         temp = false;
+       }
+
+       if(e.key=="Control" && tempArray.length==0){
+    	 temp = true;
+         tempArray.push(e)
+       }else{
+    	  tempArray.length = 0;
+       }
+     }
+
+	  //모달창 대신 클릭
+      let modalBut = document.querySelector("#inModal");
+      $("#modal").on("click", function() {
+         console.log(modalBut)
+         modalBut.click();
+      });
+      
+      //사원검색
+      let suchResult = $("#suchResult")
+      $("#such").on("keyup",function(){
+    	  
+   	  let suchText = $("#such").val();
+   	  let schURL = "/common/suchEmp/?keyword="+suchText;
+    	  $.ajax({
+    		  url:schURL,
+    		  dataType : "json",
+    		  type : "get",
+    		  success : function(result){
+    			  console.log("통신결과",result)
+    			  let htmlCode = ""
+    			  htmlCode += "<table style='width:400px; margin-top:20px;'>";
+    			  for(let i=0; i<result.length; i++){
+	    			  htmlCode += "<tr>";
+	    			  htmlCode += "<td style='width: 60px;'><img style='width:50px; height:50px;' src="+result[i].profileFileNo+"></td>";
+	    			  htmlCode += "<td><a href='#'>"+result[i].empNm+"</a></td>";
+	    			  htmlCode += "<td>"+result[i].empNo+"</td>";
+	    			  htmlCode += "</tr>";
+    			  }
+    			  htmlCode += "</table>";
+    			  suchResult.html(htmlCode);
+    		  }
+    	  });
+      });
+   })
+</script>
+   
+<aside class="sidebar-left border-right bg-white shadow"
+   id="leftSidebar" data-simplebar>
+   <a href="#"
+      class="btn collapseSidebar toggle-btn d-lg-none text-muted ml-2 mt-3"
+      data-toggle="toggle"> <i class="fe fe-x"><span class="sr-only"></span></i>
+   </a>
+   <nav class="vertnav navbar navbar-light">
+      <!-- nav bar -->
+	      <div class="w-100 mb-4">
+	         <!-- /////////////////////// -->
+	         <ul class="navbar-nav flex-fill w-100 mb-2 ">
+	            <li class="nav-item dropdown  d-flex">
+	            	<a class="nav-link dropdown-toggle text-muted pr-0 nav-link" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="width: 300px;">
+	                  <img src="/resources/light/assets/avatars/face-1.jpg" alt="..." class="avatar-img rounded-circle" style="width: 40px;">
+	                  <span class="avatar avatar-sm mt-2">민우</span>
+	          	    </a>
+		            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink" style="width:80px;">
+		              <a class="dropdown-item" href="/common/myPage">내정보</a>
+		              <a class="dropdown-item" href="#">로그아웃</a>
+		      		</div>
+				    <a href="#" class="btn mb-2 btn-outline-link" id="modal" style="width: 15px; margin-left:20px;">
+				      <span class="fe fe-align-justify"></span>
+				    </a>
+	            </li>
+	         </ul>
+	      </div>
+      <ul class="navbar-nav flex-fill w-100 mb-2">
+         <li class="nav-item dropdown"  data-toggle="modal"
+               data-target=".modal-full"><a id="suchCom" href="#" data-toggle="collapse"
+            aria-expanded="false" class="nav-link"> <i class="fe fe-zoom-in"></i>
+               <span class="ml-3 item-text">검색</span><span class="sr-only">(current)</span>
+         </a>
+         </li>
+         </ul>
+      <ul class="navbar-nav flex-fill w-100 mb-2">
+   	    <li class="nav-item w-100" >
+   	    	<a class="nav-link" href="#" id="newPosition"> 
+    	    	<i class="fe fe-home fe-16" id ="newInfo"></i>
+    	    	<span class="ml-3 item-text">새로운소식</span>
+   	    	</a>
+   	    </li>
+      </ul>
+      <ul class="navbar-nav flex-fill w-100 mb-2">
+         <li class="nav-item dropdown"><a href="#ui-elements"
+            data-toggle="collapse" aria-expanded="false"
+            class="dropdown-toggle nav-link"> <i class="fe fe-box fe-16"></i>
+               <span class="ml-3 item-text">홈피드</span>
+         </a>
+            <ul class="collapse list-unstyled pl-4 w-100" id="ui-elements">
+               <li class="nav-item"><a class="nav-link pl-3"
+                  href="/resources/light/ui-color.html"><span
+                     class="ml-1 item-text">Colors</span> </a></li>
+               <li class="nav-item"><a class="nav-link pl-3"
+                  href="/resources/light/ui-typograpy.html"><span
+                     class="ml-1 item-text">Typograpy</span></a></li>
+               <li class="nav-item"><a class="nav-link pl-3"
+                  href="/resources/light/ui-icons.html"><span
+                     class="ml-1 item-text">Icons</span></a></li>
+               <li class="nav-item"><a class="nav-link pl-3"
+                  href="/resources/light/ui-buttons.html"><span
+                     class="ml-1 item-text">Buttons</span></a></li>
+               <li class="nav-item"><a class="nav-link pl-3"
+                  href="/resources/light/ui-notification.html"><span
+                     class="ml-1 item-text">Notifications</span></a></li>
+               <li class="nav-item"><a class="nav-link pl-3"
+                  href="/resources/light/ui-modals.html"><span
+                     class="ml-1 item-text">Modals</span></a></li>
+               <li class="nav-item"><a class="nav-link pl-3"
+                  href="/resources/light/ui-tabs-accordion.html"><span
+                     class="ml-1 item-text">Tabs & Accordion</span></a></li>
+               <li class="nav-item"><a class="nav-link pl-3"
+                  href="/resources/light/ui-progress.html"><span
+                     class="ml-1 item-text">Progress</span></a></li>
+            </ul></li>
+         <li class="nav-item w-100"><a class="nav-link"
+            href="widgets.html"> <i class="fe fe-layers fe-16"></i> <span
+               class="ml-3 item-text">구성원</span>
+         </a></li>
+         <li class="nav-item w-100"><a class="nav-link"
+            href="/lhh/work"> <i class="fe fe-calendar fe-16"></i> <span
+               class="ml-3 item-text">근무</span>
+         </a></li>
+         <li class="nav-item dropdown"><a href="#tables"
+            data-toggle="collapse" aria-expanded="false"
+            class="dropdown-toggle nav-link"> <i class="fe fe-grid fe-16"></i>
+               <span class="ml-3 item-text">휴가</span>
+         </a>
+            <ul class="collapse list-unstyled pl-4 w-100" id="tables">
+               <li class="nav-item"><a class="nav-link pl-3"
+                  href="/vct/main"><span
+                     class="ml-1 item-text">휴가종류</span></a></li>
+               <li class="nav-item"><a class="nav-link pl-3"
+                  href="/resources/light/table_advanced.html"><span
+                     class="ml-1 item-text">Advanced Tables</span></a></li>
+               <li class="nav-item"><a class="nav-link pl-3"
+                  href="/resources/light/table_datatables.html"><span
+                     class="ml-1 item-text">Data Tables</span></a></li>
+            </ul></li>
+         <li class="nav-item dropdown"><a href="#charts"
+            data-toggle="collapse" aria-expanded="false"
+            class="dropdown-toggle nav-link"> <i
+               class="fe fe-pie-chart fe-16"></i> <span class="ml-3 item-text">전자계약</span>
+         </a>
+            <ul class="collapse list-unstyled pl-4 w-100" id="charts">
+               <li class="nav-item"><a class="nav-link pl-3"
+                  href="/resources/light/chart-inline.html"><span
+                     class="ml-1 item-text">Inline Chart</span></a></li>
+               <li class="nav-item"><a class="nav-link pl-3"
+                  href="/resources/light/chart-chartjs.html"><span
+                     class="ml-1 item-text">Chartjs</span></a></li>
+               <li class="nav-item"><a class="nav-link pl-3"
+                  href="/resources/light/chart-apexcharts.html"><span
+                     class="ml-1 item-text">ApexCharts</span></a></li>
+               <li class="nav-item"><a class="nav-link pl-3"
+                  href="/resources/light/datamaps.html"><span
+                     class="ml-1 item-text">Datamaps</span></a></li>
+            </ul></li>
+      </ul>
+      <p class="text-muted nav-heading mt-4 mb-1">
+         <span>Apps</span>
+      </p>
+      <ul class="navbar-nav flex-fill w-100 mb-2">
+         <li class="nav-item w-100"><a class="nav-link"
+            href="/approval/workflow"> <i class="fe fe-calendar fe-16"></i> <span
+               class="ml-3 item-text">워크플로우</span>
+         </a></li>
+         <li class="nav-item dropdown"><a href="#contact"
+            data-toggle="collapse" aria-expanded="false"
+            class="dropdown-toggle nav-link"> <i class="fe fe-book fe-16"></i>
+               <span class="ml-3 item-text">전자계약</span>
+         </a>
+            <ul class="collapse list-unstyled pl-4 w-100" id="contact">
+               <a class="nav-link pl-3" href="/resources/light/contacts-list.html"><span class="ml-1">Contact List</span></a>
+               <a class="nav-link pl-3" href="/resources/light/contacts-grid.html"><span class="ml-1">Contact Grid</span></a>
+               <a class="nav-link pl-3" href="/resources/light/contacts-new.html"><span class="ml-1">New Contact</span></a>
+            </ul></li>
+         <li class="nav-item dropdown"><a href="#profile"
+            data-toggle="collapse" aria-expanded="false"
+            class="dropdown-toggle nav-link"> <i class="fe fe-user fe-16"></i>
+               <span class="ml-3 item-text">급여</span>
+         </a>
+            <ul class="collapse list-unstyled pl-4 w-100" id="profile">
+               <a class="nav-link pl-3" href="/resources/light/profile.html"><span
+                  class="ml-1">급여명세서</span></a>
+               <a class="nav-link pl-3"
+                  href="/salary/home"><span
+                  class="ml-1">급여정산</span></a>
+               <a class="nav-link pl-3"
+                  href="/resources/light/profile-security.html"><span
+                  class="ml-1">Security</span></a>
+               <a class="nav-link pl-3"
+                  href="/resources/light/profile-notification.html"><span
+                  class="ml-1">Notifications</span></a>
+            </ul></li>
+         <li class="nav-item dropdown"><a href="#fileman"
+            data-toggle="collapse" aria-expanded="false"
+            class="dropdown-toggle nav-link"> <i class="fe fe-folder fe-16"></i>
+               <span class="ml-3 item-text">인사이트</span>
+         </a>
+            <ul class="collapse list-unstyled pl-4 w-100" id="fileman">
+               <a class="nav-link pl-3" href="/resources/light/files-list.html"><span
+                  class="ml-1">Files List</span></a>
+               <a class="nav-link pl-3" href="/resources/light/files-grid.html"><span
+                  class="ml-1">Files Grid</span></a>
+            </ul></li>
+      </ul>
+      <p class="text-muted nav-heading mt-4 mb-1">
+         <span>Extra</span>
+      </p>
+      <ul class="navbar-nav flex-fill w-100 mb-2">
+         <li class="nav-item dropdown"><a href="#pages"
+            data-toggle="collapse" aria-expanded="false"
+            class="dropdown-toggle nav-link"> <i class="fe fe-file fe-16"></i>
+               <span class="ml-3 item-text">문서 증명서</span>
+         </a>
+            <ul class="collapse list-unstyled pl-4 w-100 w-100" id="pages">
+               <li class="nav-item"><a class="nav-link pl-3"
+                  href="./page-orders.html"> <span class="ml-1 item-text">Orders</span>
+               </a></li>
+               <li class="nav-item"><a class="nav-link pl-3"
+                  href="./page-timeline.html"> <span class="ml-1 item-text">Timeline</span>
+               </a></li>
+               <li class="nav-item"><a class="nav-link pl-3"
+                  href="./page-invoice.html"> <span class="ml-1 item-text">Invoice</span>
+               </a></li>
+               <li class="nav-item"><a class="nav-link pl-3"
+                  href="./page-404.html"> <span class="ml-1 item-text">Page
+                        404</span>
+               </a></li>
+               <li class="nav-item"><a class="nav-link pl-3"
+                  href="./page-500.html"> <span class="ml-1 item-text">Page
+                        500</span>
+               </a></li>
+               <li class="nav-item"><a class="nav-link pl-3"
+                  href="./page-blank.html"> <span class="ml-1 item-text">Blank</span>
+               </a></li>
+            </ul></li>
+         <li class="nav-item dropdown"><a href="#auth"
+            data-toggle="collapse" aria-expanded="false"
+            class="dropdown-toggle nav-link"> <i class="fe fe-shield fe-16"></i>
+               <span class="ml-3 item-text">설정</span>
+         </a>
+            <ul class="collapse list-unstyled pl-4 w-100" id="auth">
+               <a class="nav-link pl-3" href="/setting/setmain"><span
+                  class="ml-1">설정</span></a>
+               <a class="nav-link pl-3"
+                  href="/resources/light/auth-login-half.html"><span
+                  class="ml-1">Login 2</span></a>
+               <a class="nav-link pl-3" href="/resources/light/auth-register.html"><span
+                  class="ml-1">Register</span></a>
+               <a class="nav-link pl-3" href="/resources/light/auth-resetpw.html"><span
+                  class="ml-1">Reset Password</span></a>
+               <a class="nav-link pl-3" href="/resources/light/auth-confirm.html"><span
+                  class="ml-1">Confirm Password</span></a>
+            </ul></li>
+      </ul>
+   </nav>
+   <div>세션체킁: ${empVO }</div>
+</aside>

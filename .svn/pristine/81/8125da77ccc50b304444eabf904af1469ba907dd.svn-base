@@ -1,0 +1,36 @@
+package kr.or.ddit.vo;
+
+import java.util.Date;
+
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
+@Getter
+@Setter
+@ToString
+public class PayrollVO {
+	private int prNo;
+	private String prr;
+	private String ptNo;
+	private Date prGdate;
+	private Date prFdate;
+	private String finyn;
+	private int tlamt;
+	private int ddtl;
+	private int pytl;
+	private Date prRcDate;
+	private String prAttrYm;
+	private int pyNo1;
+	private int pyNo2;
+	private int pyNo3;
+	private int pyNo4;
+	private int pyNo5;
+	private int pyNo6;
+	private int ddNo1;
+	private int ddNo2;
+	private int ddNo3;
+	private int ddNo4;
+	private int ddNo5;
+	private int ddNo6;
+}

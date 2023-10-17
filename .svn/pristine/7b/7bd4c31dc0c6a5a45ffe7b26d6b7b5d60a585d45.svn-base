@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.ddit.setting.mapper.CompWorkMapper">
+
+<select id="workList" resultType="WorkVO">
+	SELECT 
+		WK_NO
+		, WK_NM
+		, WK_DESCR
+		, WK_YN
+		, WK_SCD
+		, WK_NIGHT
+		, WK_HD
+		, WK_STIME
+		, WK_ETIME
+		, WK_WTIME
+		, WK_DAY
+		, IMG_ROOT
+	FROM WORK
+	ORDER BY WK_NO
+</select>	
+	
+</mapper>

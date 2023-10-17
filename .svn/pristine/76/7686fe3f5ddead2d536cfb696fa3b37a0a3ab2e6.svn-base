@@ -1,0 +1,378 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>사원 추가</title>
+<style type="text/css">
+    #header2 {
+        display: flex;
+        align-items: center; /* 수직 정렬 중앙 정렬 */
+        height: 60%; /* 부모 높이에 맞게 설정 */
+    }
+    #header2>div {
+        display: flex;
+        align-items: center; /* 수직 정렬 중앙 정렬 */
+        height: 100%; /* 부모 높이에 맞게 설정 */
+    }
+    #body1 {
+    	align-items: center;
+    	padding-left : 15%;
+    	padding-right : 15%;
+    }
+
+    button.btn-primary {
+        margin-left: auto;
+        margin-right: 20px;
+    }
+    
+</style>
+
+<!-- 주민번호 처리 자바스크립트 -->
+<script>
+ 
+	function setJumin(obj) {
+		ju = obj.value;
+		ju = ju.replace("-", "");
+		if (ju.length > 6) {
+			ju1 = ju.substring(0, 6);
+			ju2 = ju.substring(6, 7);
+			for (i = 1; i < ju.substring(6).length && i < 7; i++) {
+				ju2 = ju2 + "*";
+			}
+			obj.value = ju1 + "-" + ju2;
+		}
+
+	}
+</script>
+
+<script type="text/javascript">
+
+$(document).ready(function() {
+	  // "입력완료" 버튼 클릭 시 Ajax를 통해 데이터를 서버로 전송
+	  $("#inputCompleteButton").click(function() {
+	    // 폼 데이터 추출
+	    var formData = $("#empForm").serializeArray();
+
+	    // FormData 객체로 변환 (JSON 형태로 전달할 수도 있음)
+	    var formDataObj = {};
+	    for (var i = 0; i < formData.length; i++) {
+	      formDataObj[formData[i].name] = formData[i].value;
+	    }
+
+	    // Ajax 요청 보내기
+	    $.ajax({
+	      type: "POST", // HTTP 요청 메서드 설정 (POST 방식으로 서버에 전송)
+	      contentType: "application/json", // 데이터 형식 설정
+	      url: "/personnel/empadd", // 서버 컨트롤러의 URL
+	      data: JSON.stringify(formDataObj), // JSON 데이터 전송
+	      success: function(response) {
+          console.log("성공했엉!!!",response);
+	      },
+	      error: function() {
+          console.log("실패했엉!!!");
+          
+	      }
+	    });
+	  });
+	});
+
+</script> 
+
+</head>
+<body>
+
+<div id="header1">
+	<div id="header2">
+		<button type="button" onclick="location.href = '/personnel/emp'" class="btn mb-2 btn-outline-secondary">나가기<span class="fe fe-24 fe-bell"></span></button>
+		<button type="submit" id="inputCompleteButton" class="btn mb-2 btn-primary"><span class="fe fe-24 fe-send"></span>입력완료</button>
+	</div>
+</div>
+<div id="body">
+   <div id="body1">
+   
+   
+	<div class="accordion w-100" id="accordion1">
+      <div class="card shadow">
+      
+		<form id="empForm" method="POST" action="/personnel/empadd">
+		
+        <div class="card-header" id="heading1">
+          <a role="button" href="#collapse1" data-toggle="collapse" data-target="#collapse1" aria-expanded="true" aria-controls="collapse1" class="">
+            <strong>기본정보입력</strong>
+          </a>
+        </div>
+        <div id="collapse1" class="collapse show" aria-labelledby="heading1" data-parent="#accordion1" style="">
+          <div class="card-body">
+            
+             <div class="form-group mb-3">
+               <label for="simpleinput">사번</label>
+               <input type="text" id="emp-num" class="form-control" name="empNo" placeholder="사번입력  ex)202309061">
+             </div>
+             
+             <div class="form-group mb-3">
+               <label for="example-password">비밀번호</label>
+               <input type="password" id="example-password" class="form-control" name="empPass">
+             </div>
+             
+             <div class="form-group mb-3">
+               <label for="simpleinput">이름</label>
+               <input type="text" id="simpleinput" class="form-control" name="empNm" placeholder="이름">
+             </div>
+             
+             <div class="form-group mb-3">
+            <label for="example-date">주민번호</label>
+            <input type=text class="form-control" placeholder="주민번호 입력" name=cpNo onkeyup="setJumin(this)"> 
+             </div>
+             
+             <div class="form-group mb-3">
+               <label for="example-email">Email</label>
+               <input type="email" id="example-email" name="empMail" class="form-control" placeholder="Email">
+             </div>
+             
+             <div class="form-group mb-3">
+                <label for="example-select">입사유형</label>
+                <select class="form-control" id="example-select1" name="entCaseCode">
+                  <option>신입</option>
+                  <option>경력</option>
+                </select>
+             </div>
+             
+             <div class="form-group mb-3">
+               <label for="example-date">입사일</label>
+               <input class="form-control" id="example-date1" type="date" name="entDate">
+             </div>          
+          
+          </div>
+        </div>
+        
+        </form>
+        
+      </div>
+      <div class="card shadow">
+        <div class="card-header" id="heading1">
+          <a role="button" href="#collapse2" data-toggle="collapse" data-target="#collapse2" aria-expanded="false" aria-controls="collapse2" class="collapsed">
+            <strong>인사정보입력</strong>
+          </a>
+        </div>
+        <div id="collapse2" class="collapse" aria-labelledby="heading2" data-parent="#accordion1" style="">
+          <div class="card-body">
+          
+     		<div class="form-group mb-3">
+                <label for="example-select">직무</label>
+                <select class="form-control" id="example-select2" name="jcode">			
+			       <option>인사</option>
+			       <option>영업</option>
+			       <option>회계</option>
+			       <option>개발</option>
+			       <option>마케팅</option>
+			       <option>전략기획</option>
+			       <option>총무</option>
+			       <option>노무</option>
+			       <option>홍보</option>
+			       <option>CS</option>
+			       <option>물류</option>
+			       <option>구매</option>
+			       <option>재고</option>
+			       <option>시설관리</option>
+			       <option>보안</option>
+			       <option>환경안전</option>
+			       <option>생산관리</option>
+			       <option>품질관리</option>
+			       <option>공정설계</option>
+			       <option>서비스</option>
+			       <option>재무</option>
+			       <option>법무</option>
+                </select>
+             </div>			
+		       
+             <div class="form-group mb-3">
+                <label for="example-select">직위</label>
+                <select class="form-control" id="example-select3" name="ptnCode">
+                  <option>사원</option>
+                  <option>주임</option>
+                  <option>대리</option>
+                  <option>과장</option>
+                  <option>차장</option>
+                  <option>부장</option>
+                  <option>이사</option>
+                  <option>상무</option>
+                  <option>부사장</option>
+                  <option>사장</option>
+                  <option>부회장</option>
+                  <option>회장</option>
+                </select>
+             </div>   
+                       
+             <div class="form-group mb-3">
+                <label for="example-select">직급</label>
+                <select class="form-control" id="example-select4" name="grdCode">
+                  <option>1호봉</option>
+                  <option>2호봉</option>
+                  <option>3호봉</option>
+                  <option>4호봉</option>
+                  <option>5호봉</option>
+                  <option>6호봉</option>
+                  <option>7호봉</option>
+                  <option>8호봉</option>
+                  <option>9호봉</option>
+                  <option>10호봉</option>
+                  <option>11호봉</option>
+                  <option>12호봉</option>
+                  <option>13호봉</option>
+                  <option>14호봉</option>
+                  <option>15호봉</option>
+                  <option>16호봉</option>
+                  <option>17호봉</option>
+                  <option>18호봉</option>
+                  <option>19호봉</option>
+                  <option>20호봉</option>
+                </select>
+             </div>
+             
+	     	<div class="form-group mb-3">
+ 	        <label for="example-select">부서/직책</label>	            
+	             <div class="input-group mb-3">
+	               	                
+                <select class="form-control" id="example-select5" name="dnm">
+                  <option>품질팀</option>
+                  <option>생산팀</option>
+                  <option>자재팀</option>
+                  <option>영업팀</option>
+                  <option>경리/회계팀</option>
+                  <option>인사/총무팀</option>
+                  <option>고객만족/고객서비스팀</option>
+                  <option>전략기획/경영지원팀</option>
+                  <option>연구개발/개발팀</option>
+                  <option>법무팀</option>
+                  <option>마케팅팀</option>                                
+                </select>
+	                	               	              
+                <select class="form-control" id="example-select6" name="dtcode" >                 
+                  <option>파트장</option>
+                  <option>팀장</option>
+                  <option>실장</option>
+                  <option>사업부장</option>
+                  <option>부문장</option>
+                  <option>본부장</option>
+                  <option>CFO</option>
+                  <option>CEO</option>
+                  <option>CIO</option>
+                  <option>COO</option>
+                  <option>CMO</option>
+                  <option>CTO</option>               
+                </select>
+	              
+	               <div class="input-group-append">	               
+					<div class="form-control">
+                      <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="" id="invalidCheck" required="" name="dprlr">
+                        <label class="form-check-label" for="invalidCheck" > 부서장 </label>
+                        <div class="invalid-feedback"> You must agree before submitting. </div>
+                      </div>
+                    </div>	              
+	               </div>
+	               
+	             </div>
+          	 </div>
+                 
+          </div>
+        </div>
+      </div>
+      <div class="card shadow">
+        <div class="card-header" id="heading1">
+          <a role="button" href="#collapse3" data-toggle="collapse" data-target="#collapse3" aria-expanded="false" aria-controls="collapse3" class="collapsed">
+            <strong>근로계약 정보입력</strong>
+          </a>
+        </div>
+        <div id="collapse3" class="collapse" aria-labelledby="heading3" data-parent="#accordion1" style="">
+          <div class="card-body">
+          
+         	 <div class="form-group mb-3">
+               <label for="example-date">근로 계약 시작일(적용일)</label>
+               <input class="form-control" id="example-date2" type="date" name="blctSdate">
+             </div>   
+                         
+         	 <div class="form-group mb-3">
+               <label for="example-date">근로 계약 종료일</label>
+               <input class="form-control" id="example-date3" type="date" name="blctEdate">
+             </div>               
+         	 
+			 <div class="form-group mb-3">
+               <label for="example-select">계약유형</label>
+               <select class="form-control" id="example-select7" name="blCase">			
+			      <option>정규직</option>
+			      <option>계약직</option>
+               </select>
+             </div>	  
+                    	 
+         	 <div class="form-group mb-3">
+         	  <div style="float: left; width: 33%;">
+               <label for="example-date">수습정보</label>
+              </div>
+         	  <div style="float: left; width: 66%;">
+               <input class="form-control" id="example-date4 type="date" name="prSdate">              
+               <input class="form-control" id="example-date5" type="date" name="prEdate">
+              </div>
+             </div>               
+         	 
+         	      
+          </div>
+        </div>
+      </div>
+      <div class="card shadow">
+        <div class="card-header" id="heading1">
+          <a role="button" href="#collapse4" data-toggle="collapse" data-target="#collapse4" aria-expanded="false" aria-controls="collapse4" class="collapsed">
+            <strong>임금계약 정보입력</strong>
+          </a>
+        </div>
+        <div id="collapse4" class="collapse" aria-labelledby="heading4" data-parent="#accordion1" style="">
+          <div class="card-body">
+          
+         	 <div class="form-group mb-3" style="padding: 3%;">
+         	  <div style="float: left; width: 33%;">
+               <label for="example-date">임금 계약 시작일(적용일)</label>
+              </div>
+         	  <div style="float: left; width: 66%;">
+               <input class="form-control" id="example-date6" type="date" name="bwctSdate">              
+              </div>
+             </div>               
+
+         	 <div class="form-group mb-3" style="padding: 3%;">
+         	  <div style="float: left; width: 33%;">
+               <label for="example-date">임금 계약 종료일</label>
+              </div>
+         	  <div style="float: left; width: 66%;">
+               <input class="form-control" id="example-date7" type="date" name="bwctEdate">              
+              </div>
+             </div>               
+            <div class="input-group mb-3" style="padding: 4%;">
+              <label for="example-date" style="padding-right: 10%;">계약금액</label>
+              <input type="text" class="form-control" aria-label="Amount (to the nearest dollar)" name="bcntAmt">
+              <div class="input-group-append">
+                <span class="input-group-text">원</span>
+              </div>
+            </div>
+            
+			 <div class="form-group mb-3">
+               <label for="example-select">소득구분</label>
+               <select class="form-control" id="example-select8" name="bincClf">			
+			      <option>근로소득</option>
+			      <option>사업소득</option>
+			      <option>기타소득</option>
+               </select>
+             </div>
+             	  
+          </div>
+        </div>
+      </div>
+    </div>
+    
+	
+	
+   </div>
+</div>
+</body>
+</html>

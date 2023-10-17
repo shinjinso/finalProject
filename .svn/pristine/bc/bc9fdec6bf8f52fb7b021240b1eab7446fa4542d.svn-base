@@ -1,0 +1,24 @@
+package kr.or.ddit.personnel.mapper;
+
+import java.util.List;
+
+import org.apache.ibatis.annotations.Mapper;
+
+import kr.or.ddit.vo.AuthVO;
+import kr.or.ddit.vo.EmpVO;
+import kr.or.ddit.vo.MemberVO;
+
+@Mapper //mybatis-scan 설정해 놓았기 때문에 생략가능
+public interface MemberMapper {
+	
+	//테스트용 2개 메소드
+	public int insertMember(MemberVO member);
+	public int insertAuth(AuthVO auth);	
+	
+	//실제 필요한 메소드는 요것만
+	//<select id="read" resultMap="memberMap" parameterType="string">
+	public EmpVO read(EmpVO empNo);
+	
+	public List<EmpVO> memberList();
+
+}

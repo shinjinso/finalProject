@@ -1,0 +1,23 @@
+package kr.or.ddit.salary.service;
+
+import java.util.List;
+
+import kr.or.ddit.salary.vo.PayDedVO;
+
+public interface PayDedService {
+	
+	// 지급/공제항목 법정필수항목 전체 리스트 출력
+	public List<PayDedVO> selectLawPDList();
+
+	// 지급/공제항목 추가한 항목 전체 리스트 출력
+	public List<PayDedVO> selectAddedPDList();
+		
+	//지급/공제항목 항목당 한건 검색
+	public PayDedVO selectPD(int pdNo);
+	
+	// 지급/공제항목 추가
+	public int insertPD(PayDedVO payDedVO);
+
+	//지급/공제항목 변경
+	public int updatePD(PayDedVO payDedVO);
+}

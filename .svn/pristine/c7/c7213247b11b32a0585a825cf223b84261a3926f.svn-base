@@ -1,0 +1,9 @@
+package kr.or.ddit.setting.service;
+
+import java.util.Map;
+
+public interface CompTreeService {
+
+	public int deptAdd(Map<String, Object> addMap);
+	
+}

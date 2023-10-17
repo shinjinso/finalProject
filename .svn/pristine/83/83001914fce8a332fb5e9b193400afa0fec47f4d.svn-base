@@ -1,0 +1,163 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>급여정산 결과</title>
+<style>
+	div {
+/* 		border : 1px solid blue; */
+	}
+	#Bside, #bTop, #bBottom {
+ 		border : 1px solid red; 
+	}
+	#bTop {
+	 	width : 100%;
+	 	height : 500px;
+	}
+    .updown {
+    	border: 2px solid gray;
+        width: 0.1px;
+        height: 10px;
+        text-align : center;
+    }
+    .steps {
+		display : flex;
+	}
+	
+	.table {
+	  display: flex;
+	  flex-direction: column; /* 컨테이너를 세로로 배치 */
+ 	  
+	}
+	
+	.row {
+	  display: flex;
+	  flex-direction: row; /* 각 행을 가로로 배치 */
+	  justify-content: center; /* 수평 가운데 정렬 */
+	}
+	
+	.cell {
+	  flex: 1; /* 각 셀을 동일한 크기로 설정 */
+	  border: 1px solid #ccc; /* 셀 경계선을 추가 */
+	  padding: 10px; /* 내용에 여백 추가 */
+	  text-align: center; /* 텍스트 가운데 정렬 */
+	  align-items: center; /* 수직 가운데 정렬 */
+	}
+</style>
+</head>
+<body>
+
+<div class="steps ml-4" style="width:100%;">
+	<div id="Aside" class="ml-4, mr-4" style="width:15%;height:100%;">
+		<div>
+			${SCVO.prStlNm}<br> 지급일 ${SCVO.prPdate}
+		</div>
+		<div>
+			<span class="badge badge-pill badge-success">근로소득</span> 
+		</div>
+		<div>
+			<div class="steps">
+				<div><span class="fe fe-24 fe-users"></span></div>
+				<div>Step1<br>
+				정산대상자
+				</div>
+			</div>
+			<div class="updown"></div>
+			<div class="steps">
+				<div><span class="fe fe-24 fe-users"></span></div>
+				<div>Step2<br>
+				지급 항목
+				</div>
+			</div>
+			<div class="updown"></div>
+			<div class="steps">
+				<div><span class="fe fe-24 fe-users"></span></div>
+				<div>Step3<br>
+				공제 항목
+				</div>
+			</div>
+			<div class="updown"></div>
+			<div class="steps">
+				<div><span class="fe fe-24 fe-users"></span></div>
+				<div>Step4<br>
+				결과 미리보기
+				</div>
+			</div>
+			<div class="updown"></div>
+			<div class="steps">
+				<div><span class="fe fe-24 fe-users"></span></div>
+				<div>Step5<br>
+				정산 완료
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<!-- ------------------------------------------------------------------------------------------------------------------------------------------>
+	
+	<div id="Bside" style="display:flex;flex-direction:column;width:100vh;">
+		<div id="bTop">
+			나와라 하나둘셋
+		</div>
+		<div id="bBottom" style="width:100%;">
+			<h4>급여대장 요약</h4>
+			<div class="table" style="text-align:center;width:80%; flex: 1;margin:0px;">
+		  		<div class="row">
+				    <div class="cell">
+				    	<div>지급일</div>
+				    	<div class="row" style="flex:1">
+				    		<div style="width:100px;text-align:center;font-size:1.2rem;"><strong>1월 1일</strong></div> 
+				    		<div><span class="badge badge-secondary text-muted ml-1">일요일</span></div>
+				    	</div>
+				    	<div class="mt-3 mb-3" style="font-size:0.5rem;">지난 정산</div>
+				    </div>
+				    <div class="cell">
+				    	<div>지급일</div>
+				    	<div class="row" style="flex:1">
+				    		<div style="width:100px;text-align:center;font-size:1.2rem;"><strong>1월 1일</strong></div> 
+				    	</div>
+				    	<div class="mt-3 mb-3" style="font-size:0.5rem;">지난 정산</div>
+				    </div>
+				    <div class="cell">
+				    	<div>지급일</div>
+				    	<div class="row" style="flex:1">
+				    		<div style="width:100px;text-align:center;font-size:1.2rem;"><strong>1월 1일</strong></div> 
+				    	</div>
+				    	<div class="mt-3 mb-3" style="font-size:0.5rem;">지난 정산</div>
+				    </div>
+			    </div>
+		  		<div class="row">
+				    <div class="cell">
+				    	<div>지급일</div>
+				    	<div class="row" style="flex:1">
+				    		<div style="width:100px;text-align:center;font-size:1.2rem;"><strong>1월 1일</strong></div> 
+				    	</div>
+				    	<div class="mt-3 mb-3" style="font-size:0.5rem;">지난 정산</div>
+				    </div>
+				    <div class="cell">
+				    	<div>지급일</div>
+				    	<div class="row" style="flex:1">
+				    		<div style="width:100px;text-align:center;font-size:1.2rem;"><strong>1월 1일</strong></div> 
+				    	</div>
+				    	<div class="mt-3 mb-3" style="font-size:0.5rem;">지난 정산</div>
+			    	</div>
+				    <div class="cell">
+				    	<div>지급일</div>
+				    	<div class="row" style="flex:1">
+				    		<div style="width:100px;text-align:center;font-size:1.2rem;"><strong>1월 1일</strong></div> 
+				    	</div>
+				    	<div class="mt-3 mb-3" style="font-size:0.5rem;">지난 정산</div>
+				    </div>
+			    </div>
+			</div>
+		</div>
+	</div>
+	
+	<p>정산 끝났다!!!</p>
+	
+</div>
+
+</body>
+</html>

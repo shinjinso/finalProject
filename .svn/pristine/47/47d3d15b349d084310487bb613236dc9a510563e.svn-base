@@ -1,0 +1,28 @@
+package kr.or.ddit.vacation.vo;
+
+import java.util.Date;
+
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
+@Getter
+@Setter
+@ToString
+public class VacApplyVO {
+	private int vaapCode;
+	private String empNo;
+	private int vhCngNo;
+	private String vaapEmp;
+	private String vaapApEmp;
+	private int vaapDays;
+	private String vaapRsn;
+	private String vaapApstCode;
+	private Date vaapApDate;
+	private String vaapRtRs;
+	private String vaapCcSt;
+	private Date vaapCcDate;
+	private Date vaapStart;
+	private Date vaapEnd;
+	private int vaapType;
+}

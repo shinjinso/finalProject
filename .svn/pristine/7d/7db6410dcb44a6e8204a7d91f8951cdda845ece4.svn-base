@@ -1,0 +1,21 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>정산템플릿 추가</title>
+</head>
+<body>
+<div class="row justify-content-end">
+<button type="button" class="btn mb-2 btn-outline-secondary">취소</button>&nbsp&nbsp<button type="button" class="btn mb-2 btn-success"
+								style="color: white;margin-right:30px;">✓ 저장하기</button>
+</div>
+
+<div>
+템플릿 정보<img src="">
+
+	<span class="fe fe-24 fe-edit-3"></span>
+</div>
+</body>
+</html>

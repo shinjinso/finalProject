@@ -1,0 +1,55 @@
+package kr.or.ddit.common.service.impl;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import kr.or.ddit.common.mapper.EmpMapper;
+import kr.or.ddit.common.mapper.NoticeMapper;
+import kr.or.ddit.common.service.NoticeService;
+import kr.or.ddit.common.vo.FileInfoVO;
+import kr.or.ddit.vo.NoticeVO;
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
+@Service
+public class NoticeServiceImpl implements NoticeService {
+	
+	@Autowired
+	NoticeMapper noticeMapper;
+	
+	@Autowired
+	EmpMapper empMapper;
+	
+	public int fileInsert(FileInfoVO fileInfoVO) {
+		return empMapper.fileInsert(fileInfoVO);
+	}
+
+	@Override
+	public int notiInsert(NoticeVO noticeVO) {
+		return noticeMapper.notiInsert(noticeVO);
+	}
+
+	@Override
+	public List<NoticeVO> notiList() {
+		return noticeMapper.notiList();
+	}
+
+	@Override
+	public int notiUpdate(NoticeVO noticeVO) {
+		return noticeMapper.notiUpdate(noticeVO);
+	}
+
+	@Override
+	public int notiDelete(NoticeVO noticeVO) {
+		return noticeMapper.notiDelete(noticeVO);
+	}
+
+	@Override
+	public NoticeVO noticeSelect(int postNo) {
+		return noticeMapper.noticeSelect(postNo);
+	}
+
+
+}

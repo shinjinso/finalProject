@@ -1,0 +1,80 @@
+package kr.or.ddit.personnel.controller;
+
+import java.security.Principal;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import kr.or.ddit.personnel.service.MemberService;
+import kr.or.ddit.vo.EmpVO;
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
+@RequestMapping("/personnel")
+@Controller
+public class PpController {
+	
+	@Autowired
+	MemberService ppservice;
+	
+	@GetMapping("/emp")
+	public String ph(Model model, EmpVO empNo) {
+		
+		EmpVO empVO = ppservice.read(empNo);
+		log.info("empVO : " + empVO);
+		
+		List<EmpVO> memberlist = ppservice.memberList();
+		model.addAttribute("memberList",memberlist);
+		log.debug("리스트",memberlist.toString());
+		
+		model.addAttribute("empVO",empVO);
+		
+		return"hrm/personnelHome";
+	}
+	
+	@GetMapping("/empadd")
+	public String empAdd(String empNo) {
+		
+		log.info("성공");
+		return"hrm/empAdd";
+	}
+	
+	@GetMapping("/Appointments")
+	public String Appointments() {
+//	        log.info("쳌쳌, 사용자 이름: " + principal.getName());
+	        
+//	        String empNo  = principal.getName();
+	        
+//	        EmpVO empVO = ppservice.read(empNo);
+	        
+	        
+//	        log.debug("empVO쳌" + empVO.toString());
+
+
+		return "hrm/Appointments";
+	}
+	
+	@PostMapping("/Appointmentset")
+	public String Appointmentset(Model model, @RequestParam String team, @RequestParam String promotion, @RequestParam String date,@RequestParam String note) {
+	
+		List<EmpVO> memberlist = ppservice.memberList();
+		
+		
+		model.addAttribute("memberList",memberlist);
+		model.addAttribute("team", team);
+		model.addAttribute("promotion", promotion);
+		model.addAttribute("date", date);
+		model.addAttribute("note", note);
+		
+		//forwarding
+		return "hrm/Appointmentset";
+		
+	}
+
+}

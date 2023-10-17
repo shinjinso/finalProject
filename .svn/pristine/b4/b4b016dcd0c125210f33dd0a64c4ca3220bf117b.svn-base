@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.ddit.setting.mapper.CompVacMapper">
+
+<select id="selectFileList" resultType="FileInfoVO">
+	SELECT
+		FILE_SN
+		, ORFI_NAME
+		, SVFI_NAME
+		, FILE_SIZE
+		, SV_DATE
+		, FILE_UDTER
+		, FILE_ROOT
+		, FILE_SETTING
+	FROM FILE_INFO
+	WHERE FILE_SETTING = 'vacationIcon'
+	ORDER BY FILE_SN
+</select>
+	
+</mapper>

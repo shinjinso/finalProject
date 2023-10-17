@@ -1,0 +1,20 @@
+package kr.or.ddit.vo;
+
+import java.util.Date;
+
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
+@Getter
+@Setter
+@ToString
+public class NoticeVO {
+	private int postNo;
+	private String wriNo;
+	private String postClf;
+	private String postTitle;
+	private String postCont;
+	private Date wriDate;
+	private String fileNo;
+}

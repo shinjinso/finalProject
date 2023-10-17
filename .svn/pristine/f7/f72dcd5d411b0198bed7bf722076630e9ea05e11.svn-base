@@ -1,0 +1,221 @@
+package kr.or.ddit.salary.controller;
+
+import java.security.Principal;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpSession;
+
+import org.apache.commons.collections4.map.HashedMap;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.SessionAttribute;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import kr.or.ddit.common.service.CommonService;
+import kr.or.ddit.common.vo.EmpVO;
+import kr.or.ddit.personnel.service.MemberService;
+import kr.or.ddit.salary.service.PayTplService;
+import kr.or.ddit.salary.service.SalaryService;
+import kr.or.ddit.salary.vo.PageVO;
+import kr.or.ddit.salary.vo.PayTplVO;
+import kr.or.ddit.salary.vo.SalaryCertVO;
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
+@RequestMapping("/salary")
+@Controller
+public class SalaryController {
+	
+	@Autowired
+	PayTplService payTplService;
+	
+	@Autowired
+	CommonService comService;
+	
+	@Autowired
+	MemberService ppservice;
+	
+	@Autowired
+	SalaryService salaryService;
+	
+//	//급여정산 홈 화면  (세션에 담는 법)
+//	@GetMapping("/home")
+//	public String home(HttpSession session) {
+//		Map<String,Object> map = new HashMap<String,Object>();
+//		map.put("name", "9월 정기 급여");
+//		map.put("yymm", "2023년 03월");
+//		map.put("payday", "2023-09-30");
+//		
+//		session.setAttribute("map", map);
+//		
+//		return "salary/salaryHome"; 
+//	}
+	
+	//급여정산 홈 화면 
+	@GetMapping("/home")
+	public String home(Principal principal, Model model) {
+		String empNo = principal.getName();
+		EmpVO vo =  comService.SelectEmp(empNo);
+		model.addAttribute("empVO",vo);
+		
+		return "salary/salaryHome";
+	}
+		
+		
+	//지난 정산 내역 화면
+	@GetMapping("/pastPayroll")
+	public String pastPayroll() {
+		return "salary/pastPayroll";
+	}
+	
+	//급여정산하기 모달창 form 태그 전송 (post) (다음페이지로 매개변수로 받은 vo 전달)
+	@PostMapping(value="/startPR", produces="text/plain;charset=utf-8") 
+	public String startPR(@ModelAttribute SalaryCertVO salaryCertVO, HttpSession session) {
+		log.info("salaryCertVO 넘어온 값 : " + salaryCertVO);
+		// salaryCertVO 넘어온 값 : SalaryCertVO(scNo=null, empNo=null, ptNo=0, scIsdate=null, 
+		// prYr=2023, prMth=9, pytlAmt=0, ddtlAmt=0, netAmt=0, prFdate=null, finYn=null, prPdate=2023-09-21, prStlNm=9월 정기급여)
+		
+		session.setAttribute("SCVO", salaryCertVO);
+
+		return "redirect:/salary/wageEmp";
+	}
+	
+	
+//	//급여정산하기 모달창 Ajax (세션에 담기)           //세션에 담으면 브라우저 두개 띄우고 8월급여정산, 9월급여정산 따로따로 작업할 때 세션값 충돌이 됨.
+//	@ResponseBody
+//	@PostMapping(value="/startPR", produces="text/plain;charset=utf-8")    //consumes는 클라이언트->서버 보내는 데이터 타입을 명시. produces는 서버->클라이언트 반환하는 데이터 타입을 명시.
+//	public String startPR(@RequestBody SalaryCertVO salaryCertVO, HttpSession session) {
+//		log.info("salaryCertVO 넘어온 값 : " + salaryCertVO);
+//		// salaryCertVO 넘어온 값 : SalaryCertVO(scNo=null, empNo=null, ptNo=0, scIsdate=null, 
+//		// prYr=2023, prMth=9, pytlAmt=0, ddtlAmt=0, netAmt=0, prFdate=null, finYn=null, prPdate=2023-09-21, prStlNm=9월 정기급여)
+//		
+//		int prYr = salaryCertVO.getPrYr();
+//		int prMth = salaryCertVO.getPrMth();
+//		String prPdate = salaryCertVO.getPrPdate();
+//		String prStlNm = salaryCertVO.getPrStlNm();
+//		int ptNo = salaryCertVO.getPtNo();
+//		
+//		session.setAttribute("prYr", prYr);
+//		session.setAttribute("prMth", prMth);
+//		session.setAttribute("prPdate", prPdate);
+//		session.setAttribute("prStlNm", prStlNm);
+//		session.setAttribute("ptNo", ptNo);
+//		
+//		return "세션에 저장 성공";
+//	}
+	
+	
+	
+	//정산대상자 선택 화면
+	@GetMapping("/wageEmp")
+	public String wageEmp(HttpSession session, Model model) {
+//	public String wageEmp(@RequestParam int ptNo, Model model) {
+		
+		SalaryCertVO vo = (SalaryCertVO)session.getAttribute("SCVO");
+		int ptNo = vo.getPtNo();
+		
+		PayTplVO payTplVO = payTplService.selectTpl(ptNo);
+		String ptNm = payTplVO.getPtNm();
+		
+		model.addAttribute("ptNm", ptNm);
+		
+		return "salary/wageEmp";
+	}
+	
+	//정산대상자 사원정보리스트 select (Ajax)
+	@ResponseBody
+	@PostMapping("/wageEmpListAjax") 
+	public Map<String,Object> wageEmpListAjax(@RequestBody PageVO pageVO){
+		
+//		log.debug("pageVO 나와라 {}", pageVO);
+		log.debug("pageVO 나와라 "+ pageVO); //PageVO(total=0, currentPage=3, pageCnt=0, startPage=0, pageSize=15, endPage=0, keyword=null, condition=null)
+																
+		int total = salaryService.getTotal(pageVO);
+		log.info("total 몇개?" + total); //40
+		
+		int startPage =(pageVO.getCurrentPage()-1) * pageVO.getPageSize() +1;
+		
+		int endPage = pageVO.getCurrentPage()*pageVO.getPageSize();	
+		
+		if(endPage > total) {
+			endPage = total;
+		}
+		
+		pageVO.setStartPage(startPage);
+		pageVO.setEndPage(endPage);
+		
+		log.info("startPage : " + startPage);
+		log.info("endPage : " + endPage);
+		
+		List<EmpVO> empList = salaryService.selectEmpList(pageVO);
+		log.info("empList?? " + empList);
+		
+		Map<String,Object> pageMap = new HashedMap<String, Object>();
+		pageMap.put("total", total);
+		pageMap.put("startPage", startPage);
+		pageMap.put("endPage", endPage);
+		pageMap.put("pageData", empList);
+		
+		log.debug("pageMap {}",pageMap);
+		/* 
+		    토탈갯수 : select
+		  pageSize: 받아와야하는 값 
+		  curPage:  받아와야 함
+		  페이지수 : 계산가능 
+		  
+		*/
+		
+		return pageMap;
+	}
+	
+	@ResponseBody
+	@PostMapping("/checkedEmpList")
+	public String checkedEmpList(@RequestBody List<String> checkedEmpList ) { 
+
+		log.info("checkedEmpList : " + checkedEmpList);
+		
+		 List<EmpVO> empList = new ArrayList<EmpVO>();
+
+		    // checkedEmpList의 각 문자열을 EmpVO 객체로 변환하여 리스트에 추가
+		    for (String empNo : checkedEmpList) {
+		        EmpVO empVO = new EmpVO();
+		        empVO.setEmpNo(empNo);
+		        empList.add(empVO);
+		    }
+
+		  
+		
+		return "success";
+	}
+	
+	//정산 - 지급  화면
+	@GetMapping("/wagePay")
+	public String wagePay() {
+		return "salary/wagePay";
+	}
+	
+	//정산 - 공제 화면
+	@GetMapping("/wageDed")
+	public String wageDed() {
+		return "salary/wageDed";
+	}
+	
+	//정산 결과 페이지 화면
+	@GetMapping("/wageRes")
+	public String wageRes() {
+		return "salary/wageRes";
+	}
+	
+
+	
+}

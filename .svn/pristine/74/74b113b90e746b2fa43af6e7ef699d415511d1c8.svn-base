@@ -1,0 +1,21 @@
+package kr.or.ddit.vacation.service;
+
+import java.util.List;
+
+import kr.or.ddit.vacation.vo.VacApplyVO;
+import kr.or.ddit.vacation.vo.VacTypeVO;
+
+
+public interface CusMainService{
+	List<VacTypeVO> vacType();
+	
+	public int insertVacApply(VacApplyVO vacApplyVO);
+	
+	public List<VacApplyVO> selectApplyList(String empNo);
+	
+	public VacApplyVO selectOneApply(int vaapCode);
+	
+	public int deleteApply(int vaapCode);
+	
+	public int updateApply(VacApplyVO vacApplyVO);
+}

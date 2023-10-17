@@ -1,0 +1,15 @@
+package kr.or.ddit.statistics.service;
+
+import java.util.List;
+
+import kr.or.ddit.vo.EmpStatsVO;
+
+public interface StatisticsService {
+
+	//남녀 비율
+	public List<Integer> mFcount(List<String> labels);
+
+	//분기별 직위별 평균근무시간
+	public List<EmpStatsVO> tltime(String ptnCode);
+
+}

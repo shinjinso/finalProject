@@ -1,0 +1,16 @@
+package kr.or.ddit.approval.service;
+
+import java.util.List;
+
+import kr.or.ddit.approval.vo.DocKindVO;
+import kr.or.ddit.common.vo.DeptVO;
+
+public interface ApprovalService {
+
+	//조직도
+	public List<DeptVO> organizationChartOne();
+	public List<DeptVO> organizationChartTwo();
+	
+	//문서종류 가져오기
+	public DocKindVO selectDocKind(String dokKind);
+}

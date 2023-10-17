@@ -1,0 +1,22 @@
+package kr.or.ddit.vo;
+
+import java.util.Date;
+
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
+@Getter
+@Setter
+@ToString
+public class BbsVO {
+	private int bbsNo;
+	private String empNo;
+	private String bbsClf;
+	private String bbsTitle;
+	private String bbsCont;
+	private Date bbsDate;
+	private int bbsHits;
+	private String bbsLikeCd;
+	private String fileNo;
+}

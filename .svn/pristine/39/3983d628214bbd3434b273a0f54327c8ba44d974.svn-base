@@ -1,0 +1,58 @@
+package kr.or.ddit.personnel.controller;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import kr.or.ddit.personnel.service.MemberService;
+import kr.or.ddit.vo.EmpVO;
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
+@RequestMapping("/personnel")
+@Controller
+public class PpController {
+	
+	@Autowired
+	MemberService ppservice;
+	
+	@GetMapping("/emp")
+	public String ph(String empNo) {
+		
+		EmpVO empVO = this.ppservice.read(empNo);
+		log.info("empVO : " + empVO);
+		
+		return"hrm/personnelHome";
+	}
+	@GetMapping("/empadd")
+	public String empAdd(String empNo) {
+		
+		log.info("성공");
+		return"hrm/empAdd";
+	}
+	
+	@GetMapping("/Appointments")
+	public String Appointments() {
+		
+		
+		return "hrm/personnelAppointments";
+	}
+	
+	@PostMapping("/Appointmentset")
+	public String Appointmentset(Model model, @RequestParam String team, @RequestParam String promotion, @RequestParam String date,@RequestParam String note) {
+	
+		model.addAttribute("team", team);
+		model.addAttribute("promotion", promotion);
+		model.addAttribute("date", date);
+		model.addAttribute("note", note);
+		
+		//forwarding
+		return "hrm/personnelAppointmentset";
+		
+	}
+
+}

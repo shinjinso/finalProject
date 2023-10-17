@@ -1,0 +1,44 @@
+package kr.or.ddit.vo;
+
+import java.util.Date;
+
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
+@Getter
+@Setter
+@ToString
+public class EmpVO {
+	private String signFileNo;
+	private String profileFileNo;
+	private int empSalary;
+	private String stClfCd;
+	private String enabled;
+	private String grdCode;
+	private String jcode;
+	private String ptnCode;
+	private String dtcode;
+	private String bsWktime;
+	private String entCaseCode;
+	private String ctrtCaseCode;
+	private String empMm;
+	private Date outDate;
+	private Date entDate;
+	private String owner;
+	private String acctNo;
+	private String bankCode;
+	private String empImg;
+	private String ofcNo;
+	private String cpNo;
+	private String regn;
+	private String empBrdt;
+	private String empAddr3;
+	private String empAddr2;
+	private String empAddr1;
+	private String empMail;
+	private String genCode;
+	private String empPass;
+	private String empNm;
+	private String empNo;
+}

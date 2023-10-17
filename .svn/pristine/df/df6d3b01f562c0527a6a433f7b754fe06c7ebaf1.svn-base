@@ -1,0 +1,53 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+	 .rounded-button {
+            padding: 10px 20px; /* 버튼 내용과 여백 설정 */
+            background-color: #ffffff; /* 버튼 배경색 */
+            color: #76777c; /* 회색 글자색 */
+            border: 1px solid #888888; /* 회색 테두리 */
+            border-radius: 20px; /* 둥근 모서리 설정 */
+            cursor: pointer; /* 커서 스타일 변경 (선택 사항) */
+        }
+</style>
+<meta charset="UTF-8">
+<title>급여정산 홈</title>
+</head>
+<body>
+<ul class="nav nav-tabs mb-3" id="myTab" role="tablist">
+	<li class="nav-item">
+		<a class="nav-link" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="false">급여정산</a>
+	</li>
+	<li class="nav-item">
+		<a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">퇴직소득</a>
+	</li>
+	<li class="nav-item">
+		<a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact" aria-selected="false">자료관리</a>
+	</li>
+</ul>
+
+<ul class="nav nav-tabs mb-3" id="myTab" role="tablist">
+	<li class="nav-item">
+		<a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">홈</a>
+	</li>
+	<li class="nav-item">
+		<a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">지난 정산 내역</a>
+	</li>
+	<li class="nav-item">
+		<a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact" aria-selected="false">정산템플릿 목록</a>
+	</li>
+</ul>
+
+<div class="alert alert-success" role="alert" style=width:500px;height:200px;>
+   <br>
+   <br>
+   <span class="fe fe-24 fe-check-circle" style="display:inline-block;"></span><h6 style="width:300px;margin:0px;">우리 회사 급여 정산 준비를 시작해볼까요?</h6>
+   <br>
+   <button type="button" class="rounded-button" style=margin-right:10px;>원천징수의무자 정보 확인하기</button>
+   <button type="button" class="rounded-button">정산템플릿 수정하기</button>
+</div>
+</body>
+</html>

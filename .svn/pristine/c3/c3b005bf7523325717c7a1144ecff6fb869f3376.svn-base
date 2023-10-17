@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.ddit.salary.mapper.SalaryMapper">
+
+<!-- 사원정보 리스트 출력 --> 
+<!-- <select id="selectEmpList" resultType="EmpVO"> -->
+<!-- 	  SELECT A.EMP_NO, A.EMP_NM, A.EMP_PASS , A.GEN_CODE  -->
+<!-- 		   ,(SELECT CM_NM FROM CMCODE WHERE CM_GROUP = 'gender' AND CM_CODE = A.GEN_CODE) AS GEN_CODE_NM -->
+<!-- 		   , A.EMP_MAIL , A.EMP_ADDR1, A.EMP_ADDR2, A.EMP_ADDR3, A.EMP_BRDT, A.REGN -->
+<!-- 		   , A.CP_NO, A.OFC_NO, A.EMP_IMG, A.BANK_CODE -->
+<!-- 		   , (SELECT CM_NM FROM CMCODE WHERE CM_GROUP = 'bank' AND CM_CODE = A.BANK_CODE) AS BANK_CODE_NM -->
+<!-- 		   , A.ACCT_NO, A.OWNER, A.ENT_DATE, A.OUT_DATE, A.EMP_MM, A.CTRT_CASE_CODE -->
+<!-- 		   ,(SELECT CM_NM FROM CMCODE WHERE CM_GROUP = 'contract' AND CM_CODE = A.CTRT_CASE_CODE) AS CTRT_CASE_NM -->
+<!-- 		   , A.ENT_CASE_CODE -->
+<!-- 		   ,(SELECT CM_NM FROM CMCODE WHERE CM_GROUP = 'join' AND CM_CODE = A.ENT_CASE_CODE) AS ENT_CASE_NM -->
+<!-- 		   , A.BS_WKTIME -->
+<!-- 		   , A.DTCODE -->
+<!-- 		   ,(SELECT CM_NM FROM CMCODE WHERE CM_GROUP = 'position' AND CM_CODE = A.DTCODE) AS DTCODE_NM -->
+<!-- 		   , A.PTN_CODE -->
+<!-- 		   ,(SELECT CM_NM FROM CMCODE WHERE CM_GROUP = 'spot' AND CM_CODE = A.PTN_CODE) AS PTN_CODE_NM -->
+<!-- 		   , A.JCODE -->
+<!-- 		   ,(SELECT CM_NM FROM CMCODE WHERE CM_GROUP = 'job' AND CM_CODE = A.JCODE) AS JCODE_NM -->
+<!-- 		   , A.GRD_CODE -->
+<!-- 		   ,(SELECT CM_NM FROM CMCODE WHERE CM_GROUP = 'year' AND CM_CODE = A.GRD_CODE) AS GRD_CODE_NM -->
+<!-- 		   , A.ENABLED, A.ST_CLF_CD -->
+<!-- 		   ,(SELECT CM_NM FROM CMCODE WHERE CM_GROUP = 'tenure' AND CM_CODE = A.ST_CLF_CD) AS ST_CLF_CD_NM -->
+<!-- 		   , A.EMP_SALARY, A.PROFILE_FILE_NO -->
+<!-- 		   , A.SIGN_FILE_NO, A.WORK_METHOD_CODE -->
+<!-- 		   , (SELECT CM_NM FROM CMCODE WHERE CM_GROUP = 'workMethod' AND CM_CODE = A.WORK_METHOD_CODE) AS WORK_METHOD_CODE_NM -->
+<!-- 		   , DCODE -->
+<!-- 		   , (SELECT DNM FROM DEPT WHERE DCODE = A.DCODE) AS DNM -->
+
+<!-- 		FROM EMP A -->
+<!-- </select> -->
+
+</mapper>

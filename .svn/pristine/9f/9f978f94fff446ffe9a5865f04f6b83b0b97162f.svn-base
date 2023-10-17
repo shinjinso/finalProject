@@ -1,0 +1,20 @@
+package kr.or.ddit.vo;
+
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
+@Getter
+@Setter
+@ToString
+public class PaytplVO {
+	private int pyNo;
+	private String parentPno;
+	private String pyNm;
+	private int pyAmt;
+	private String pyAbst;
+	private String pyFml;
+	private String pyYn;
+	private String pyLyn;
+	private String pyTax;
+}

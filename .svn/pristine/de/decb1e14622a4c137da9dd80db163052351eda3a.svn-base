@@ -1,0 +1,19 @@
+package kr.or.ddit.vacation.mapper;
+
+import java.util.List;
+
+import org.apache.ibatis.annotations.Mapper;
+
+import kr.or.ddit.common.vo.EmpVO;
+import kr.or.ddit.vacation.vo.BkApplyVO;
+
+@Mapper
+public interface CusBkApplyMapper {
+	
+	//사원조회
+	public EmpVO EmpSelect(String empNo);
+	//휴직 신청
+	public int insertBkApply(BkApplyVO bkApplyVO);
+	//신청 내역 조회
+	public List<BkApplyVO> getSelect(BkApplyVO bkApplyVO);
+}

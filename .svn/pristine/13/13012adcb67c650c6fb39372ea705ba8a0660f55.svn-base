@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.ddit.vacation.mapper.CusBkApplyMapper">
+	<resultMap type="BkApplyVO" id="BkApplyVOMap">
+		<result property="bkCertYn" column="BK_CERT_YN" />
+		<result property="fileSetting" column="FILE_SETTING" />
+		<result property="bkNo" column="BK_NO" />
+		<result property="empNo" column="EMP_NO" />
+		<result property="bkCode" column="BK_CODE" />
+		<result property="bkSdate" column="BK_SDATE" />
+		<result property="bkEdate" column="BK_EDATE" />
+		<result property="bkRsn" column="BK_RSN" />
+		<result property="bkApstCode" column="BK_APST_CODE" />
+		
+		<result property="bkName" column="BK_NM" />
+	</resultMap>
+
+	<!-- 로그인한 사원의 이름과 직위 자동 조회-->
+	<select id="EmpSelect" parameterType="String" resultType="empVO">
+		select EMP_NM , (SELECT CM_NM FROM CMCODE WHERE CM_CODE = PTN_CODE) PTN_CODE from EMP
+		where EMP_NO = #{empNo}
+		
+	</select>
+	
+	<insert id="insertBkApply" parameterType="BkApplyVO">
+	    INSERT INTO BK_APPLY (BK_NO, EMP_NO, BK_CODE, BK_SDATE, BK_EDATE, BK_RSN, BK_APST_CODE, FILE_SETTING, BK_CERT_YN)
+	    VALUES (vac_seq.nextval, #{empNo}, (SELECT BK_CODE FROM BK_KIND WHERE BK_NM = #{bkName}), #{bkSdate}, #{bkEdate}, #{bkRsn}, #{bkApstCode}, #{fileSetting}, #{bkCertYn})
+	</insert>
+	
+<!-- 	신청한  휴직 내역 상태 조회 -->
+	<select id="getSelect" parameterType="String" resultMap="BkApplyVOMap">
+		select A.BK_NO, A.EMP_NO, A.BK_CODE, B.BK_NM ,
+		TO_CHAR(A.BK_SDATE, 'yyyy-mm-dd') AS BK_SDATE, TO_CHAR(A.BK_EDATE, 'yyyy-mm-dd') AS BK_EDATE, 
+          A.BK_CERT_YN, A.BK_APST_CODE 
+		from BK_APPLY A, BK_KIND B 
+		WHERE A.BK_CODE = B.BK_CODE AND EMP_NO=#{empNo}
+	</select>
+	
+<!-- 	<select id="bkApplySelect" parameterType="String" resultType="BkApplyVO"> -->
+<!-- 		select BK_NO, EMP_NO, BK_CODE , -->
+<!-- 		  BK_SDATE, BK_EDATE, BK_CERT_YN, BK_APST_CODE  -->
+<!-- 		from BK_APPLY WHERE EMP_NO=#{empNo} -->
+<!-- 	</select> -->
+	
+	
+</mapper>

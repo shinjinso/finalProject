@@ -1,0 +1,309 @@
+package kr.or.ddit.statistics.controller;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import kr.or.ddit.statistics.service.StatisticsService;
+import kr.or.ddit.vo.ChartVO;
+import kr.or.ddit.vo.DatasetsVO;
+import kr.or.ddit.vo.EmpStatsVO;
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
+@RequestMapping("/statistics")
+@Controller
+public class statisticsController {
+
+	@Autowired
+	StatisticsService statisticsService;
+	
+	@GetMapping("/employee")
+	public String employee() {
+		return "statistics/employee";
+	}
+	
+	@ResponseBody
+	@GetMapping("/MF")
+	public ChartVO MF() {
+		
+		ChartVO chartVO = new ChartVO();
+		DatasetsVO vo = new DatasetsVO();
+		List<DatasetsVO> datasets = new ArrayList<DatasetsVO>();
+		
+		
+		List<String> labels = new ArrayList<String>();
+		labels.add("남성");
+		labels.add("여성");
+		chartVO.setLabels(labels);
+
+		List<Object> data = statisticsService.mFcount(labels);
+	
+
+		vo.setData(data);
+		datasets.add(vo);
+		
+		chartVO.setDatasets(datasets);
+		
+		return chartVO;
+	}
+	
+	
+	//직급별 근무시간
+	@ResponseBody
+	@GetMapping("/tltime")
+	public ChartVO tltime() {
+		ChartVO chartVO = new ChartVO(); // 차트
+		List<DatasetsVO> datasetList = new ArrayList<DatasetsVO>(); //차트 마지막 넣는곳
+		 //차트 분기 마다 값
+		
+		List<String> labels = new ArrayList<String>();
+		labels.add("1분기");
+		labels.add("2분기");
+		labels.add("3분기");
+		labels.add("4분기");
+		chartVO.setLabels(labels);
+		
+		
+		String ptnCode = null;
+		String colorr = null;
+		
+		String[] ptnCodes= {"A0101","A0102","A0103","A0104","A0105","A0106"};
+		String[] colors = {"red","blue","green","yellow","black","orange","skyblue"};
+		for(int i=0; i<ptnCodes.length; i++) {
+			DatasetsVO datasetsVO = new DatasetsVO();
+			List<EmpStatsVO> empStatsVO = null;
+			List<Object> data = new ArrayList<>();
+			
+			ptnCode = ptnCodes[i];
+			colorr = colors[i];
+			datasetsVO.setBackgroundColor(colorr);
+			log.info("사원 잘찍혀" + ptnCode);
+			log.info("첫 데이터" +datasetsVO);
+			
+			empStatsVO = statisticsService.tltime(ptnCode); // 뭐리  분기 사원 평균시간 구해오는거
+//			datasetsVO.setLabel(empStatsVO.get(0).getPtnCode());
+			datasetsVO.setLabel(ptnCode); // 위에꺼 풀어줘야함 데이터 다 넣고
+			
+			log.info("쳌쳌" + empStatsVO);
+			log.info("사이즈 체크 " + empStatsVO.size());
+			for(int a=0; a<empStatsVO.size(); a++) {
+				data.add(String.format("%.1f", empStatsVO.get(a).getAvrgWorkHr()));
+			}
+
+			datasetsVO.setData(data);
+			log.info("들어간 데이터" + datasetsVO);
+			
+			
+			
+			datasetList.add(datasetsVO);
+			log.info("데이터 리스트" + datasetList);
+			log.info("차트 리스트" + chartVO);
+			
+			
+		}	
+		chartVO.setDatasets(datasetList);
+		
+		
+		log.info("차트 데이터 결과본" + chartVO);
+		
+		return chartVO;
+	}
+	
+	
+	//평근 출 퇴근 시간
+	@ResponseBody
+	@GetMapping("/stime")
+	public ChartVO stime() {
+		ChartVO chartVO = new ChartVO(); // 차트
+		List<DatasetsVO> datasetList = new ArrayList<DatasetsVO>(); //차트 마지막 넣는곳
+		
+		List<String> labels = new ArrayList<String>();
+		labels.add("월");
+		labels.add("화");
+		labels.add("수");
+		labels.add("목");
+		labels.add("금");
+		labels.add("토");
+		labels.add("일");
+		chartVO.setLabels(labels);
+		
+		String quarter = null;
+		String color = null;
+		
+		String[] colors= {"red","blue","green","yellow"};
+		String[] quarters = {"1", "2", "3", "4"};
+		
+		for(int i=0; i<quarters.length; i++) {
+			DatasetsVO datasetsVO = new DatasetsVO();
+			List<EmpStatsVO> empStatsVO = null;
+			List<Object> data = new ArrayList<>();
+			
+			quarter = quarters[i];
+			color = colors[i];
+			
+			datasetsVO.setBorderColor(color);
+			
+			empStatsVO = statisticsService.setime(quarter);
+			datasetsVO.setLabel(quarter+"분기");
+			
+			for(int a=0; a<empStatsVO.size(); a++) {
+				data.add(String.format("%.1f", empStatsVO.get(a).getAvrgAttendTime()));
+			}
+			datasetsVO.setData(data);
+			log.info("들어간 데이터" + datasetsVO);
+			
+			
+			
+			datasetList.add(datasetsVO);
+			log.info("데이터 리스트" + datasetList);
+			log.info("차트 리스트" + chartVO);
+			
+			
+		}	
+		chartVO.setDatasets(datasetList);
+		
+		
+		log.info("차트 데이터 결과본" + chartVO);
+		
+		return chartVO;
+	}
+	//평근 퇴근 시간
+	@ResponseBody
+	@GetMapping("/etime")
+	public ChartVO etime() {
+		ChartVO chartVO = new ChartVO(); // 차트
+		List<DatasetsVO> datasetList = new ArrayList<DatasetsVO>(); //차트 마지막 넣는곳
+		
+		List<String> labels = new ArrayList<String>();
+		labels.add("월");
+		labels.add("화");
+		labels.add("수");
+		labels.add("목");
+		labels.add("금");
+		labels.add("토");
+		labels.add("일");
+		chartVO.setLabels(labels);
+		
+		String quarter = null;
+		String color = null;
+		
+		String[] colors= {"red","blue","green","yellow"};
+		String[] quarters = {"1", "2", "3", "4"};
+		
+		for(int i=0; i<quarters.length; i++) {
+			DatasetsVO datasetsVO = new DatasetsVO();
+			List<EmpStatsVO> empStatsVO = null;
+			List<Object> data = new ArrayList<>();
+			
+			quarter = quarters[i];
+			color = colors[i];
+			
+			datasetsVO.setBorderColor(color);
+			
+			empStatsVO = statisticsService.setime(quarter);
+			datasetsVO.setLabel(quarter+"분기");
+			
+			for(int a=0; a<empStatsVO.size(); a++) {
+				data.add(String.format("%.1f", empStatsVO.get(a).getAvrgLvffcTime()));
+			}
+			datasetsVO.setData(data);
+			log.info("들어간 데이터" + datasetsVO);
+			
+			
+			
+			datasetList.add(datasetsVO);
+			log.info("데이터 리스트" + datasetList);
+			log.info("차트 리스트" + chartVO);
+			
+			
+		}	
+		chartVO.setDatasets(datasetList);
+		
+		
+		log.info("차트 데이터 결과본" + chartVO);
+		
+		return chartVO;
+	}
+		
+		
+
+	//직급별 평균 연봉
+	@ResponseBody
+	@GetMapping("avgSalary")
+	public ChartVO avgSalary() {
+		ChartVO chartVO = new ChartVO(); // 차트
+		List<DatasetsVO> datasetList = new ArrayList<DatasetsVO>(); //차트 마지막 넣는곳
+		DatasetsVO datasetsVO = new DatasetsVO();
+		List<Object> empStatsVO = null;
+		
+		List<String> labels = new ArrayList<String>();
+		labels.add("사원");
+		labels.add("주임");
+		labels.add("대리");
+		labels.add("과장");
+		labels.add("차장");
+		labels.add("부장");
+		labels.add("그외");
+		chartVO.setLabels(labels);
+		
+		String ptnCode = null;
+		String colorr = null;
+	
+			
+			empStatsVO =statisticsService.salary(ptnCode);
+			
+			log.info("가져와라 연봉" + empStatsVO);
+	
+			log.info("VO@@데이터" + datasetsVO);
+			chartVO.setDatasets(datasetList);
+			
+			
+			log.info("차트 데이터 결과본555" + chartVO);
+			
+			return chartVO;
+		}
+	
+	
+	
+	@ResponseBody
+	@GetMapping("/employeeAjax")
+	public ChartVO employeeAjax() {
+		ChartVO chartVO = new ChartVO();
+		List<DatasetsVO> datasets = new ArrayList<DatasetsVO>();
+		DatasetsVO vo = new DatasetsVO();
+		DatasetsVO vo2 = new DatasetsVO();
+		
+//		int[]data = {10,20,30,40,50,60,70,80,90};
+		
+//		vo2.setData(data);
+		
+		datasets.add(vo);
+		datasets.add(vo2);
+		
+		
+		chartVO.setDatasets(datasets);		
+		
+		log.info("chartVO : " + chartVO);
+		
+		return chartVO;
+	}
+	
+	@GetMapping("/employee2")
+	public String employment() {
+		
+		return "statistics/employee2";
+	}
+	
+	@GetMapping("/expense")
+	public String expense() {
+		return "statistics/expense";
+	}
+	
+}

@@ -1,0 +1,167 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>급여명세서</title>
+<style>
+	/* 링크 스타일 */
+	a {
+		text-decoration: none; /* 밑줄 제거 */
+		color: #333; /* 일반 텍스트 색상 */
+		margin-right: 20px; /* 각 링크 사이의 간격 조절 */
+	}
+	div {
+	/*     	border: 1px solid blue; /* 항상 레이아웃을 눈으로 보면서 */      */
+	 }
+	span {
+	/* 	border: 1px solid red; */
+	}
+	
+	.tool{
+	display: inline-block;
+	width: 60%; 
+	height: 350px;
+	margin : 20px;
+	padding : 50px;
+	vertical-align: top;
+	background: white;
+	}
+
+	.oneBlock{
+		display: inline-block;
+		width: 150px;
+		font-size: 23px;
+	}
+	.twoBlock{
+		display: inline-block;
+		font-size: 23px;
+		color: black;
+	}
+	.down{
+		display: inline-block;
+		margin : 20px;
+		max-height: 350px;
+		overflow: auto;
+		background: white;
+	}
+	tr, td{
+		border-top : 0px;
+		border-bottom: 1px solid #e9ecef;
+	}
+	.th2{
+		color: black;
+		font-weight: bold;
+	}
+</style>
+</head>
+<body>
+
+<div id="container"> <!--wrapper-->
+
+	<h2>
+		<a href="/salary/home">급여</a>&nbsp;&nbsp; 
+	</h2>
+	<hr>
+	<h5>
+		<a href="/salary/home">급여명세서 목록</a>&nbsp;&nbsp; 
+	</h5>
+	<hr>
+
+
+
+
+	<div class="tool">
+		<div style="float: left; width: 40%" >
+			<h4>12월 급여</h4>
+			<h1>2,000,000 원</h1>
+			<br><br><br><br>
+			
+			<div class="oneBlock" >지급</div><div class="twoBlock">금액</div><br>
+			<div class="oneBlock" >공제</div><div class="twoBlock">금액</div><br>
+			<div class="oneBlock" >지급 기간</div><div class="twoBlock">12.1 ~ 12.31</div><br>
+		</div>
+		
+		<div style="float: right; width: 40%">
+			<img style="margin-left: -50px; width: 250px;" alt="" src="/resources/images/pay/pay.png">
+		</div>
+
+	
+	</div>
+	<div class="tool" style="width: 30%;">
+	<h4>2023년 누적 수령액</h4>
+	<h1 style="text-align: right;">22,222,222 원</h1>
+	<hr>
+	<div>
+	급여명세서 발급<br>
+	갑종근로소득에 대한 소득세 원청징수확인서 발급
+	</div>
+	</div>
+
+
+
+
+				       
+	
+	<br><br>
+	<h4 style="display: inline-block;">정산 리스트</h4> 
+	<select>
+		<option>1</option>
+		<option>2</option>
+		<option>3</option>
+		<option>4</option>
+	</select>
+	<input type="date" >
+
+
+	<div class="tool" style="width: 100%">
+	<table class="table table-hover" style="text-align: center;">
+						<thead>
+                          <tr>
+                            <th class="th2"><strong>급여 명세서</strong></th>
+                            <th class="th2"><strong>지급 날짜</strong></th>
+                            <th class="th2"><strong>지급 금액</strong></th>
+                            <th class="th2"><strong>공제 금액</strong></th>
+                            <th class="th2"><strong>실 수령액</strong></th>
+                            <th class="th2"><strong>다운로드</strong></th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+							<td>12월 급여 명세서</td>
+							<td>2020.11.22 지급</td>
+							<td>지급 3,333,333원</td>
+							<td>공제 1,444,444원</td>
+							<td>3,333,333원</td>
+							<td>다운</td>
+                          </tr>
+                          <tr>
+							<td>12월 급여 명세서</td>
+							<td>2020.11.22 지급</td>
+							<td>지급 3,333,333원</td>
+							<td>공제 1,444,444원</td>
+							<td>3,333,333원</td>
+							<td>다운</td>
+                          </tr>
+                          <tr>
+							<td>12월 급여 명세서</td>
+							<td>2020.11.22 지급</td>
+							<td>지급 3,333,333원</td>
+							<td>공제 1,444,444원</td>
+							<td>3,333,333원</td>
+							<td>다운</td>
+                          </tr>
+                          
+                        </tbody>
+                      </table>
+	</div>	
+</div>
+</body>
+
+<script type="text/javascript">
+
+
+</script>
+
+</html>

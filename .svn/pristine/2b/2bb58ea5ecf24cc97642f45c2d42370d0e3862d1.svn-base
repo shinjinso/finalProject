@@ -1,0 +1,30 @@
+package kr.or.ddit.vacation.vo;
+
+import java.util.Date;
+import java.util.List;
+
+import kr.or.ddit.common.vo.FileInfoVO;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
+@Getter
+@Setter
+@ToString
+public class BkApplyVO {	
+	private int bkNo;
+	private String empNo;
+	private String bkCode;
+	private String bkSdate;
+	private String bkEdate;
+	private String bkRsn;
+	private String bkApstCode;
+	private String bkCertYn;
+	private String fileSetting;
+	
+	private String bkName;
+	private int dftNo;
+	
+	private List<FileInfoVO> fileList;
+	private int fileSn;
+}

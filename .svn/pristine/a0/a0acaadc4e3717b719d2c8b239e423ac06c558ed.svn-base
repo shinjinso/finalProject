@@ -1,0 +1,148 @@
+package kr.or.ddit.statistics.controller;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import kr.or.ddit.statistics.service.StatisticsService;
+import kr.or.ddit.vo.ChartVO;
+import kr.or.ddit.vo.DatasetsVO;
+import kr.or.ddit.vo.EmpStatsVO;
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
+@RequestMapping("/statistics")
+@Controller
+public class statisticsController {
+
+	@Autowired
+	StatisticsService statisticsService;
+	
+	@GetMapping("/employee")
+	public String employee() {
+		return "statistics/employee";
+	}
+	
+	@ResponseBody
+	@GetMapping("/MF")
+	public ChartVO MF() {
+		
+		ChartVO chartVO = new ChartVO();
+		DatasetsVO vo = new DatasetsVO();
+		List<DatasetsVO> datasets = new ArrayList<DatasetsVO>();
+		
+		
+		List<String> labels = new ArrayList<String>();
+		labels.add("남성");
+		labels.add("여성");
+		chartVO.setLabels(labels);
+
+		List<Integer> data = statisticsService.mFcount(labels);
+	
+
+		System.out.println("이것도?.."+data);
+		vo.setData(data);
+		datasets.add(vo);
+		
+		chartVO.setDatasets(datasets);
+		
+		log.info("chartVO : " + chartVO);
+		
+		return chartVO;
+	}
+	
+	@ResponseBody
+	@GetMapping("/tltime")
+	public ChartVO tltime() {
+		ChartVO chartVO = new ChartVO(); // 차트
+		List<DatasetsVO> datasetList = new ArrayList<DatasetsVO>(); //차트 마지막 넣는곳
+		DatasetsVO datasetsVO = new DatasetsVO(); //차트 분기 마다 값
+		
+		List<String> labels = new ArrayList<String>();
+		labels.add("1분기");
+		labels.add("2분기");
+		labels.add("3분기");
+		labels.add("4분기");
+		chartVO.setLabels(labels);
+		
+		
+		String ptnCode = null;
+		List<EmpStatsVO> empStatsVO = null;
+		List<Integer> data = new ArrayList<>();
+		
+		String[] ptnCodes= {"A0101","A0102","A0103","A0104","A0105","A0106"};
+		for(int i=0; i<ptnCodes.length; i++) {
+			ptnCode = ptnCodes[i];
+			log.info("PTNCODE22" + ptnCode);
+			empStatsVO = statisticsService.tltime(ptnCode); // 뭐리  분기 사원 평균시간 구해오는거
+			
+			log.info("쳌쳌" + empStatsVO);
+		
+			
+			for(int a=0; a<empStatsVO.size(); a++) {
+				data.add(empStatsVO.get(a).getAvrgWorkHr());
+				datasetsVO.setLabel(empStatsVO.get(a).getPtnCode());
+				
+				log.info("뭐 넣는거니"+datasetsVO);
+				
+				datasetList.add(datasetsVO);
+				data =null;
+			}
+			datasetsVO.setData(data);
+			log.info("1차" + data);
+			
+			
+			
+			
+			
+		}	
+		datasetList.add(datasetsVO);
+		log.info("2차"+ datasetList); 
+		chartVO.setDatasets(datasetList);
+		
+		
+		return chartVO;
+	}
+	
+	
+	@ResponseBody
+	@GetMapping("/employeeAjax")
+	public ChartVO employeeAjax() {
+		ChartVO chartVO = new ChartVO();
+		List<DatasetsVO> datasets = new ArrayList<DatasetsVO>();
+		DatasetsVO vo = new DatasetsVO();
+		DatasetsVO vo2 = new DatasetsVO();
+		
+//		int[]data = {10,20,30,40,50,60,70,80,90};
+		
+//		vo2.setData(data);
+		
+		datasets.add(vo);
+		datasets.add(vo2);
+		
+		
+		chartVO.setDatasets(datasets);		
+		
+		log.info("chartVO : " + chartVO);
+		
+		return chartVO;
+	}
+	
+	@GetMapping("/employee2")
+	public String employment() {
+		
+		return "statistics/employee2";
+	}
+	
+	@GetMapping("/expense")
+	public String expense() {
+		return "statistics/expense";
+	}
+	
+}

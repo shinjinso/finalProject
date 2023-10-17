@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.ddit.setting.mapper.CompAuthMapper">
+
+<select id="getAuthList1" resultType="AcntAuthorVO">
+	SELECT 
+		AUTHRT_ID
+		, AUTHRT_NM
+		, AUTHRT_EXPLN
+		, AUTHRT_BA_YN
+		, AUTHRT_SN
+		, AUTHRT_YN
+	FROM ACNT_AUTHOR
+	WHERE AUTHRT_BA_YN = 'Y'
+	ORDER BY AUTHRT_SN
+</select>
+
+<select id="getAuthList2" resultType="AcntAuthorVO">
+	SELECT 
+		AUTHRT_ID
+		, AUTHRT_NM
+		, AUTHRT_EXPLN
+		, AUTHRT_BA_YN
+		, AUTHRT_SN
+		, AUTHRT_YN
+	FROM ACNT_AUTHOR
+	WHERE AUTHRT_BA_YN = 'N'
+	ORDER BY AUTHRT_SN
+</select>
+
+<select id="getMenuList1" resultType="MenuVO"> 
+	SELECT
+		MENU_NO
+		, PARENT_MNO
+		, MENU_NM
+	FROM MENU
+	WHERE PARENT_MNO IS NULL
+	ORDER BY MENU_NO
+</select>
+
+<select id="getMenuList2" resultType="MenuVO"> 
+	SELECT
+		MENU_NO
+		, PARENT_MNO
+		, MENU_NM
+	FROM MENU
+	WHERE PARENT_MNO IS NOT NULL
+	ORDER BY MENU_NO
+</select>
+	
+</mapper>

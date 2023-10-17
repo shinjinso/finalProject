@@ -1,0 +1,27 @@
+package kr.or.ddit.controller;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+@RequestMapping("/statistics")
+@Controller
+public class statisticsController {
+
+	@GetMapping("/employee")
+	public String employee() {
+		return "statistics/employee";
+	}
+	
+	@GetMapping("/employment")
+	public String employment() {
+		
+		return "statistics/employee2";
+	}
+	
+	@GetMapping("/expense")
+	public String expense() {
+		return "statistics/expense";
+	}
+	
+}

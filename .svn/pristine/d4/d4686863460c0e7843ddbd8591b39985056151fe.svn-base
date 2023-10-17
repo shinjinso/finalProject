@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.ddit.vacation.mapper.CusMainMapper">
+	<resultMap type="VacTypeVO" id="typeMap">
+		<result property="imgRoot" column="IMG_ROOT" />
+		<result property="vacTypeNo" column="VAC_TYPE_NO" />
+		<result property="vacTypeName" column="VAC_TYPE_NAME" />
+		<result property="vacTypeExp" column="VAC_TYPE_EXP" />
+		<result property="vacTypeUseDate" column="VAC_TYPE_USE_DATE" />
+	</resultMap>
+	
+<!-- 휴가 종류  조회 -->
+<select id="vacType" resultType="VacTypeVO">
+	select * from vac_type
+</select>
+
+<!-- 휴가 신청 -->
+<insert id="insertVacApply" parameterType="VacApplyVO" >
+        INSERT INTO VAC_APPLY (VAAP_CODE, VAAP_START, VAAP_END, VAAP_TYPE, VAAP_RSN, EMP_NO, VH_CNG_NO)
+        VALUES (wkap_seq.nextval, #{vaapStart}, #{vaapEnd}, 
+                #{vaapType}, #{vaapRsn}, #{empNo}, 
+                (SELECT VH_CNG_NO FROM VAC_HOLD WHERE VAC_TYPE_NO = #{vacTypeNo}));
+</insert>
+<!--   <selectKey resultType="int" order="BEFORE" keyProperty="vhCngNo"> -->
+<!--      SELECT NVL(MAX(vh_cng_no),0) + 1 FROM vac_apply -->
+<!--   </selectKey> -->
+
+<!--  INSERT INTO vac_apply (vaap_code, vh_cng_no, vaap_start, vaap_end, emp_no, vaap_type, VAAP_RSN) -->
+<!--     VALUES (wkap_seq.nextval,#{vhCngNo}, #{vaapStart}, #{vaapEnd}, #{empNo}, #{vaapType}, #{vaapRsn}) -->
+
+<!--  <insert id="insertVacation" parameterType="map"> -->
+<!--         DECLARE -->
+<!--             v_vh_cng_no NUMBER; -->
+<!--         BEGIN -->
+<!--             SELECT VH_CNG_NO -->
+<!--             INTO v_vh_cng_no -->
+<!--             FROM VAC_HOLD -->
+<!--             WHERE VAC_TYPE_NO = #{vacTypeNo}; -->
+
+<!--             INSERT INTO VAC_APPLY (VAAP_CODE, VAAP_START, VAAP_END, VAAP_TYPE, VAAP_RSN, EMP_NO, VH_CNG_NO) -->
+<!--             VALUES (wkap_seq.nextval, #{vaapStart}, #{vaapEnd},  -->
+<!--                     #{vaapType}, -->
+<!--                     #{vaapRsn}, #{empNo}, #{vVhCngNo}); -->
+            
+<!--             COMMIT; -->
+<!--         END; -->
+<!--     </insert> -->
+
+</mapper>

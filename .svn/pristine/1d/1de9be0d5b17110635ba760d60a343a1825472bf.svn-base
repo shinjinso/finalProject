@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.ddit.vacation.mapper.CusMainMapper">
+	<resultMap type="VacTypeVO" id="typeMap">
+		<result property="imgRoot" column="IMG_ROOT" />
+		<result property="vacTypeNo" column="VAC_TYPE_NO" />
+		<result property="vacTypeName" column="VAC_TYPE_NAME" />
+		<result property="vacTypeExp" column="VAC_TYPE_EXP" />
+		<result property="vacTypeUseDate" column="VAC_TYPE_USE_DATE" />
+	</resultMap>
+		
+	<resultMap type="VacApplyVO" id="applyMap">
+		<result property="vaapType" column="VAAP_TYPE" />
+		<result property="vhCngNo" column="VH_CNG_NO" />
+		<result property="empNo" column="EMP_NO" />
+		<result property="vacTypeNo" column="VAC_TYPE_NO" />
+		<result property="vaapCode" column="VAAP_CODE" />
+		<result property="vaapEmp" column="VAAP_EMP" />
+		<result property="vaapApEmp" column="VAAP_AP_EMP" />
+		<result property="vaapDays" column="VAAP_DAYS" />
+		<result property="vaapRsn" column="VAAP_RSN" />
+		<result property="vaapApstCode" column="VAAP_APST_CODE" />
+		<result property="vaapApDate" column="VAAP_AP_DATE" />
+		<result property="vaapRtRs" column="VAAP_RT_RS" />
+		<result property="vaapCcSt" column="VAAP_CC_ST" />
+		<result property="vaapCcDate" column="VAAP_CC_DATE" />
+		<result property="vaapStart" column="VAAP_START" />
+		<result property="vaapEnd" column="VAAP_END" />
+		<result property="vacTypeName" column="VAC_TYPE_NAME" />
+	</resultMap>
+	
+<!-- 		<association javaType="VacTypeVO" property="vacTypeVO"> -->
+<!-- 			<result property="imgRoot" column="IMG_ROOT" /> -->
+<!-- 			<result property="vacTypeNo" column="VAC_TYPE_NO" /> -->
+<!-- 			<result property="vacTypeName" column="VAC_TYPE_NAME" /> -->
+<!-- 			<result property="vacTypeExp" column="VAC_TYPE_EXP" /> -->
+<!-- 			<result property="vacTypeUseDate" column="VAC_TYPE_USE_DATE" /> -->
+<!-- 			<result property="vhInfo" column="VH_INFO" /> -->
+<!-- 		</association> -->
+	
+	<!-- 휴가 종류  조회 -->
+	<select id="vacType" resultType="VacTypeVO">
+		select * from vac_type
+	</select>
+	
+	<!-- 휴가 신청 -->
+	<insert id="insertVacApply" parameterType="VacApplyVO" >
+	        INSERT INTO VAC_APPLY (VAAP_CODE, VAAP_DAYS, VAAP_START, VAAP_END, VAAP_TYPE, VAAP_RSN, EMP_NO, VH_CNG_NO, VAC_TYPE_NO,VAAP_DATE)
+	        VALUES (wkap_seq.nextval,#{vaapDays} ,#{vaapStart}, #{vaapEnd}, #{vaapType}, #{vaapRsn}, #{empNo}, #{vhCngNo}, #{vacTypeNo},#{vaapDate})
+	                
+	                
+	</insert>
+	
+	<!-- 신청된 휴가 내역 조회 -->
+	<select id="selectApplyList" parameterType="String" resultType="VacApplyVO">
+		SELECT va.VAAP_CODE, va.EMP_NO, va.VAC_TYPE_NO, va.VAAP_DAYS, va.VAAP_RSN,
+		       va.VAAP_APST_CODE, va.VAAP_RT_RS, va.VAAP_CC_ST, va.VAAP_START, va.VAAP_END, va.VAAP_TYPE,
+		       (SELECT VT.VAC_TYPE_NAME FROM VAC_TYPE VT WHERE VT.VAC_TYPE_NO = VA.VAC_TYPE_NO) VAC_TYPE_NAME
+		FROM vac_apply VA
+		WHERE va.EMP_NO = #{empNo}
+		ORDER BY 1 DESC
+	</select>
+
+	<!-- 신청된 휴가 내역에서 리스트별 조회 -->
+	<select id="selectOneApply" parameterType="int" resultType="VacApplyVO">
+		select * from VAC_APPLY where VAC_TYPE_NO = #{vacTypeNo}
+	</select>
+</mapper>

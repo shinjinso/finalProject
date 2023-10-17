@@ -1,0 +1,75 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>설정</title>
+<style>
+	div{
+   		border:1px solid blue;   
+	}
+	#header {
+		height:15vh;
+	}
+	#cont {
+		height:70vh;
+		padding-left: 60px;
+	}
+	.row1 {
+		margin: 3px;
+		display: inline-block;
+		width:21vw;
+		height:30vh;
+	}
+	.row2 {
+		margin: 3px;
+		display: inline-block;
+		width:21vw;
+		height:30vh;
+	}
+</style>
+
+</head>
+<body>
+	<div id="myWrap">
+		<div id="header" style="margin-left: 15px;">
+			<h2>설정</h2>
+			<br><hr><br>
+		</div>
+		<div id="cont">
+			<div class="row1">
+				<h5>회사 정보 설정</h5>
+				<a href="/setting/companyinfo">회사 정보 설정</a><br>
+				<a href="#">회사 직인 설정</a><br>
+				<a href="#">회사 휴일 설정</a><br><br><br>
+			</div>
+			<div class="row1">
+				<h5>인사 정보 설정</h5>
+				<a href="#">조직도 설정</a><br>
+				<a href="#">직위 설정</a><br>
+				<a href="#">직책 설정</a><br>
+				<a href="#">직무 설정</a><br>
+				<a href="#">직급 설정</a><br>
+			</div>
+			<div class="row1">
+				<h5>근무 설정</h5>
+				<a href="#">근무 설정</a><br><br><br><br><br>
+			</div>
+			<div class="row2">
+				<h5>휴가 설정</h5>
+				<a href="#">휴가 설정</a><br><br><br><br><br>
+			</div>
+			<div class="row2">
+				<h5>급여정산 설정</h5>
+				<a href="#">급여 설정</a><br><br><br><br><br>
+			</div>
+			<div class="row2">
+				<h5>계정 설정</h5>
+				<a href="#">권한 설정</a><br>
+				<a href="#">로그인 이력 확인</a><br><br><br><br>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

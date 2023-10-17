@@ -1,0 +1,53 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+	#box {
+		border : 1px solid #6c757d;
+		background-color : white;
+		width : 500px;
+		height : 300px;
+		margin:0 auto; 
+	}
+</style>
+<meta charset="UTF-8">
+<title>정산템플릿 추가</title>
+</head>
+<body>
+<div class="row justify-content-end">
+<button type="button" class="btn mb-2 btn-outline-secondary">취소</button>&nbsp&nbsp<button type="button" class="btn mb-2 btn-success"
+								style="color: white;margin-right:30px;">✓ 저장하기</button>
+</div>
+
+<div id="box">
+	<br>
+	<h6 style="display:inline-block">&nbsp&nbsp템플릿 정보 <img src="/resources/images/document.png"/></h6>
+	<hr>
+	<br>
+	<div class="row" style="width:700px;">
+		<div>이름</div>
+		<div><input type="text" value="정기급여 테스트 템플릿"><span class="fe fe-24 fe-edit-3"></span></div>
+	</div>
+	<div class="row">
+		<div>설명</div>
+		<div><input type="text" value="테스트 템플릿입니다."><span class="fe fe-24 fe-message-square"></span></div>
+	</div>
+
+</div>
+
+
+<!-- <div class="col-md-6"> -->
+<!--   <div class="form-group mb-3"> -->
+<!--     <label for="tmpName">이름</label> -->
+<!--     <input type="text" id="tmpName" name="tmpName" class="form-control" placeholder="이름"> -->
+<!--   </div> -->
+<!--   <div class="form-group mb-3"> -->
+<!--     <label for="explain">설명</label> -->
+<!--     <input type="text" id="explain" name="explain" class="form-control" placeholder="설명"> -->
+<!--   </div> -->
+<!-- </div> -->
+
+</body>
+</html>

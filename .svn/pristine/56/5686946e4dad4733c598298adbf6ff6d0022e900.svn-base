@@ -1,0 +1,22 @@
+package kr.or.ddit.common.mapper;
+
+import java.util.List;
+
+import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
+
+import kr.or.ddit.vo.AuthorAlwncVO;
+import kr.or.ddit.vo.EmpVO;
+
+@Mapper
+public interface EmpMapper {
+	//테스트용 2개 메소드
+	public int insertEmp(EmpVO member);
+	public int insertAuth(AuthorAlwncVO auth);	
+	
+	//실제 필요한 메소드는 요것만
+	public EmpVO read(String userid);
+	
+	//사원검색
+	public List<EmpVO> suchEmp(String keyword);
+}

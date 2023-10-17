@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.ddit.approval.mapper.ApprovalMapper">
+
+
+<!-- 조직도 계층형 쿼리 -->	
+	
+<resultMap type="DeptVO" id="deptMap">
+	<result property="dcode" column="DCODE"/>
+	<result property="uprDcode" column="UPR_DCODE"/>
+	<result property="dnm" column="DNM"/>
+	<result property="empNo" column="EMP_NO"/>
+	<result property="dabst" column="DABST"/>
+	<result property="delynCd" column="DELYN_CD"/>
+
+	<result property="deptEmpNo" column="DEPT_EMPNO"/>
+</resultMap>
+
+
+<select id="organizationChart" resultMap="deptMap">
+	SELECT D.DNM, D.DCODE, D.UPR_DCODE ,E.EMP_NO AS DEPT_EMPNO
+	FROM DEPT D
+	LEFT JOIN EMP E ON D.DCODE = E.DCODE
+	START WITH D.UPR_DCODE IS NULL
+	CONNECT BY PRIOR D.DCODE = D.UPR_DCODE
+</select>
+
+
+</mapper>

@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.ddit.common.mapper.EmpMapper">
+
+	<resultMap type="EmpVO" id="memberMap">
+		<result property="empNo" column="EMP_NO" />
+		<result property="empPass" column="EMP_PASS" />
+		<result property="empNm" column="EMP_NM" />
+		<result property="enabled" column="ENABLED" />
+		<collection property="authList" resultMap="authMap" />
+	</resultMap>
+
+	<resultMap type="AuthorAlwncVO" id="authMap">
+		<result property="authrtId" column="AUTHRT_ID" />
+		<result property="empNo" column="EMP_NO" />
+	</resultMap>
+
+	<!-- 권한 셀렉트 -->
+	<select id="read" resultMap="memberMap" parameterType="string">
+		select
+		mem.EMP_NO, EMP_PASS, EMP_NM, ENABLED, AUTHRT_ID
+		from EMP mem , AUTHOR_ALWNC auth
+		where mem.EMP_No = #{empNo} and mem.EMP_NO = auth.EMP_NO
+	</select>
+	
+	<!-- 사원 인설트 -->
+	<insert id="insertEmp" parameterType="EmpVO">
+		INSERT INTO EMP(
+			EMP_NO,
+			EMP_NM,
+			EMP_PASS,
+			GEN_CODE,
+			EMP_MAIL,
+			EMP_ADDR1,
+			EMP_ADDR2,
+			EMP_ADDR3,
+			EMP_BRDT,
+			REGN,
+			CP_NO,
+			OFC_NO,
+			EMP_IMG,
+			BANK_CODE,
+			ACCT_NO,
+			OWNER,
+			ENT_DATE,
+			OUT_DATE,
+			EMP_MM,
+			CTRT_CASE_CODE,
+			ENT_CASE_CODE,
+			BS_WKTIME,
+			DTCODE,
+			PTN_CODE,
+			JCODE,
+			GRD_CODE,
+			ENABLED,
+			ST_CLF_CD,
+			EMP_SALARY,
+			PROFILE_FILE_NO,
+			SIGN_FILE_NO)
+		VALUES(
+			#{empNo},
+			#{empNm},
+			#{empPass},
+			#{genCode},
+			#{empMail},
+			#{empAddr1},
+			#{empAddr2},
+			#{empAddr3},
+			#{empBrdt},
+			#{regn},
+			#{cpNo},
+			#{ofcNo},
+			#{empImg},
+			#{bankCode},
+			#{acctNo},
+			#{owner},
+			#{entDate},
+			#{outDate},
+			#{empMm},
+			#{ctrtCaseCode},
+			#{entCaseCode},
+			#{bsWktime},
+			#{dtcode},
+			#{ptnCode},
+			#{jcode},
+			#{grdCode},
+			#{enabled},
+			#{stClfCd},
+			#{empSalary},
+			#{profileFileNo},
+			#{signFileNo}
+		)
+	</insert>
+
+	<!-- 권한 인설트 -->
+	<insert id="insertAuth" parameterType="AuthorAlwncVO">
+		INSERT INTO AUTHOR_ALWNC(
+			AUTHRT_ID,
+			EMP_NO
+		)VALUES(
+			#{authrtId},
+			#{empNo}
+		)
+	</insert>
+	
+	<select id="suchEmp" parameterType="String" resultType="EmpVO">
+		SELECT * FROM EMP
+		WHERE 1=1
+		<if test="keyword!=null and keyword!=''">
+		AND(
+		 EMP_NO LIKE '%' ||#{keyword}|| '%' OR 
+		 EMP_NM LIKE '%' ||#{keyword}|| '%'
+		 )
+		</if>
+		ORDER BY EMP_NO DESC
+	</select>
+</mapper>

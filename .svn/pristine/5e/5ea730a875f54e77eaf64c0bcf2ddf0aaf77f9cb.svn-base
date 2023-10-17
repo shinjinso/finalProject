@@ -1,0 +1,12 @@
+package kr.or.ddit.setting.mapper;
+
+import org.apache.ibatis.annotations.Mapper;
+
+import kr.or.ddit.vo.CompanyInfoVO;
+
+@Mapper
+public interface CompanyInfoMapper {
+	
+	public int updateData(CompanyInfoVO companyInfoVO);
+	
+}

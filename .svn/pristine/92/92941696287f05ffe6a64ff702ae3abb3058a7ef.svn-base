@@ -1,0 +1,53 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>급여명세서</title>
+<style>
+	/* 링크 스타일 */
+	a {
+		text-decoration: none; /* 밑줄 제거 */
+		color: #333; /* 일반 텍스트 색상 */
+		margin-right: 20px; /* 각 링크 사이의 간격 조절 */
+	}
+	div {
+	/*     	border: 1px solid blue; /* 항상 레이아웃을 눈으로 보면서 */      */
+	 }
+	span {
+	/* 	border: 1px solid red; */
+	}
+</style>
+</head>
+<body>
+
+<div id="container"> <!--wrapper-->
+
+	<h2>
+		<a href="/salary/home">급여</a>&nbsp;&nbsp; 
+	</h2>
+	<hr>
+	<h5>
+		<a href="/salary/home">급여명세서 목록</a>&nbsp;&nbsp; 
+	</h5>
+	<hr>
+
+	<div class="alert alert-success" role="alert" style="width: 500px; height: 200px;">
+		<br> <br> 
+		<span class="fe fe-24 fe-check-circle" style="display: inline-block;"></span>
+		<h6 style="width: 300px; margin: 0px; font-size: 15px;">우리 회사 급여 정산 준비를 시작해볼까요?</h6>
+		<br>
+		<button type="button" class="rounded-button" style="margin-right: 10px;">원천징수의무자 정보 확인하기</button>
+		<button type="button" class="rounded-button">정산템플릿 수정하기</button>
+	</div>
+	
+	<br><br>
+	<h4>정산을 시작해볼까요?</h4>
+
+	<div id="bmkList" class="row align-items-center" style="margin: 0px;">
+
+	</div>	<!--전체 row 끝-->
+</div>
+</body>
+</html>

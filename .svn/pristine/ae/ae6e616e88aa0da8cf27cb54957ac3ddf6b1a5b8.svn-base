@@ -1,0 +1,39 @@
+package kr.or.ddit.common.service;
+
+import java.util.List;
+
+import kr.or.ddit.common.vo.AccaVO;
+import kr.or.ddit.common.vo.CnthxVO;
+import kr.or.ddit.common.vo.EmpVO;
+import kr.or.ddit.common.vo.FileInfoVO;
+import kr.or.ddit.vo.WkHrVO;
+
+public interface CommonService {
+	
+	//검색 기능
+	public List<EmpVO> suchEmp(String keyword);
+	
+	//사원 한명 검색
+	public EmpVO SelectEmp(String EmpNo);
+	
+	//내 계약정보
+	public List<CnthxVO> myCnthx(String EmpNo);
+	
+	//내 학력정보
+	public AccaVO myAcca(String EmpNo);
+	
+	//파일정보 insert
+	public int fileInsert(FileInfoVO fileInfoVO,EmpVO empvo);
+	
+	//파일정보 select
+	public List<FileInfoVO> fileSelect(String empNo);
+	
+	// 출근 등록
+	public int gotoWork(WkHrVO wkHrVO);
+	
+	// 퇴근 등록
+	public int leaveWork(WkHrVO wkHrVO);
+	
+	// 출퇴근정보 조회
+	public WkHrVO commuteSelect(String waDate, String empNo);
+}

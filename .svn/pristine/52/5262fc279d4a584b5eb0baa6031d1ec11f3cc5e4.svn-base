@@ -1,0 +1,14 @@
+package kr.or.ddit.vacation.mapper;
+
+import java.util.List;
+
+import org.apache.ibatis.annotations.Mapper;
+
+import kr.or.ddit.vacation.vo.VacApplyVO;
+
+@Mapper
+public interface AdminVacationListMapper {
+
+	//휴가 내역 조회
+	public List<VacApplyVO> vacationSelectList();
+}

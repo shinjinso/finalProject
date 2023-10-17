@@ -1,0 +1,19 @@
+package kr.or.ddit.vo;
+
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
+@Getter
+@Setter
+@ToString
+public class DedVO {
+	private int ddNo;
+	private String parentDno;
+	private String ddNm;
+	private int ddAmt;
+	private String ddAbst;
+	private String ddFml;
+	private String ddYn;
+	private String ddLyn;
+}

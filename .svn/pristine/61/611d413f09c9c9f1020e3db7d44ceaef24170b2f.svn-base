@@ -1,0 +1,22 @@
+package kr.or.ddit.salary.vo;
+
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
+@Getter
+@Setter
+@ToString
+public class PayDedVO {
+	
+	private int pdNo;//지급번호
+	private String prntPdNo;//부모코드
+	private int ptNo;//지급명
+	private String pdNm;//지급금액
+	private int pdAmt;//지급설명
+	private String pdEpn;//산출식
+	private String pdFml;//정산포함여부
+	private String pdYn;//법정필수여부코드
+	private String pdLawYn;//과세여부코드
+	private String pdTaxYn;
+}

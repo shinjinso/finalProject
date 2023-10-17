@@ -1,0 +1,28 @@
+package kr.or.ddit.approval.service.impl;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import kr.or.ddit.approval.mapper.ApprovalMapper;
+import kr.or.ddit.approval.service.ApprovalService;
+import kr.or.ddit.common.vo.DeptVO;
+
+@Service
+public class ApprovalServiceImpl implements ApprovalService{
+	
+	@Autowired
+	ApprovalMapper approvalMapper;
+
+	//조직도
+	@Override
+	public List<DeptVO> organizationChartOne() {
+		return approvalMapper.organizationChartOne();
+	}
+	@Override
+	public List<DeptVO> organizationChartTwo() {
+		return approvalMapper.organizationChartTwo();
+	}
+	
+}

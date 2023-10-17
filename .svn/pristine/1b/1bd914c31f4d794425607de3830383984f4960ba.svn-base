@@ -1,0 +1,84 @@
+package kr.or.ddit.personnel.service.Impl;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import kr.or.ddit.common.vo.CnthxVO;
+import kr.or.ddit.common.vo.EmpVO;
+import kr.or.ddit.personnel.mapper.MemberMapper;
+import kr.or.ddit.personnel.service.MemberService;
+import kr.or.ddit.vo.AsgmtVO;
+import kr.or.ddit.vo.DeptVO;
+
+
+@Service
+public class MemberServiceImpl implements MemberService {
+	
+	@Autowired
+	MemberMapper memberMapper;
+	
+	//실제 필요한 메소드는 요것만
+	@Override
+	public EmpVO read(EmpVO empNo) {
+		return this.memberMapper.read(empNo);
+	}
+	//사원추가
+	@Override
+	@Transactional
+	public int insertEMP(EmpVO empVO, CnthxVO cnthxVO) {
+		 // EmpVO를 먼저 데이터베이스에 삽입
+	    int empResult = this.memberMapper.insertEMP(empVO, cnthxVO);
+
+	    // CnthxVO를 데이터베이스에 삽입
+
+	    // 두 개의 결과를 확인하고 필요한 예외 처리를 수행할 수 있습니다.
+	    if (empResult > 0) {
+	        // 두 개의 데이터베이스 삽입이 모두 성공하면 성공한 횟수를 반환합니다.
+	        return empResult;
+	    } else {
+	        // 실패한 경우 예외 또는 에러 처리를 수행할 수 있습니다.
+	        throw new RuntimeException("사원 정보 또는 Cnthx 정보를 삽입하는데 실패했습니다.");
+	    }
+	}
+
+	@Override
+	public List<EmpVO> memberList() {
+		// TODO Auto-generated method stub
+		return this.memberMapper.memberList();
+	}
+
+
+	@Override
+	@Transactional
+	public int therr(DeptVO deptVO, EmpVO empVO, AsgmtVO asgmtVO) {
+
+//		int s = memberMapper.empupdate(deptVO);
+//		int a = memberMapper.deptupdate(empVO);
+//		int c = memberMapper.asgmtVO(asgmtVO);
+//		
+		return 0;
+	}
+
+	//부정정보 가져오기(본부,부서 팀)
+	@Override
+	public List<DeptVO> Acenter() {
+		return this.memberMapper.Acenter();
+	}
+
+	@Override
+	public List<DeptVO> Adept(String Anum) {
+		return this.memberMapper.Adept(Anum);
+	}
+
+	@Override
+	public List<DeptVO> Ateam(String Anum2) {
+		return this.memberMapper.Ateam(Anum2);
+	}
+	//부서정보가져오기 끝
+	
+
+	
+}

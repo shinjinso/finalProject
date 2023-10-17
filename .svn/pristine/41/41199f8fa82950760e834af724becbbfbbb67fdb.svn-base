@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.ddit.vacation.mapper.CusMainMapper">
+	<resultMap type="VacTypeVO" id="typeMap">
+		<result property="imgRoot" column="IMG_ROOT" />
+		<result property="vacTypeNo" column="VAC_TYPE_NO" />
+		<result property="vacTypeName" column="VAC_TYPE_NAME" />
+		<result property="vacTypeExp" column="VAC_TYPE_EXP" />
+		<result property="vacTypeUseDate" column="VAC_TYPE_USE_DATE" />
+	</resultMap>
+<select id="vacType" resultType="VacTypeVO">
+	select * from vac_type
+</select>
+
+</mapper>

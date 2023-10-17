@@ -1,0 +1,18 @@
+package kr.or.ddit.vacation.mapper;
+
+import java.util.List;
+
+import org.apache.ibatis.annotations.Mapper;
+
+import kr.or.ddit.vo.VacApplyVO;
+import kr.or.ddit.vo.VacTypeVO;
+
+@Mapper
+public interface CusMainMapper {
+	
+	//select
+	List<VacTypeVO> vacType();
+	
+	//insert
+	public int insertVacApply(VacApplyVO vacApplyVO);
+}

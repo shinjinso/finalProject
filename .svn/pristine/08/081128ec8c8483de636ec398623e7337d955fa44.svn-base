@@ -1,0 +1,19 @@
+package kr.or.ddit.vacation.controller;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+@Controller
+@RequestMapping("/advct")
+public class ADMVacationController {
+	
+	@GetMapping("/main")
+	public String adMain() {
+		 return "vacation/adMain";
+	}
+	@GetMapping("/vacbk")
+	public String Vacbk() {
+		return "vacation/adVacBkList";
+	}
+}

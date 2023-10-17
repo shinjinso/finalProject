@@ -1,0 +1,12 @@
+package kr.or.ddit.setting.service;
+
+import kr.or.ddit.setting.vo.CompanyInfoVO;
+
+public interface CompanyInfoService {
+
+	public int updateData(CompanyInfoVO companyInfoVO);
+	
+	public int updateFile(CompanyInfoVO companyInfoVO);
+	
+	public CompanyInfoVO selectData();
+}

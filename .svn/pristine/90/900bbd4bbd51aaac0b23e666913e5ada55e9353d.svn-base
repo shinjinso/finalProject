@@ -1,0 +1,445 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+	div {
+ 		border : 1px solid blue; 
+	}
+	#aside {
+		border : 1px solid red;
+	}
+	#bside {
+		border : 1px solid red;
+	}
+	 .icon {
+    	background-image : url(/resources/images/search-magnifier.png);
+    	background-repeat: no-repeat;
+    	background-position: 10px center;
+    	padding-left: 40px;
+    	box-sizing: border-box;
+    	background-size: 14px 14px; /* 원하는 가로 및 세로 크기로 설정합니다. */
+    }
+    .updown {
+    	border: 2px solid gray;
+        width: 0.1px;
+        height: 10px;
+        text-align : center;
+    }
+</style>
+<meta charset="UTF-8">
+<title>정산 대상자 설정</title>
+<style>
+	.steps {
+		display : flex;
+	}
+</style>
+</head>
+<body>
+
+<!-- 
+	session.setAttribute("prYr", prYr);
+	session.setAttribute("prMth", prMth);
+	session.setAttribute("prPdate", prPdate);
+	session.setAttribute("prStlNm", prStlNm);
+-->
+<%-- <p>${sessionScope.prYr}</p> --%>
+<%-- <p>${sessionScope.prMth}</p> --%>
+<%-- <p>${sessionScope.prPdate}</p> --%>
+<%-- <p>${sessionScope.prStlNm}</p> --%>
+<%-- <p>${sessionScope.ptNo}</p> --%>
+
+<div class="steps" style="height: 100vh;">
+
+	<div id="aside" class="ml-4" style="width:15%;height:100%;">
+		<div>
+			${sessionScope.prStlNm}<br>
+			지급일 ${sessionScope.prPdate}
+		</div>
+		<div>
+			<span class="badge badge-pill badge-success">근로소득</span> 
+		</div>
+		<div>
+			<div class="steps">
+				<div><span class="fe fe-24 fe-users"></span></div>
+				<div>Step1<br>
+				정산대상자
+				</div>
+			</div>
+			<div class="updown"></div>
+			<div class="steps">
+				<div><span class="fe fe-24 fe-users"></span></div>
+				<div>Step2<br>
+				지급 항목
+				</div>
+			</div>
+			<div class="updown"></div>
+			<div class="steps">
+				<div><span class="fe fe-24 fe-users"></span></div>
+				<div>Step3<br>
+				공제 항목
+				</div>
+			</div>
+			<div class="updown"></div>
+			<div class="steps">
+				<div><span class="fe fe-24 fe-users"></span></div>
+				<div>Step4<br>
+				결과 미리보기
+				</div>
+			</div>
+			<div class="updown"></div>
+			<div class="steps">
+				<div><span class="fe fe-24 fe-users"></span></div>
+				<div>Step5<br>
+				정산 완료
+				</div>
+			</div>
+		</div>
+	</div>
+<!-- ------------------------------------------------------------------------------------------------------------------------------------------>	
+	<div class="bside" style="width:85%">
+		<div class="container-fluid">
+	    	<div class="row justify-content-center">
+	        	<div class="col-12">
+	            	<p class="card-text">${ptNm} / <strong>${sessionScope.prStlNm}</strong></p>
+	                <h2 class="mb-2 page-title">정산대상자</h2>
+	                <button type="button" class="btn btn-success" style="float:right;color:white;margin-bottom:20px;">→ 지급항목</button>
+	              
+	<!--               <div id="employeeTableDiv"></div> -->
+<!-- ------------------------------------------------------------------------------------------------------------------------------------- -->
+	
+					<div class="row my-4">
+						<!-- Small table -->
+						<div class="col-md-12">
+							<div class="card shadow">
+								<div class="card-body">
+									<!-- table -->
+									<div id="dataTable-1_wrapper" class="dataTables_wrapper dt-bootstrap4 no-footer">
+										<div class="row">
+											<div class="col-sm-12 col-md-6">
+												<div class="dataTables_length" id="dataTable-1_length">
+													<label>
+														Show 
+														<select name="dataTable-1_length" aria-controls="dataTable-1" class="custom-select custom-select-sm form-control form-control-sm">
+															<option value="10">10</option>
+															<option value="20">20</option>
+															<option value="30">30</option>
+															<option value="-1">All</option>
+														</select> 
+														entries
+													</label>
+												</div>
+											</div>
+											<div class="col-sm-12 col-md-6">
+												<div id="dataTable-1_filter" class="dataTables_filter">
+													<label>
+														Search:
+														<input type="search" class="form-control form-control-sm" placeholder="" aria-controls="dataTable-1">
+													</label>
+												</div>
+											</div>
+										</div>
+										<div class="row">
+											<div id="empListTableDiv" class="col-sm-12"> <!-- Ajax 리스트 table 삽입될 부분 -->
+											</div>	
+										</div>
+					
+										<div class="row">
+											<div class="col-sm-12 col-md-5">
+										    	<div class="dataTables_info" id="dataTable-1_info" role="status" aria-live="polite">
+										      		Showing 1 to 16 of 63 entries
+										    	</div>
+											</div>
+											<div class="col-sm-12 col-md-7">
+												<div class="dataTables_paginate paging_simple_numbers" id="dataTable-1_paginate">
+												    <ul class="pagination">
+												    	<li class="paginate_button page-item previous disabled" id="dataTable-1_previous">
+												        	<a href="#" aria-controls="dataTable-1" data-dt-idx="0" tabindex="0" class="page-link">Previous</a>
+												        </li>
+												        <li class="paginate_button page-item active">
+												        	<a href="#" aria-controls="dataTable-1" data-dt-idx="1" tabindex="0" class="page-link">1</a>
+												        </li>
+												        <li class="paginate_button page-item ">
+												        	<a href="#" aria-controls="dataTable-1" data-dt-idx="2" tabindex="0" class="page-link">2</a>
+												        </li>
+												      	<li class="paginate_button page-item ">
+												        	<a href="#" aria-controls="dataTable-1" data-dt-idx="3" tabindex="0" class="page-link">3</a>
+												      	</li>
+												        <li class="paginate_button page-item ">
+												        	<a href="#" aria-controls="dataTable-1" data-dt-idx="4" tabindex="0" class="page-link">4</a>
+												        </li>
+												        <li class="paginate_button page-item next" id="dataTable-1_next">
+												        	<a href="#" aria-controls="dataTable-1" data-dt-idx="5" tabindex="0" class="page-link">Next</a>
+												        </li>
+										        	</ul>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<!-- simple table -->
+					</div>
+					<!-- end section -->
+				</div>
+				<!-- .col-12 -->
+			</div>
+			<!-- .row -->
+		</div>
+		<!-- .container-fluid -->
+	</div> <!-- bside -->
+</div> <!-- steps -->
+
+<script>
+	//페이지 로드되자마자 실행
+	$.ajax({
+ 		url : "/salary/wageEmpListAjax",
+	    type : "get",
+	    dataType : "json",
+	    success : function (data){
+      		console.log("data : ", data);
+
+		      // 서버에서 받은 데이터를 처리하는 부분
+		      var empListData = data; // 받은 JSON 데이터
+          console.log("체킁",empListData);
+		      // HTML 테이블 생성 및 데이터 추가
+			    var table = "";
+		      		table += `<table class="table datatables dataTable no-footer" id="dataTable-1" role="grid" aria-describedby="dataTable-1_info">
+		      					      <thead>
+		                          <tr role="row">
+		                          <th></th>
+			                        <th class="sorting" tabindex="0" aria-controls="dataTable-1" rowspan="1" colspan="1" aria-label="번호: activate to sort column ascending" style="width: 18.7969px;">번호</th>
+			                        <th class="sorting" tabindex="0" aria-controls="dataTable-1" rowspan="1" colspan="1" aria-label="사번: activate to sort column ascending" style="width: 142.766px;">사번</th>
+			                        <th class="sorting" tabindex="0" aria-controls="dataTable-1" rowspan="1" colspan="1" aria-label="이름: activate to sort column ascending" style="width: 110.312px;">이름</th>
+			                        <th class="sorting_desc" tabindex="0" aria-controls="dataTable-1" rowspan="1" colspan="1" aria-label="입사일: activate to sort column ascending" aria-sort="descending" style="width: 188.094px;">입사일</th>
+			                        <th class="sorting" tabindex="0" aria-controls="dataTable-1" rowspan="1" colspan="1" aria-label="재직여부: activate to sort column ascending" style="width: 95.5625px;">재직여부</th>
+			                        <th class="sorting" tabindex="0" aria-controls="dataTable-1" rowspan="1" colspan="1" aria-label="생년월일: activate to sort column ascending" style="width: 265.578px;">생년월일</th>
+			                        <th class="sorting" tabindex="0" aria-controls="dataTable-1" rowspan="1" colspan="1" aria-label="근로유형: activate to sort column ascending" style="width: 136.766px;">근로유형</th>
+			                        <th class="sorting" tabindex="0" aria-controls="dataTable-1" rowspan="1" colspan="1" aria-label="부서명: activate to sort column ascending" style="width: 88.8594px;">부서명</th>
+			                        <th class="sorting" tabindex="0" aria-controls="dataTable-1" rowspan="1" colspan="1" aria-label="직위: activate to sort column ascending" style="width: 55.2969px;">직위</th>
+		                          </tr>
+		                         </thead>
+		                       <tbody>
+		                      `;
+		                      
+//                       $.each(empListData, function(idx, test){
+		            			for (var i = 0; i < empListData.length; i++) { 
+		            				
+		            				let test = empListData[i];
+		            				console.log("kgb",test);
+		            				let idx = i;
+		            				
+		            				
+		            				table += `
+					         				<tr role="row">
+						                       	<td>
+						                          <div class="custom-control custom-checkbox">
+						                            <input type="checkbox" class="custom-control-input" id="\${idx+1}">
+						                            <label class="custom-control-label" for="\${idx+1}"></label>
+						                          </div>
+						                       	</td>
+						                        <td>\${idx+1}</td>
+						                        <td>\${test.empNo}</td>
+						                        <td>\${test.empNm}</td>
+						                        <td>\${test.entDate}</td>
+						                        <td>\${test.stClfCdNm}</td>
+						                        <td>\${test.empBrdt}</td>
+						                        <td>\${test.ctrtCaseNm}</td>
+						                        <td>\${test.deptVOList.dnm}</td>
+						                        <td>\${test.ptnCodeNm}</td>
+						                   	</tr>`;
+// 		            				table += `
+// 					         				<tr role="row">
+// 						                       	<td>
+// 						                          <div class="custom-control custom-checkbox">
+// 						                            <input type="checkbox" class="custom-control-input" id="\${idx+1}">
+// 						                            <label class="custom-control-label" for="\${idx+1}"></label>
+// 						                          </div>
+// 						                       	</td>
+// 						                        <td>\${idx+1}</td>
+// 						                        <td>\${test.empNo}</td>
+// 						                        <td>\${test.empNm}</td>
+// 						                        <td>\${test.entDate}</td>
+// 						                        <td>\${test.stClfCdNm}</td>
+// 						                        <td>\${test.empBrdt}</td>
+// 						                        <td>\${test.ctrtCaseNm}</td>
+// 						                        <td>\${test.deptVOList.dnm}</td>
+// 						                        <td>\${test.ptnCodeNm}</td>
+// 						                   	</tr>`;
+                      }
+// });			
+		            			table += `
+					                      </tbody>
+					                    </table>
+		                    		`;
+		              
+		          // 생성한 테이블을 페이지의 특정 div에 추가
+		          $('#empListTableDiv').html(table);
+		          
+	   		},
+		    error:function(xhr, status, error){
+		    console.log("code: " + xhr.status)
+		    console.log("message: " + xhr.responseText)
+		    console.log("error: " + error);
+			}
+		});
+		
+	
+// 	  `<table border="1">
+//  <thead>
+//      <tr>
+//          <th>Employee ID</th>
+//          <th>Name</th>
+//          <th>Email</th>
+//          // 기타 필요한 열 추가
+//      </tr>
+//  </thead>
+//  <tbody>`;
+
+//  for (var i = 0; i < empListData.length; i++) {
+//      table += '<tr>' +
+//                  '<td>' + empListData[i].empNo + '</td>' +
+//                  '<td>' + empListData[i].empNm + '</td>' +
+//                  '<td>' + empListData[i].empMail + '</td>' +
+//                  // 기타 필요한 열에 대해 동일한 방식으로 추가
+//              '</tr>';
+//  }
+
+//  table += '</tbody></table>';
+</script>
+
+
+
+
+
+<!-- 	<tr role="row" class="even"> -->
+<!--                         	<td class=""> -->
+<!--                           		<div class="custom-control custom-checkbox"> -->
+<!--                             		<input type="checkbox" class="custom-control-input"> -->
+<!--                             		<label class="custom-control-label"></label> -->
+<!--                           		</div> -->
+<!--                         	</td> -->
+<!-- 	                        <td>443</td> -->
+<!-- 	                        <td>Scarlett Anderson</td> -->
+<!-- 	                        <td>(486) 309-3564</td> -->
+<!-- 	                        <td class="sorting_1">Tech Support</td> -->
+<!-- 	                        <td>Yahoo</td> -->
+<!-- 	                        <td>P.O. Box 988, 7282 Lobortis Avenue</td> -->
+<!-- 	                        <td>Lot</td> -->
+<!-- 	                        <td>Dec 27, 2019</td> -->
+<!--                       	</tr> -->
+
+<!-- 검색기능 구현 함수 -->
+
+<script>
+$(document).ready(function() {
+    $("#searchButton").on("click", function() {
+        search();
+    });
+
+    // Enter 키 누를 때 검색 함수 호출
+    $("#searchField").on("keyup", function(event) {
+        if (event.keyCode === 13) { // Enter 키의 keyCode는 13입니다.
+            search();
+        }
+    });
+    
+    var searchText = ""; // 검색어를 저장할 변수 추가
+
+    function search() {
+        var searchText = $("#searchField").val().toLowerCase();
+
+        // 모든 행을 숨김
+        $("table tbody tr").hide();
+
+        // 검색어와 일치하는 행을 표시
+        $("table tbody tr").each(function() {
+            var employeeName = $(this).find("td:nth-child(3)").text().toLowerCase(); // 세 번째 열의 사원 이름을 가져옴
+            if (employeeName.indexOf(searchText) !== -1) {
+                $(this).show();
+            }
+        });
+
+        // 검색 결과가 없는 경우 메시지를 표시하거나 다른 조치를 취할 수 있습니다.
+        if ($("table tbody tr:visible").length === 0) {
+            // 검색 결과가 없는 경우 처리할 내용을 여기에 추가
+        }
+        // 페이징 함수 호출
+        updatePage1();
+    }
+    
+});
+</script>
+
+<script>
+<!-- 사원전체 페이징처리 함수 -->
+<script>
+$(function() {
+	
+    var itemsPerPage1 = 5; // 한 페이지당 표시할 열의 수
+    var currentPage1 = 1; // 현재 페이지
+    var totalRows1 = $("table#allTable tbody tr").length; // 전체 행 수
+    var totalPages1 = Math.ceil(totalRows1 / itemsPerPage1); // 전체 페이지 수
+
+    // 초기 페이지 업데이트
+    updatePage1();
+
+    // 이전 페이지로 이동
+    $("#prevPage1").on("click", function() {
+        if (currentPage1 > 1) {
+            currentPage1--;
+            updatePage1();
+        }
+    });
+
+    // 다음 페이지로 이동
+    $("#nextPage1").on("click", function() {
+        if (currentPage1 < totalPages1) {
+            currentPage1++;
+            updatePage1();
+        }
+    });
+
+    // 페이지 번호들을 동적으로 생성
+    function generatePageNumbers1() {
+        $("#pagination1 li.page-number1").remove(); // 기존 페이지 번호 제거
+
+        for (var i = 1; i <= totalPages1; i++) {
+            var pageLink = $("<li class='page-item page-number1'><a class='page-link' href='#'>" + i + "</a></li>");
+            if (i === currentPage1) {
+                pageLink.addClass("active");
+            }
+            pageLink.insertBefore($("#nextPage1"));
+        }
+
+        // 페이지 번호 클릭 시 해당 페이지로 이동
+        $(".page-number1 a").on("click", function() {
+            currentPage1 = parseInt($(this).text());
+            updatePage1();
+        });
+    }
+
+    // 페이지를 업데이트하고 테이블을 다시 그리는 함수
+    function updatePage1() {
+        var startIndex = (currentPage1 - 1) * itemsPerPage1;
+        var endIndex = startIndex + itemsPerPage1;
+
+        // 모든 행을 숨김
+        $("table#allTable tbody tr").hide();
+
+        // 현재 페이지의 행만 표시
+        $("table#allTable tbody tr").slice(startIndex, endIndex).show();
+
+        // 페이지 번호들을 동적으로 생성
+        generatePageNumbers1();
+    }
+
+    
+});
+</script>
+
+
+</body>
+</html>

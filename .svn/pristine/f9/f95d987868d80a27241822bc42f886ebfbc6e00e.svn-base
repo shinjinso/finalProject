@@ -1,0 +1,19 @@
+package kr.or.ddit.vacation.service;
+
+import java.util.List;
+
+import kr.or.ddit.common.vo.EmpVO;
+import kr.or.ddit.vacation.vo.BkApplyVO;
+
+
+public interface CusBkApplyService {
+	
+	//사원조회
+	public EmpVO EmpSelect(String empNo);
+	//휴직 신청
+	public int insertBkApply(BkApplyVO bkApplyVO);
+	//신청 내역 조호
+	public List<BkApplyVO> getSelect(String empNo);
+	//신청내역 모달에 띄우기
+	public BkApplyVO bkSelectOne(int bkNo);
+}

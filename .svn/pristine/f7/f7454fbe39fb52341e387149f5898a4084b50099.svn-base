@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.ddit.vacation.mapper.CusBkApplyMapper">
+	<resultMap type="BkApplyVO" id="BkApplyVOMap">
+		<result property="bkCertYn" column="BK_CERT_YN" />
+		<result property="fileSetting" column="FILE_SETTING" />
+		<result property="bkNo" column="BK_NO" />
+		<result property="empNo" column="EMP_NO" />
+		<result property="bkCode" column="BK_CODE" />
+		<result property="bkSdate" column="BK_SDATE" />
+		<result property="bkEdate" column="BK_EDATE" />
+		<result property="bkRsn" column="BK_RSN" />
+		<result property="bkApstCode" column="BK_APST_CODE" />
+		
+		<result property="bkName" column="BK_NM" />
+		<result property="dftNo" column="DFT_NO" />
+	</resultMap>
+
+	<!-- 로그인한 사원의 이름과 직위 자동 조회-->
+	<select id="EmpSelect" parameterType="String" resultType="empVO">
+		select EMP_NM , (SELECT CM_NM FROM CMCODE WHERE CM_CODE = PTN_CODE) PTN_CODE from EMP
+		where EMP_NO = #{empNo}
+		
+	</select>
+	<!--  	휴직 저장하기(insert) -->
+	<insert id="insertBkApply" parameterType="BkApplyVO">
+	    INSERT INTO BK_APPLY (BK_NO, EMP_NO, BK_CODE, BK_SDATE, BK_EDATE, BK_RSN, BK_APST_CODE, FILE_SETTING, BK_CERT_YN, DFT_NO)
+	    VALUES (vac_seq.nextval, #{empNo}, 
+	    (SELECT BK_CODE FROM BK_KIND WHERE BK_NM = #{bkName}), 
+	    #{bkSdate}, #{bkEdate}, #{bkRsn}, 'C0104', 'vacation', #{bkCertYn},#{dftNo})
+	</insert>
+	
+	<!-- 	신청한  휴직 내역 상태 조회 -->
+	<select id="getSelect" parameterType="String" resultMap="BkApplyVOMap">
+		select A.BK_NO, A.EMP_NO, A.BK_CODE, B.BK_NM ,
+		TO_CHAR(A.BK_SDATE, 'yyyy-mm-dd') AS BK_SDATE, TO_CHAR(A.BK_EDATE, 'yyyy-mm-dd') AS BK_EDATE, 
+          A.BK_CERT_YN, A.BK_APST_CODE 
+		from BK_APPLY A, BK_KIND B 
+		WHERE A.BK_CODE = B.BK_CODE AND EMP_NO=#{empNo}
+	</select>
+	
+	<!-- 신청된 휴가 내역에서 모달 속 리스트별 조회 -->
+	<select id= "bkSelectOne" parameterType="int" resultMap="BkApplyVOMap">
+		SELECT ba.BK_NO, ba.EMP_NO, ba.BK_CODE ,to_char(ba.BK_SDATE,'yyyy-MM-dd') BK_SDATE, 
+        	   to_char(ba.BK_EDATE,'yyyy-MM-dd') BK_EDATE,
+		       ba.BK_RSN, ba.BK_APST_CODE, ba.FILE_SETTING, ba.BK_CERT_YN,bk.BK_NM,
+		       ba.DFT_NO
+		FROM BK_apply ba
+		INNER JOIN BK_KIND bk ON ba.BK_CODE = bk.BK_CODE OR ba.BK_CODE = bk.BK_NM
+		WHERE ba.BK_NO = #{bkNo}
+		ORDER BY 1 DESC
+	</select>
+
+	<!-- 	파일 insert -->
+	<insert id="fileInsert" parameterType="FileInfoVO">
+		<selectKey resultType="int" order="BEFORE" keyProperty="fileSn">
+			SELECT NVL(MAX(FILE_SN),0) + 1 FROM FILE_INFO WHERE FILE_UDTER = #{fileUdter}
+		</selectKey>
+		INSERT INTO FILE_INFO(
+		    FILE_SN, ORFI_NAME, SVFI_NAME, FILE_SIZE,  
+		    SV_DATE, FILE_UDTER, FILE_ROOT, FILE_SETTING 
+		)VALUES(
+			#{fileSn},#{orfiName},#{svfiName},#{fileSize},sysdate,#{fileUdter},#{fileRoot},#{fileSetting}
+		)
+	</insert>
+
+<!-- 	파일 다중 등록 -->
+<!--  <update id="registMultiAttach" parameterType="java.util.List"> -->
+<!--       <foreach collection="list" item="FileInfoVO" -->
+<!--          open="INSERT ALL" close="SELECT * FROM DUAL" separator=" " index="idx"> -->
+<!--          INTO FILE_INFO(FILE_SN, ORFI_NAME, SVFI_NAME, FILE_SIZE,SV_DATE,FILE_UDTER,FILE_ROOT,FILE_SETTING) -->
+<!--          VALUES((SELECT NVL(MAX(FILE_SN),0)+1 FROM FileInfo), -->
+<!--                  #{FileInfoVO.orfiName}, -->
+<!--                  #{FileInfoVO.svfiName}, -->
+<!--                  #{FileInfoVO.fileSize}, -->
+<!--                  sysdate, -->
+<!--                  #{FileInfoVO.fileUdter}, -->
+<!--                  #{FileInfoVO.fileRoot}, -->
+<!--                  'vacation') -->
+<!--       </foreach> -->
+<!--    </update> -->
+	
+</mapper>

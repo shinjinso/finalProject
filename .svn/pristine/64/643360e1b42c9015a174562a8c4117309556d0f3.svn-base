@@ -1,0 +1,17 @@
+package kr.or.ddit.work.mapper;
+
+import java.util.List;
+
+import org.apache.ibatis.annotations.Mapper;
+
+import kr.or.ddit.vo.WkApVO;
+
+@Mapper
+public interface WorkMapper {
+	
+	//읽기 리스트(여러줄)
+	public List<WkApVO> workSelect();
+	
+	//등록
+	public int workInsert(WkApVO wkapVO);
+}

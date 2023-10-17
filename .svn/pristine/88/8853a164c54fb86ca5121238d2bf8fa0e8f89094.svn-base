@@ -1,0 +1,19 @@
+package kr.or.ddit.vo;
+
+import java.util.Date;
+
+import lombok.Getter;
+import lombok.ToString;
+import lombok.Setter;
+
+@Getter
+@Setter
+@ToString
+public class TribAplyVO {
+	private String dftNo;
+	private String tbCont;
+	private String tbPersnm;
+	private String tbRelat;
+	private Date tbSdate;
+	private Date tbEdate;
+}

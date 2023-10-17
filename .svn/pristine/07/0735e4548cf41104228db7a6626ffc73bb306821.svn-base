@@ -1,0 +1,15 @@
+package kr.or.ddit.salary.service;
+
+import java.util.List;
+
+import kr.or.ddit.common.vo.EmpVO;
+
+public interface dataManagementService {
+
+	//대상자 사원조회
+	List<EmpVO> empList(String name);
+
+
+	
+	
+}

@@ -1,0 +1,17 @@
+package kr.or.ddit.salary.service;
+
+import kr.or.ddit.salary.vo.PayTplVO;
+
+public interface PayTplService {
+	
+	
+	//한 건 검색
+	public PayTplVO selectTpl(int ptNo);
+
+	//템플릿 추가
+	public int insertTpl(PayTplVO payTplVO);
+	
+	//템플릿 변경
+	public int updateTpl(PayTplVO payTplVO);
+
+}

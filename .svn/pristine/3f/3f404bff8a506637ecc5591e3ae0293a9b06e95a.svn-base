@@ -1,0 +1,301 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<style>
+
+</style>
+</head>
+<body>
+<table border="0" cellpadding="0" cellspacing="0" width="759" style="border-collapse:
+ collapse;table-layout:fixed;width:575pt">
+ <colgroup><col class="xl65" width="33" span="23" style="width:25pt">
+ </colgroup><tbody><tr height="34" style="height:26.1pt">
+  <td height="34" class="xl65" width="33" style="height:26.1pt;width:25pt">　</td>
+  <td class="xl65" width="33" style="width:25pt">　</td>
+  <td class="xl65" width="33" style="width:25pt">　</td>
+  <td class="xl65" width="33" style="width:25pt">　</td>
+  <td class="xl65" width="33" style="width:25pt">　</td>
+  <td class="xl65" width="33" style="width:25pt">　</td>
+  <td class="xl65" width="33" style="width:25pt">　</td>
+  <td class="xl65" width="33" style="width:25pt">　</td>
+  <td class="xl65" width="33" style="width:25pt">　</td>
+  <td class="xl65" width="33" style="width:25pt">　</td>
+  <td class="xl65" width="33" style="width:25pt">　</td>
+  <td class="xl65" width="33" style="width:25pt">　</td>
+  <td class="xl65" width="33" style="width:25pt">　</td>
+  <td class="xl65" width="33" style="width:25pt">　</td>
+  <td class="xl65" width="33" style="width:25pt">　</td>
+  <td class="xl65" width="33" style="width:25pt">　</td>
+  <td class="xl65" width="33" style="width:25pt">　</td>
+  <td class="xl65" width="33" style="width:25pt">　</td>
+  <td class="xl65" width="33" style="width:25pt">　</td>
+  <td class="xl65" width="33" style="width:25pt">　</td>
+  <td class="xl65" width="33" style="width:25pt">　</td>
+  <td class="xl65" width="33" style="width:25pt">　</td>
+  <td class="xl65" width="33" style="width:25pt">　</td>
+ </tr>
+ <tr height="29" style="mso-height-source:userset;height:21.95pt">
+  <td height="29" colspan="3" class="xl65" style="height:21.95pt;mso-ignore:colspan">　</td>
+  <td colspan="13" rowspan="2" class="xl79" style="border-right:.5pt solid black"><a name="Print_Area">급 여 지 급 명 세 서</a></td>
+  <td colspan="2" class="xl86" style="border-left:none">소<span style="mso-spacerun:yes">&nbsp;&nbsp; </span>속</td>
+  <td colspan="5" class="xl70" style="border-right:.5pt solid black;border-left:
+  none">　</td>
+ </tr>
+ <tr height="29" style="mso-height-source:userset;height:21.95pt">
+  <td height="29" colspan="3" class="xl65" style="height:21.95pt;mso-ignore:colspan">　</td>
+  <td colspan="2" class="xl88" style="border-left:none">성<span style="mso-spacerun:yes">&nbsp;&nbsp; </span>명</td>
+  <td colspan="5" class="xl75" style="border-right:.5pt solid black;border-left:
+  none">　</td>
+ </tr>
+ <tr height="29" style="mso-height-source:userset;height:21.95pt">
+  <td height="29" colspan="3" class="xl65" style="height:21.95pt;mso-ignore:colspan">　</td>
+  <td colspan="13" rowspan="2" class="xl81" style="border-right:.5pt solid black">20<span style="mso-spacerun:yes">&nbsp;&nbsp;&nbsp; </span>년<span style="mso-spacerun:yes">&nbsp;&nbsp;&nbsp;&nbsp; </span>월</td>
+  <td colspan="2" class="xl88" style="border-left:none">입사일</td>
+  <td colspan="5" class="xl75" style="border-right:.5pt solid black;border-left:
+  none">　</td>
+ </tr>
+ <tr height="29" style="mso-height-source:userset;height:21.95pt">
+  <td height="29" colspan="3" class="xl65" style="height:21.95pt;mso-ignore:colspan">　</td>
+  <td colspan="2" class="xl91" style="border-left:none">직<span style="mso-spacerun:yes">&nbsp;&nbsp; </span>위</td>
+  <td colspan="5" class="xl77" style="border-right:.5pt solid black;border-left:
+  none">　</td>
+ </tr>
+ <tr height="29" style="mso-height-source:userset;height:21.95pt">
+  <td height="29" colspan="3" class="xl65" style="height:21.95pt;mso-ignore:colspan">　</td>
+  <td colspan="6" class="xl66" style="mso-ignore:colspan">　</td>
+  <td colspan="2" class="xl67" style="mso-ignore:colspan">　</td>
+  <td colspan="3" class="xl66" style="mso-ignore:colspan">　</td>
+  <td colspan="3" class="xl68" style="mso-ignore:colspan">　</td>
+  <td colspan="3" class="xl66" style="mso-ignore:colspan">　</td>
+  <td colspan="3" class="xl68" style="mso-ignore:colspan">　</td>
+ </tr>
+ <tr height="34" style="mso-height-source:userset;height:26.1pt">
+  <td height="34" colspan="3" class="xl65" style="height:26.1pt;mso-ignore:colspan">　</td>
+  <td colspan="20" class="xl99">1. 실 지급액</td>
+ </tr>
+ <tr class="xl65" height="34" style="mso-height-source:userset;height:26.1pt">
+  <td height="34" colspan="3" class="xl65" style="height:26.1pt;mso-ignore:colspan">　</td>
+  <td colspan="6" class="xl93">지급 합계</td>
+  <td colspan="6" class="xl94" style="border-left:none">공제 합계</td>
+  <td colspan="8" class="xl94" style="border-right:1.0pt solid black;border-left:
+  none">실 수령액</td>
+ </tr>
+ <tr class="xl65" height="34" style="mso-height-source:userset;height:26.1pt">
+  <td height="34" colspan="3" class="xl65" style="height:26.1pt;mso-ignore:colspan">　</td>
+  <td colspan="6" class="xl83">　</td>
+  <td colspan="6" class="xl84" style="border-left:none">　</td>
+  <td colspan="8" class="xl84" style="border-right:1.0pt solid black;border-left:
+  none">　</td>
+ </tr>
+ <tr class="xl65" height="29" style="mso-height-source:userset;height:21.95pt">
+  <td height="29" colspan="3" class="xl65" style="height:21.95pt;mso-ignore:colspan">　</td>
+  <td colspan="17" class="xl66" style="mso-ignore:colspan">　</td>
+  <td colspan="3" class="xl68" style="mso-ignore:colspan">　</td>
+ </tr>
+ <tr class="xl65" height="34" style="mso-height-source:userset;height:26.1pt">
+  <td height="34" colspan="3" class="xl65" style="height:26.1pt;mso-ignore:colspan">　</td>
+  <td colspan="20" class="xl100">2. 지급 내역</td>
+ </tr>
+ <tr class="xl65" height="34" style="mso-height-source:userset;height:26.1pt">
+  <td height="34" colspan="3" class="xl65" style="height:26.1pt;mso-ignore:colspan">　</td>
+  <td colspan="10" class="xl86">지급항목</td>
+  <td colspan="10" class="xl87" style="border-right:.5pt solid black;border-left:
+  none">공제항목</td>
+ </tr>
+ <tr class="xl65" height="34" style="mso-height-source:userset;height:26.1pt">
+  <td height="34" colspan="3" class="xl65" style="height:26.1pt;mso-ignore:colspan">　</td>
+  <td colspan="4" class="xl88">기본급여</td>
+  <td colspan="6" class="xl89" style="border-left:none">　</td>
+  <td colspan="4" class="xl89" style="border-left:none">갑 근 세</td>
+  <td colspan="6" class="xl89" style="border-right:.5pt solid black;border-left:
+  none">　</td>
+ </tr>
+ <tr class="xl65" height="34" style="mso-height-source:userset;height:26.1pt">
+  <td height="34" colspan="3" class="xl65" style="height:26.1pt;mso-ignore:colspan">　</td>
+  <td colspan="4" class="xl88">시간외 수당</td>
+  <td colspan="6" class="xl89" style="border-left:none">　</td>
+  <td colspan="4" class="xl89" style="border-left:none">주 민 세</td>
+  <td colspan="6" class="xl89" style="border-right:.5pt solid black;border-left:
+  none">　</td>
+ </tr>
+ <tr class="xl65" height="34" style="mso-height-source:userset;height:26.1pt">
+  <td height="34" colspan="3" class="xl65" style="height:26.1pt;mso-ignore:colspan">　</td>
+  <td colspan="4" class="xl88">직책수당</td>
+  <td colspan="6" class="xl89" style="border-left:none">　</td>
+  <td colspan="4" class="xl89" style="border-left:none">고용보험</td>
+  <td colspan="6" class="xl89" style="border-right:.5pt solid black;border-left:
+  none">　</td>
+ </tr>
+ <tr class="xl65" height="34" style="mso-height-source:userset;height:26.1pt">
+  <td height="34" colspan="3" class="xl65" style="height:26.1pt;mso-ignore:colspan">　</td>
+  <td colspan="4" class="xl88">상 여 금</td>
+  <td colspan="6" class="xl89" style="border-left:none">　</td>
+  <td colspan="4" class="xl89" style="border-left:none">건강보험</td>
+  <td colspan="6" class="xl89" style="border-right:.5pt solid black;border-left:
+  none">　</td>
+ </tr>
+ <tr class="xl65" height="34" style="mso-height-source:userset;height:26.1pt">
+  <td height="34" colspan="3" class="xl65" style="height:26.1pt;mso-ignore:colspan">　</td>
+  <td colspan="4" class="xl88">특별수당</td>
+  <td colspan="6" class="xl89" style="border-left:none">　</td>
+  <td colspan="4" class="xl89" style="border-left:none">국민연금</td>
+  <td colspan="6" class="xl89" style="border-right:.5pt solid black;border-left:
+  none">　</td>
+ </tr>
+ <tr class="xl65" height="34" style="mso-height-source:userset;height:26.1pt">
+  <td height="34" colspan="3" class="xl65" style="height:26.1pt;mso-ignore:colspan">　</td>
+  <td colspan="4" class="xl88">차량유지</td>
+  <td colspan="6" class="xl89" style="border-left:none">　</td>
+  <td colspan="4" class="xl89" style="border-left:none">기<span style="mso-spacerun:yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>타</td>
+  <td colspan="6" class="xl89" style="border-right:.5pt solid black;border-left:
+  none">　</td>
+ </tr>
+ <tr class="xl65" height="34" style="mso-height-source:userset;height:26.1pt">
+  <td height="34" colspan="3" class="xl65" style="height:26.1pt;mso-ignore:colspan">　</td>
+  <td colspan="4" class="xl88">교육지원</td>
+  <td colspan="6" class="xl89" style="border-left:none">　</td>
+  <td colspan="4" class="xl89" style="border-left:none">　</td>
+  <td colspan="6" class="xl89" style="border-right:.5pt solid black;border-left:
+  none">　</td>
+ </tr>
+ <tr class="xl65" height="34" style="mso-height-source:userset;height:26.1pt">
+  <td height="34" colspan="3" class="xl65" style="height:26.1pt;mso-ignore:colspan">　</td>
+  <td colspan="4" class="xl88">식<span style="mso-spacerun:yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>대</td>
+  <td colspan="6" class="xl89" style="border-left:none">　</td>
+  <td colspan="4" class="xl89" style="border-left:none">　</td>
+  <td colspan="6" class="xl89" style="border-right:.5pt solid black;border-left:
+  none">　</td>
+ </tr>
+ <tr class="xl65" height="34" style="mso-height-source:userset;height:26.1pt">
+  <td height="34" colspan="3" class="xl65" style="height:26.1pt;mso-ignore:colspan">　</td>
+  <td colspan="4" class="xl88">　</td>
+  <td colspan="6" class="xl89" style="border-left:none">　</td>
+  <td colspan="4" class="xl89" style="border-left:none">　</td>
+  <td colspan="6" class="xl89" style="border-right:.5pt solid black;border-left:
+  none">　</td>
+ </tr>
+ <tr class="xl65" height="34" style="mso-height-source:userset;height:26.1pt">
+  <td height="34" colspan="3" class="xl65" style="height:26.1pt;mso-ignore:colspan">　</td>
+  <td colspan="4" class="xl88">　</td>
+  <td colspan="6" class="xl89" style="border-left:none">　</td>
+  <td colspan="4" class="xl89" style="border-left:none">　</td>
+  <td colspan="6" class="xl89" style="border-right:.5pt solid black;border-left:
+  none">　</td>
+ </tr>
+ <tr class="xl65" height="34" style="mso-height-source:userset;height:26.1pt">
+  <td height="34" colspan="3" class="xl65" style="height:26.1pt;mso-ignore:colspan">　</td>
+  <td colspan="4" class="xl88">　</td>
+  <td colspan="6" class="xl89" style="border-left:none">　</td>
+  <td colspan="4" class="xl89" style="border-left:none">　</td>
+  <td colspan="6" class="xl89" style="border-right:.5pt solid black;border-left:
+  none">　</td>
+ </tr>
+ <tr class="xl65" height="34" style="mso-height-source:userset;height:26.1pt">
+  <td height="34" colspan="3" class="xl65" style="height:26.1pt;mso-ignore:colspan">　</td>
+  <td colspan="4" class="xl101">　</td>
+  <td colspan="6" class="xl102" style="border-left:none">　</td>
+  <td colspan="4" class="xl102" style="border-left:none">　</td>
+  <td colspan="6" class="xl102" style="border-right:.5pt solid black;border-left:
+  none">　</td>
+ </tr>
+ <tr class="xl65" height="34" style="mso-height-source:userset;height:26.1pt">
+  <td height="34" colspan="3" class="xl65" style="height:26.1pt;mso-ignore:colspan">　</td>
+  <td colspan="4" class="xl96">　</td>
+  <td colspan="6" class="xl97" style="border-left:none">　</td>
+  <td colspan="4" class="xl97" style="border-left:none">　</td>
+  <td colspan="6" class="xl97" style="border-right:.5pt solid black;border-left:
+  none">　</td>
+ </tr>
+ <tr class="xl65" height="34" style="mso-height-source:userset;height:26.1pt">
+  <td height="34" colspan="3" class="xl65" style="height:26.1pt;mso-ignore:colspan">　</td>
+  <td colspan="20" rowspan="2" class="xl73">노고에 대단히 감사드립니다.</td>
+ </tr>
+ <tr class="xl65" height="34" style="mso-height-source:userset;height:26.1pt">
+  <td height="34" colspan="3" class="xl65" style="height:26.1pt;mso-ignore:colspan">　</td>
+ </tr>
+ <tr class="xl65" height="34" style="mso-height-source:userset;height:26.1pt">
+  <td height="34" colspan="3" class="xl65" style="height:26.1pt;mso-ignore:colspan">　</td>
+  <td colspan="20" class="xl74">20<span style="mso-spacerun:yes">&nbsp;&nbsp;
+  </span>년<span style="mso-spacerun:yes">&nbsp;&nbsp; </span>월<span style="mso-spacerun:yes">&nbsp;&nbsp; </span>일</td>
+ </tr>
+ <tr class="xl65" height="34" style="mso-height-source:userset;height:26.1pt">
+  <td height="34" colspan="3" class="xl65" style="height:26.1pt;mso-ignore:colspan">　</td>
+  <td colspan="20" rowspan="2" class="xl72">㈜000 대표이사 000</td>
+ </tr>
+ <tr class="xl65" height="34" style="mso-height-source:userset;height:26.1pt">
+  <td height="34" colspan="3" class="xl65" style="height:26.1pt;mso-ignore:colspan">　</td>
+ </tr>
+ <tr height="34" style="mso-height-source:userset;height:26.1pt">
+  <td height="34" colspan="3" class="xl65" style="height:26.1pt;mso-ignore:colspan">　</td>
+  <td colspan="17" class="xl66" style="mso-ignore:colspan">　</td>
+  <td colspan="3" class="xl68" style="mso-ignore:colspan">　</td>
+ </tr>
+ <tr height="34" style="mso-height-source:userset;height:26.1pt">
+  <td height="34" colspan="3" class="xl65" style="height:26.1pt;mso-ignore:colspan">　</td>
+  <td colspan="17" class="xl66" style="mso-ignore:colspan">　</td>
+  <td colspan="3" class="xl68" style="mso-ignore:colspan">　</td>
+ </tr>
+ <tr height="34" style="mso-height-source:userset;height:26.1pt">
+  <td height="34" colspan="3" class="xl65" style="height:26.1pt;mso-ignore:colspan">　</td>
+  <td colspan="17" class="xl66" style="mso-ignore:colspan">　</td>
+  <td colspan="3" class="xl68" style="mso-ignore:colspan">　</td>
+ </tr>
+ <tr height="34" style="mso-height-source:userset;height:26.1pt">
+  <td height="34" colspan="3" class="xl65" style="height:26.1pt;mso-ignore:colspan">　</td>
+  <td colspan="17" class="xl66" style="mso-ignore:colspan">　</td>
+  <td colspan="3" class="xl68" style="mso-ignore:colspan">　</td>
+ </tr>
+ <tr height="34" style="mso-height-source:userset;height:26.1pt">
+  <td height="34" colspan="3" class="xl65" style="height:26.1pt;mso-ignore:colspan">　</td>
+  <td colspan="17" class="xl66" style="mso-ignore:colspan">　</td>
+  <td colspan="3" class="xl68" style="mso-ignore:colspan">　</td>
+ </tr>
+ <tr height="34" style="mso-height-source:userset;height:26.1pt">
+  <td height="34" colspan="3" class="xl65" style="height:26.1pt;mso-ignore:colspan">　</td>
+  <td colspan="17" class="xl66" style="mso-ignore:colspan">　</td>
+  <td colspan="3" class="xl68" style="mso-ignore:colspan">　</td>
+ </tr>
+ <tr height="34" style="mso-height-source:userset;height:26.1pt">
+  <td height="34" colspan="3" class="xl65" style="height:26.1pt;mso-ignore:colspan">　</td>
+  <td colspan="17" class="xl66" style="mso-ignore:colspan">　</td>
+  <td colspan="3" class="xl68" style="mso-ignore:colspan">　</td>
+ </tr>
+ <tr height="34" style="mso-height-source:userset;height:26.1pt">
+  <td height="34" colspan="3" class="xl65" style="height:26.1pt;mso-ignore:colspan">　</td>
+  <td colspan="17" class="xl69" style="mso-ignore:colspan">　</td>
+  <td colspan="3" class="xl65" style="mso-ignore:colspan">　</td>
+ </tr>
+ <!--[if supportMisalignedColumns]-->
+ <tr height="0" style="display:none">
+  <td width="33" style="width:25pt"></td>
+  <td width="33" style="width:25pt"></td>
+  <td width="33" style="width:25pt"></td>
+  <td width="33" style="width:25pt"></td>
+  <td width="33" style="width:25pt"></td>
+  <td width="33" style="width:25pt"></td>
+  <td width="33" style="width:25pt"></td>
+  <td width="33" style="width:25pt"></td>
+  <td width="33" style="width:25pt"></td>
+  <td width="33" style="width:25pt"></td>
+  <td width="33" style="width:25pt"></td>
+  <td width="33" style="width:25pt"></td>
+  <td width="33" style="width:25pt"></td>
+  <td width="33" style="width:25pt"></td>
+  <td width="33" style="width:25pt"></td>
+  <td width="33" style="width:25pt"></td>
+  <td width="33" style="width:25pt"></td>
+  <td width="33" style="width:25pt"></td>
+  <td width="33" style="width:25pt"></td>
+  <td width="33" style="width:25pt"></td>
+  <td width="33" style="width:25pt"></td>
+  <td width="33" style="width:25pt"></td>
+  <td width="33" style="width:25pt"></td>
+ </tr>
+ <!--[endif]-->
+</tbody></table>
+</body>
+</html>

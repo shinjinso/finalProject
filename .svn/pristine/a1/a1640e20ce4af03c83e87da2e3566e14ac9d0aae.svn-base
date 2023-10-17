@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.ddit.approval.mapper.ApprovalMapper">
+
+
+<resultMap type="FixturesVO" id="fixturesMap">
+	<result property="docIndex"        column="DOC_INDEX"/>
+	<result property="dftNo"           column="DFT_NO"/> 
+	<result property="subject"         column="SUBJECT"/>
+	<result property="fixName"         column="FIX_NAME"/>
+	<result property="fixStandard"     column="FIX_STANDARD"/>
+	<result property="fixNumber"       column="FIX_NUMBER"/>
+	<result property="fixUnitPrice"    column="FIX_UNIT_PRICE"/>
+	<result property="fixPrice"        column="FIX_PRICE"/>
+	<result property="fixUsage"        column="FIX_USAGE"/>
+	<result property="fixTotal"        column="FIX_TOTAL"/>
+	<result property="applicationDate" column="APPLICATION_DATE"/>
+	
+	<result property="empNo"        column="EMP_NO"/>  
+	<result property="apDate"       column="AP_DATE"/>  
+	<result property="rejRsn"       column="REJ_RSN"/>  
+	<result property="arbSt"        column="ARB_ST"/>  
+	<result property="finAuthSt"    column="FIN_AUTH_ST"/>  
+	<result property="serialNumber" column="SERIAL_NUMBER"/>  
+</resultMap>
+
+<resultMap type="DeptVO" id="deptMap">
+	<result property="dcode" column="DCODE"/>
+	<result property="uprDcode" column="UPR_DCODE"/>
+	<result property="dnm" column="DNM"/>
+	<result property="empNo" column="EMP_NO"/>
+	<result property="dabst" column="DABST"/>
+	<result property="delynCd" column="DELYN_CD"/>
+
+	<result property="deptName" column="DEPT_NAME"/>
+</resultMap>
+
+	<!-- 조직도 계층형 쿼리 부서-->	
+	<select id="organizationChartOne" resultMap="deptMap">
+		SELECT DCODE, UPR_DCODE, DNM, EMP_NO, DABST, DELYN_CD 
+		FROM   DEPT
+		START WITH UPR_DCODE IS NULL
+		CONNECT BY PRIOR DCODE = UPR_DCODE
+	</select>
+	
+	<!-- 조직도 계층형 쿼리 사원-->	
+	<select id="organizationChartTwo" resultMap="deptMap">
+		SELECT D.DCODE, E.EMP_NM AS DEPT_NAME, E.EMP_NO AS UPR_DCODE
+		FROM DEPT D
+		LEFT JOIN EMP E ON D.DCODE = E.DCODE
+		START WITH D.UPR_DCODE IS NULL
+		CONNECT BY PRIOR D.DCODE = D.UPR_DCODE
+	</select>
+
+	<!-- 문서종류 가져오기 -->
+	<select id="selectDocKind" resultType="DocKindVO" parameterType="String">
+		SELECT DOC_KIND, DOC_DETAIL FROM DOC_KIND WHERE DOC_KIND = #{docKind}
+	</select>
+
+	<!-- 문서작성 INSERT -->
+	<insert id="docInsert" parameterType="DocWriVO">
+		INSERT INTO DOC_WRI(DFT_NO, EMP_NO, DOC_KIND)
+		VALUES(#{dftNo},#{empNo},#{docKind})
+	</insert>
+	
+	<!-- 문서번호 가져오기 -->
+	<select id="docMaxNoSelect" resultType="int">
+		SELECT NVL(MAX(DFT_NO),0) AS DFT_NO  FROM DOC_WRI
+	</select>
+	
+	<!-- 비품신청서 INSERT -->
+	<insert id="fixInsert" parameterType="FixturesVO">
+		<selectKey resultType="int" order="BEFORE" keyProperty="docIndex">
+			SELECT NVL(MAX(DOC_INDEX),0)+1 FROM FIXTURES WHERE DFT_NO = #{dftNo}
+		</selectKey>
+		INSERT INTO FIXTURES(DOC_INDEX, DFT_NO, SUBJECT, FIX_NAME, FIX_STANDARD, FIX_NUMBER, FIX_UNIT_PRICE, FIX_PRICE, FIX_USAGE, FIX_TOTAL, APPLICATION_DATE)
+		VALUES(#{docIndex},#{dftNo},#{subject},#{fixName},#{fixStandard},#{fixNumber},#{fixUnitPrice},#{fixPrice},#{fixUsage},#{fixTotal},SYSDATE)
+	</insert>
+	
+	<!-- 결제선 INSERT -->
+	<insert id="apboxInsert" parameterType="ApboxVO">
+		<selectKey>
+			SELECT NVL(MAX(SERIAL_NUMBER),0)+1 FROM APBOX WHERE DFT_NO = #{dftNo}
+		</selectKey>
+		INSERT INTO APBOX(EMP_NO, DFT_NO, AP_DATE, REJ_RSN, ARB_ST, FIN_AUTH_ST, SERIAL_NUMBER)
+		VALUES(#{empNo},#{dftNo},SYSDATE,#{rejRsn},#{arbSt},#{finAuthSt},#{serialNumber})
+	</insert>
+	<!-- 여기까지 했음 여기부터 해야함 -->
+	<!-- 여기까지 했음 여기부터 해야함 -->
+	<!-- 여기까지 했음 여기부터 해야함 -->
+	<!-- 여기까지 했음 여기부터 해야함 -->
+	<!-- 여기까지 했음 여기부터 해야함 -->
+	<!-- 여기까지 했음 여기부터 해야함 -->
+	<select id="myDocList" resultMap="fixturesMap" parameterType="String">
+		SELECT A.DOC_INDEX, A.DFT_NO, A.SUBJECT, A.FIX_NAME, A.FIX_STANDARD, A.FIX_NUMBER, A.FIX_UNIT_PRICE, A.FIX_PRICE, A.FIX_USAGE, A.FIX_TOTAL, A.APPLICATION_DATE, B.SERIAL_NUMBER, B.EMP_NO, B.REJ_RSN, B.REJ_RSN, FIN_AUTH_ST
+		FROM FIXTURES A
+		LEFT JOIN APBOX B
+		ON A.DFT_NO = B.DFT_NO
+		WHERE EMP_NO = #{empNo}
+	</select>
+		
+</mapper>

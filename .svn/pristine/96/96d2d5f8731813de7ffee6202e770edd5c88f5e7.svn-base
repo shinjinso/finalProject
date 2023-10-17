@@ -1,0 +1,26 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<style>
+.input-group-text {
+	border : 1px;
+	background-color: white;
+}
+</style>
+</head>
+<body>
+<h1>input 태그안에 이미지 넣기</h1>
+<h1>실패 !!</h1>
+	<div class="input-group">
+		<div class="input-group-prepend" style="background-color: white;">
+			<span class="fe fe-clock input-group-text" id="inputGroupPrepend"></span>
+		</div>
+		<input type="text" class="form-control">
+		<div class="invalid-feedback">Please choose a username.</div>
+	</div>
+</body>
+</html>

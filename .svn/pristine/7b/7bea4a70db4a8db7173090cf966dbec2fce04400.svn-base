@@ -1,0 +1,25 @@
+package kr.or.ddit.salary.mapper;
+
+import java.util.List;
+
+import org.apache.ibatis.annotations.Mapper;
+
+import kr.or.ddit.common.vo.EmpVO;
+import kr.or.ddit.salary.vo.PageVO;
+import kr.or.ddit.salary.vo.SalaryCertVO;
+
+@Mapper
+public interface SalaryMapper {
+
+	//사원정보 리스트 출력
+	//<select id="selectEmpList" resultType="EmpVO">
+	public List<EmpVO> selectEmpList(PageVO pageVO);
+	
+	//전체 글 수 조회
+	//<select id="getTotal" resultType="int">
+	public int getTotal(PageVO pageVO);
+	
+	//1명의 급여정산번호 insert
+	//<insert id="insertPR" parameterType="SalaryCertVO">
+	public int insertPR(SalaryCertVO salaryCertVO);
+}

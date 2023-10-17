@@ -1,0 +1,89 @@
+package kr.or.ddit.salary.controller;
+
+import java.security.Principal;
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.servlet.http.HttpSession;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+import kr.or.ddit.common.service.CommonService;
+import kr.or.ddit.common.vo.EmpVO;
+import kr.or.ddit.salary.vo.SalaryCertVO;
+
+
+@RequestMapping("/salary")
+@Controller
+public class SalaryController {
+	
+	@Autowired
+	CommonService comService;
+	
+//	//급여정산 홈 화면 
+//	@GetMapping("/home")
+//	public String home(HttpSession session) {
+//		Map<String,Object> map = new HashMap<String,Object>();
+//		map.put("name", "9월 정기 급여");
+//		map.put("yymm", "2023년 03월");
+//		map.put("payday", "2023-09-30");
+//		
+//		session.setAttribute("map", map);
+//		
+//		return "salary/salaryHome"; 
+//	}
+	
+	//급여정산 홈 화면 
+	@GetMapping("/home")
+	public String home(Principal principal, Model model) {
+		String empNo = principal.getName();
+		EmpVO vo =  comService.SelectEmp(empNo);
+		model.addAttribute("empVO",vo);
+		
+		return "salary/salaryHome";
+	}
+		
+		
+	//지난 정산 내역 화면
+	@GetMapping("/pastPayroll")
+	public String pastPayroll() {
+		return "salary/pastPayroll";
+	}
+	
+	//급여정산하기 모달창 Ajax (insert)
+	@PostMapping("/startPR")
+	public String startPR(@RequestBody SalaryCertVO salaryCertVO) {
+		return "salary/startPR";
+	}
+	
+	//정산대상자 선택 화면
+	@GetMapping("/salaryEmp")
+	public String salaryEmp() {
+		return "salary/salaryEmp";
+	}
+	
+	//정산 결과 페이지 화면
+	@GetMapping("/wageRes")
+	public String wageRes() {
+		return "salary/wageRes";
+	}
+	
+	//
+	@GetMapping("/wageEmp")
+	public String wageEmp() {
+		return "salary/wageEmp";
+	}
+	
+	
+	
+	
+	
+	
+}

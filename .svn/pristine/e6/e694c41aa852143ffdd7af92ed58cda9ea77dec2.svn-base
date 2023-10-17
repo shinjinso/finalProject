@@ -1,0 +1,183 @@
+package kr.or.ddit.personnel.controller;
+
+import java.security.Principal;
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import kr.or.ddit.common.vo.CnthxVO;
+import kr.or.ddit.common.vo.EmpVO;
+import kr.or.ddit.personnel.service.MemberService;
+import kr.or.ddit.vo.AsgmtVO;
+import kr.or.ddit.vo.DeptVO;
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
+@RequestMapping("/personnel")
+@Controller
+public class PpController {
+	
+	@Autowired
+	MemberService ppservice;
+	// 사원 리스트 조회 컨트롤러
+	@GetMapping("/emp")
+	public String ph(Model model, EmpVO empNo) {
+		
+		EmpVO empVO = ppservice.read(empNo);
+		log.info("empVO : " + empVO);
+		
+		List<EmpVO> memberlist = ppservice.memberList();
+		model.addAttribute("memberList",memberlist);
+		log.debug("리스트",memberlist.toString());
+		
+		model.addAttribute("empVO",empVO);
+		
+		return"hrm/personnelHome";
+	}
+	// 사원추가화면 컨트롤러
+	@GetMapping("/empadd")
+	public String empAdd(String empNo) {
+		
+		log.info("성공");
+		return"hrm/empAdd";
+	}
+	//사원추가하기 컨트롤러
+	@PostMapping("/empadd")
+	@ResponseBody
+	public String empAdd2(@RequestBody EmpVO empVO, CnthxVO cnthxVO) {
+	    log.info("EmpVO야 제발 데이터야 들어와 : " + empVO);
+
+	    int result = this.ppservice.insertEMP(empVO, cnthxVO);
+	    log.info("empAdd2 제대로 맵핑좀 되라 : " + result);
+
+	    String rslt = "success";
+	    if(result == 0) {
+	    	rslt = "fail";
+	    }
+	    
+	    //forwarding
+	    //mav.setViewName("hrm/empAdd");
+
+	    return rslt; // 여기에서 적절한 응답을 반환하도록 수정
+	}
+	
+	//인사발령 페이지 이동
+	@GetMapping("/Appointments")
+	public String Appointments(Principal principal) {
+//	        log.info("쳌쳌, 사용자 이름: " + principal.getName());
+//	        
+//	        String empNo  = principal.getName();
+//	        
+//	        EmpVO empVO = ppservice.read(empNo);
+//	        
+//	        
+//	        log.debug("empVO쳌" + empVO.toString());
+
+
+		return "hrm/Appointments";
+	}
+	
+	//인사발령 수정 페이지 이동
+	@PostMapping("/Appointmentset")
+	public String Appointmentset(Model model, @RequestParam String team, @RequestParam String promotion, @RequestParam String date,@RequestParam String note) {
+		// 로그인한 정보 가져오기!!
+		List<EmpVO> memberlist = ppservice.memberList();
+		// 작성자 정보를 넣을꺼임
+		// 로그인한 정보 가져오기!!
+		
+		
+		//부서정보(본부) 가져오기
+		List<DeptVO> Acenterlist = ppservice.Acenter();
+
+		//부서정보 가져오기
+		model.addAttribute("Acenterlist", Acenterlist );
+		model.addAttribute("memberList",memberlist);
+		model.addAttribute("team", team);
+		model.addAttribute("promotion", promotion);
+		model.addAttribute("date", date);
+		model.addAttribute("note", note);
+		
+		
+		
+
+		//forwarding
+		return "hrm/Appointmentset";
+		
+	}
+	
+	@ResponseBody
+	@GetMapping("/pDpm/{Anum}")
+	public String pDpm(@PathVariable String Anum) {
+		
+		//부서정보(부서) 가져오기
+		List<DeptVO> deptlist = ppservice.Adept(Anum);
+		log.info("deptlist : " + deptlist);
+		
+		return "s";
+	}
+	
+	@ResponseBody
+	@GetMapping("/pDpm2/{Anum2}")
+	public String pDpm2(@PathVariable String Anum2) {
+		
+//		//부서정보(팀) 가져오기
+		List<DeptVO> teamlist = ppservice.Ateam(Anum2);
+		log.info("teamlist : " + teamlist);
+		
+		return "s";
+	}
+	
+
+	
+	@ResponseBody
+	@PostMapping(value="Appointment", consumes = MediaType.APPLICATION_JSON_VALUE)
+	public int Appointmentput(@RequestBody List<Map<String, String>> rowData, DeptVO deptVO, EmpVO empVO, AsgmtVO asgmtVO) {
+		
+	    for (Map<String, String> rowDataItem : rowData) {
+	        String EMP_IMG = rowDataItem.get("EMP_IMG");
+	        String EMP_NM = rowDataItem.get("EMP_NM");
+	        String EMP_NO = rowDataItem.get("EMP_NO");
+	        String JCODE = rowDataItem.get("JCODE");
+	        String PTN_CODE = rowDataItem.get("PTN_CODE");
+	        String DTCODE = rowDataItem.get("DTCODE");
+	        String GRD_CODE = rowDataItem.get("GRD_CODE");
+	        String head = rowDataItem.get("head");
+	        
+	        //작성자
+	        String WempNn = rowDataItem.get("WempNn");
+	        String WempNo = rowDataItem.get("WempNo");
+	        
+	        //발령
+	        String Apromotion = rowDataItem.get("Apromotion");
+	        String Adate = rowDataItem.get("Adate");
+	        String note = rowDataItem.get("note");
+
+	        
+	        
+	        
+	        //부서
+	        //deptVO.setDcode(1  11   111);
+	        deptVO.setEmpNo(EMP_NO);
+	        deptVO.setEmpNo(WempNn);
+	        deptVO.setDnm(WempNn);
+	        
+	        int three = ppservice.therr(deptVO,empVO,asgmtVO);
+	    }
+		
+		
+		
+		return 3;
+	}
+
+}

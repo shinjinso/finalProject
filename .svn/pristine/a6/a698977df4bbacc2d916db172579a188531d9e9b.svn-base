@@ -1,0 +1,40 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+	/* 링크 스타일 */
+	a {
+		text-decoration: none; /* 밑줄 제거 */
+		color: #333; /* 일반 텍스트 색상 */
+		margin-right: 20px; /* 각 링크 사이의 간격 조절 */
+	}
+	
+	/* 활성 링크 스타일 */
+	a:hover {
+		color: #007bff; /* 호버 시 텍스트 색상 변경 */
+	}
+</style>
+<meta charset="UTF-8">
+<title>지난 정산 내역</title>
+</head>
+<body>
+	<h2>
+		<a href="/salary/home">급여정산</a>&nbsp;&nbsp; 
+		<a href="#">퇴직소득</a>&nbsp;&nbsp; 
+		<a href="#">자료관리</a>
+	</h2>
+	<hr>
+	<h5>
+		<a href="/salary/home">홈</a>&nbsp;&nbsp; 
+		<a href="/salary/pastPayroll">지난 정산 내역</a>&nbsp;&nbsp; 
+		<a href="/salary/tmpList">정산템플릿 목록</a>
+	</h5>
+	<hr>	
+	
+	<input type="text" >
+
+	
+</body>
+</html>

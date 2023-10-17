@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.ddit.setting.mapper.CompHoliMapper">
+
+<resultMap type="CompanyHoliVO" id="CompHoliMap">
+	<result property="cohNo" column="COH_NO" />
+	<result property="coNo" column="CO_NO" />
+	<result property="cohNm" column="COH_NM" />
+	<result property="cohCont" column="COH_CONT" />
+	<result property="cohSdate" column="COH_SDATE" />
+	<result property="cohEdate" column="COH_EDATE" />
+	<result property="cohSubHoli" column="COH_SUB_HOLI" />
+	<result property="cohRepeatYn" column="COH_REPEAT_YN" />
+	<result property="cohEsntlYn" column="COH_ESNTL_YN" />
+	<result property="img" column="IMG" />
+	<result property="cohYn" column="COH_YN" />
+</resultMap>
+
+<select id="compHoliSelect" resultType="CompanyHoliVO">
+	SELECT
+	  COH_NO
+	  , CO_NO
+	  , COH_NM
+	  , COH_CONT
+	  , COH_SDATE
+	  , COH_EDATE
+	  , COH_SUB_HOLI
+	  , COH_REPEAT_YN
+	  , COH_ESNTL_YN
+	  , IMG
+	  , COH_YN
+	FROM COMPANY_HOLI
+	WHERE CO_NO = '1'
+</select>
+
+</mapper>

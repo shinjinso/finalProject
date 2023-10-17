@@ -1,0 +1,19 @@
+package kr.or.ddit.salary.vo;
+
+
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
+@Getter
+@Setter
+@ToString
+public class PayrollVO { 	// 급여정산내역
+	
+	private int prNo;		// 급여항목번호
+	private String scNo;	// 급여명세서번호
+	private String prNm;	// 급여항목명
+	private String pdType;	// 지급공제구분코드
+	private int prAmt;		// 금액
+
+}

@@ -1,0 +1,158 @@
+package kr.or.ddit.vacation.serviceImpl;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
+
+import kr.or.ddit.approval.vo.ApboxVO;
+import kr.or.ddit.approval.vo.DocWriVO;
+import kr.or.ddit.common.vo.EmpVO;
+import kr.or.ddit.common.vo.FileInfoVO;
+import kr.or.ddit.vacation.mapper.CusBkApplyMapper;
+import kr.or.ddit.vacation.service.CusBkApplyService;
+import kr.or.ddit.vacation.vo.BkApplyVO;
+import kr.or.ddit.vacation.vo.RsReqstVO;
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
+@Service
+public class CusBkApplyServiceImpl implements CusBkApplyService {
+	
+	@Autowired
+	private CusBkApplyMapper cusBkMapper;
+
+	@Override
+	public EmpVO EmpSelect(String empNo) {
+		return cusBkMapper.EmpSelect(empNo);
+	}
+
+	@Override
+	public int insertBkApply(BkApplyVO bkApplyVO) {
+		return cusBkMapper.insertBkApply(bkApplyVO);
+	}
+
+	@Override
+	public List<BkApplyVO> getSelect(String empNo) {
+		return cusBkMapper.getSelect(empNo);
+	}
+
+	@Override
+	public BkApplyVO bkSelectOne(int bkNo) {
+		return cusBkMapper.bkSelectOne(bkNo);
+	}
+
+	@Override
+	public int fileInsert(FileInfoVO fileInfoVO) {
+			log.info("impl->fileInfoVO"+fileInfoVO);
+			int result = cusBkMapper.fileInsert(fileInfoVO);
+			log.info("impl--->list"+result);
+		return result;
+	}
+
+	@Override
+	public int fileSnSelect() {
+		return cusBkMapper.fileSnSelect();
+	}
+
+	@Override
+	public FileInfoVO fileInfo(int FileSn) {
+		return cusBkMapper.fileInfo(FileSn);
+	}
+///////////////////////////일단여기 보류////////////////////
+	@Override
+	public BkApplyVO bkUpdate(BkApplyVO bkApplyVO) {
+		return cusBkMapper.bkUpdate(bkApplyVO);
+	}
+
+	@Override
+	public FileInfoVO fileUpdate(FileInfoVO fileInfoVO) {
+		return cusBkMapper.fileUpdate(fileInfoVO);
+	}
+///////////////////////////////////////////////
+	@Override
+	public EmpVO selectEmpInfo(String EmpNo) {
+		return cusBkMapper.selectEmpInfo(EmpNo);
+	}
+
+	@Override
+	public int insertReqst(RsReqstVO rsReqstVO) {
+		return cusBkMapper.insertReqst(rsReqstVO);
+	}
+
+	@Override
+	public List<RsReqstVO> selectRsList(String EmpNo) {
+		return cusBkMapper.selectRsList(EmpNo);
+	}
+
+	@Override
+	public RsReqstVO rsModalSelect(int rsNo) {
+		return cusBkMapper.rsModalSelect(rsNo);
+	}
+
+	@Override
+	public int rsModalUpdate(RsReqstVO rsReqstVO) {
+		return cusBkMapper.rsModalUpdate(rsReqstVO);
+	}
+	@Transactional
+	@Override
+	public int WriInsert(DocWriVO docWriVO, List<ApboxVO> apboxVO) {
+		
+		int result = 0;
+		
+		int dftNo = cusBkMapper.WriSelect();//문서 maxno값 가져오기
+		docWriVO.setDftNo(dftNo);
+		
+		int cusCnt = cusBkMapper.WriInsert(docWriVO);
+		
+		for(ApboxVO vo : apboxVO) {
+			vo.setDftNo(dftNo);
+			int apboxCnt = cusBkMapper.apboxInsert(vo);
+			result += apboxCnt;
+		}
+		result +=cusCnt;
+		
+		ApboxVO apVO = new ApboxVO();
+		apVO.setDftNo(docWriVO.getDftNo());
+		
+		return result;
+	}
+
+	@Override
+	public int apstCodeUpdate(int rsNo) {
+		return cusBkMapper.apstCodeUpdate(rsNo);
+	}
+
+	@Override
+	public int bkWriInsert(DocWriVO docWriVO, List<ApboxVO> apboxVO) {
+		
+		int result= 0;
+		
+		int dftNo = cusBkMapper.bkWriSelect();
+		docWriVO.setDftNo(dftNo);
+		
+		int cusCnt =cusBkMapper.bkWriInsert(docWriVO);
+		for(ApboxVO vo : apboxVO) {
+			vo.setDftNo(dftNo);
+			int apboxCnt = cusBkMapper.bkApboxInsert(vo);
+			result += apboxCnt;
+		}
+		result +=cusCnt;
+		
+		ApboxVO apvo = new ApboxVO();
+		apvo.setDftNo(docWriVO.getDftNo());
+		
+		return result;
+	}
+
+	@Override
+	public int bkApstCodeUpdate(int bkNo) {
+		return cusBkMapper.bkApstCodeUpdate(bkNo);
+	}
+
+
+
+
+}

@@ -1,0 +1,22 @@
+package kr.or.ddit.setting.service.Impl;
+
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import kr.or.ddit.setting.mapper.CompTreeMapper;
+import kr.or.ddit.setting.service.CompTreeService;
+
+@Service
+public class CompTreeServiceImpl implements CompTreeService {
+	
+	@Autowired
+	CompTreeMapper compTreeMapper;
+
+	@Override
+	public int deptAdd(Map<String, Object> addMap) {
+		return compTreeMapper.deptAdd(addMap);
+	}
+
+}

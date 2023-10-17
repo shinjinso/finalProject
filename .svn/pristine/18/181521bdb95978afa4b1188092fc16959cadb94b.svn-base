@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.ddit.setting.mapper.CompanyInfoMapper">
+
+<resultMap type="CompanyInfoVO" id="companyInfoMap">
+	<result property="coNo" column="CO_NO" />
+	<result property="coNm" column="CO_NM" />
+	<result property="coRep" column="CO_REP" />
+	<result property="coTelno" column="CO_TELNO" />
+	<result property="coEstdDate" column="CO_ESTD_DATE" />
+	<result property="coAddr" column="CO_ADDR" />
+	<result property="coNmpr" column="CO_NMPR" />
+	<result property="coInt" column="CO_INT" />
+	<result property="coRegno" column="CO_REGNO" />
+	<result property="corRegno" column="COR_REGNO" />
+	<result property="coTax" column="CO_TAX" />
+	<result property="fileNo" column="FILE_NO" />
+</resultMap>
+
+<update id="updateData" parameterType="CompanyInfoVO">
+	UPDATE COMPANY_INFO 
+	SET 
+	  CO_NM = #{coNm}
+	, CO_REP = #{coRep}
+	, CO_TELNO = #{coTelno}
+	, CO_ESTD_DATE = #{coEstdDate}
+	, CO_ADDR = #{coAddr}
+	, CO_REGNO = #{coRegno}
+	, COR_REGNO = #{corRegno}
+	, FILE_NO = #{fileNo}
+	WHERE CO_NO = '1'
+</update>
+
+<update id="updateFile" parameterType="CompanyInfoVO">
+	UPDATE COMPANY_INFO 
+	SET 
+		FILE_NO = #{fileNo}
+	WHERE CO_NO = '1'
+</update>
+
+
+</mapper>

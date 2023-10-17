@@ -1,0 +1,59 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<style>
+div{
+border: 1px solid red;
+}
+
+#myContainer{
+	width : 100vw;
+	height : 100vh;
+}
+
+#topMenu {            // topMenu의 ID를 가진 태그의 스타일 지정
+        height: 30px; // topMenu의 높이를 30px로 설정(제대로 설정 안하면 아래 내용이 깨짐)
+        width: 850px; // topMenu의 넓이를 850px로 설정(제대로 설정 안하면 브라우져 넓이가 좁아지면 깨짐)
+}
+#topMenu ul li {                       // topMenu의 ID를 가진 태그 안에 <ul> 태그 안에 <li> 태그의 스타일을 지정
+        list-style: none;           // <li> 태그는 위의 이미지처럼 목록을 나타내는 점을 없앤다 
+        color: white;               // 글씨 색을 흰색으로 설정
+        background-color: #2d2d2d;  // 배경색을 진한 회색(RGB(2D,2D,2D)으로 설정
+        float: left;                // <li>태그들이 왼쪽에 흐르게 설정(그러면 아래있는 내용은 오른쪽으로 옴)
+        line-height: 30px;          // 글씨가 가운데로 오도록 설정하기 위해 한줄의 높이를 30px로 설정
+        vertical-align: middle;     // 세로 정렬을 가운데로 설정(위의 line-height와 같이 설정 필요함)
+        text-align: center;         // 글씨 정렬을 가운데로 설정
+}
+</style>
+<div id="myContainer">
+<p class="h6 mb-3">구성원/임민우</p>
+	<div>
+	<table border="1">
+		<tr>
+			<td rowspan="4"><img src="#"></td>
+			<td>조인수</td>
+		</tr>
+		<tr>
+			<td>1</td>
+		</tr>
+		<tr>
+			<td>2</td>
+		</tr>
+		<tr>
+			<td>3</td>
+		</tr>
+	</table>
+	</div><!-- 이미지 담는 디브 -->
+	
+	<nav id="topMenu">
+		<ul>
+			<li><a href="#">인사 정보</a></li>
+			<li><a href="#">개인 정보</a></li>
+			<li><a href="#">계약 정보</a></li>
+			<li><a href="#">경력/학력</a></li>
+			<li><a href="#">문서</a></li>
+			<li><a href="#">커스텀 정보</a></li>
+		</ul>
+	</nav>
+	
+	
+</div><!-- 마지막 디브 -->

@@ -1,0 +1,27 @@
+package kr.or.ddit.setting.controller;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+@RequestMapping("/setting")
+@Controller
+public class SetController {
+
+	@GetMapping("/test")
+	public String test() {
+		return "setting/test";
+	}
+	
+	@GetMapping("/setmain")
+	public String setMain() {
+		return "setting/setmain";
+	}
+	
+	@GetMapping("/companyinfo")
+	public String companyInfo() {
+		return "setting/companyinfo";
+	}
+	
+	
+}

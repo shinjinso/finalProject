@@ -1,0 +1,17 @@
+package kr.or.ddit.payment.vo;
+
+import java.util.Date;
+
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
+@Getter
+@Setter
+@ToString
+public class CrcmstncsDocVO {
+	private String dftNo;
+	private Date waDate;
+	private String waRs;
+	private String waContent;
+}

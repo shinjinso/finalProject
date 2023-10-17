@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.ddit.approval.mapper.ApprovalMapper">
+
+
+<resultMap type="ApboxVO" id="apboxMap">
+	<result property="empNo"        column="EMP_NO"/>  
+	<result property="apDate"       column="AP_DATE"/>  
+	<result property="dftNo"        column="DFT_NO"/> 
+	<result property="rejRsn"       column="REJ_RSN"/>  
+	<result property="arbSt"        column="ARB_ST"/>  
+	<result property="finAuthSt"    column="FIN_AUTH_ST"/>  
+	<result property="serialNumber" column="SERIAL_NUMBER"/>  
+	<result property="apbPro"       column="APB_PRO"/>  
+	<result property="important"       column="IMPORTANT"/>  
+	
+	<result property="docIndex"        column="DOC_INDEX"/>
+	<result property="subject"         column="SUBJECT"/>
+	<result property="fixName"         column="FIX_NAME"/>
+	<result property="fixStandard"     column="FIX_STANDARD"/>
+	<result property="fixNumber"       column="FIX_NUMBER"/>
+	<result property="fixUnitPrice"    column="FIX_UNIT_PRICE"/>
+	<result property="fixPrice"        column="FIX_PRICE"/>
+	<result property="fixUsage"        column="FIX_USAGE"/>
+	<result property="fixTotal"        column="FIX_TOTAL"/>
+	<result property="applicationDate" column="APPLICATION_DATE"/>
+	
+	<result property="empNm" column="EMP_NM"/>
+	<result property="fempNo" column="FEMP_NO"/>
+	<result property="dockind" column="DOC_KIND"/>
+</resultMap>
+
+<resultMap type="DeptVO" id="deptMap">
+	<result property="dcode" column="DCODE"/>
+	<result property="uprDcode" column="UPR_DCODE"/>
+	<result property="dnm" column="DNM"/>
+	<result property="empNo" column="EMP_NO"/>
+	<result property="dabst" column="DABST"/>
+	<result property="delynCd" column="DELYN_CD"/>
+
+	<result property="deptName" column="DEPT_NAME"/>
+</resultMap>
+
+	<!-- 조직도 계층형 쿼리 부서-->	
+	<select id="organizationChartOne" resultMap="deptMap">
+		SELECT DCODE, UPR_DCODE, DNM, EMP_NO, DABST, DELYN_CD 
+		FROM   DEPT
+		START WITH UPR_DCODE IS NULL
+		CONNECT BY PRIOR DCODE = UPR_DCODE
+	</select>
+	
+	<!-- 조직도 계층형 쿼리 사원-->	
+	<select id="organizationChartTwo" resultMap="deptMap">
+		SELECT D.DCODE, E.EMP_NM AS DEPT_NAME, E.EMP_NO AS UPR_DCODE
+		FROM DEPT D
+		LEFT JOIN EMP E ON D.DCODE = E.DCODE
+		START WITH D.UPR_DCODE IS NULL
+		CONNECT BY PRIOR D.DCODE = D.UPR_DCODE
+	</select>
+
+	<!-- 문서종류 가져오기 -->
+	<select id="selectDocKind" resultType="DocKindVO" parameterType="String">
+		SELECT DOC_KIND, DOC_DETAIL FROM DOC_KIND WHERE DOC_KIND = #{docKind}
+	</select>
+
+	<!-- 문서작성 INSERT -->
+	<insert id="docInsert" parameterType="DocWriVO">
+		INSERT INTO DOC_WRI(DFT_NO, EMP_NO, DOC_KIND)
+		VALUES(#{dftNo},#{empNo},#{docKind})
+	</insert>
+	
+	<!-- 문서번호 가져오기 -->
+	<select id="docMaxNoSelect" resultType="int">
+		SELECT NVL(MAX(DFT_NO),0) AS DFT_NO  FROM DOC_WRI
+	</select>
+	
+	<!-- 비품신청서 INSERT -->
+	<insert id="fixInsert" parameterType="FixturesVO">
+		<selectKey resultType="int" order="BEFORE" keyProperty="docIndex">
+			SELECT NVL(MAX(DOC_INDEX),0)+1 FROM FIXTURES WHERE DFT_NO = #{dftNo}
+		</selectKey>
+		INSERT INTO FIXTURES(DOC_INDEX, DFT_NO, SUBJECT, FIX_NAME, FIX_STANDARD, FIX_NUMBER, FIX_UNIT_PRICE, FIX_PRICE, FIX_USAGE, FIX_TOTAL, APPLICATION_DATE)
+		VALUES(#{docIndex},#{dftNo},#{subject},#{fixName},#{fixStandard},#{fixNumber},#{fixUnitPrice},#{fixPrice},#{fixUsage},#{fixTotal},SYSDATE)
+	</insert>
+	
+	<!-- 결제선 INSERT -->
+	<insert id="apboxInsert" parameterType="ApboxVO">
+		<selectKey>
+			SELECT NVL(MAX(SERIAL_NUMBER),0)+1 FROM APBOX WHERE DFT_NO = #{dftNo}
+		</selectKey>
+		INSERT INTO APBOX(EMP_NO, DFT_NO, REJ_RSN, ARB_ST, FIN_AUTH_ST, SERIAL_NUMBER)
+		VALUES(#{empNo},#{dftNo},#{rejRsn},#{arbSt},#{finAuthSt},#{serialNumber})
+	</insert>
+	
+	<!-- 내가 할일 비품신청!! -->
+	<select id="myDocList" resultMap="apboxMap" parameterType="String">
+		SELECT  A.DOC_INDEX, A.DFT_NO, A.SUBJECT, A.FIX_NAME, A.FIX_STANDARD, A.FIX_NUMBER, A.FIX_UNIT_PRICE, A.FIX_PRICE, A.FIX_USAGE, A.FIX_TOTAL, TO_CHAR(A.APPLICATION_DATE, 'YYYY-MM-DD HH24:MI:SS') AS APPLICATION_DATE
+		       ,B.EMP_NO,TO_CHAR(B.AP_DATE, 'YYYY-MM-DD HH24:MI:SS') AS AP_DATE, B.REJ_RSN, B.FIN_AUTH_ST, B.ARB_ST, B.FIN_AUTH_ST, B.SERIAL_NUMBER, B.APB_PRO
+		       ,C.DOC_KIND,C.IMPORTANT ,C.EMP_NO AS FEMP_NO,(SELECT EMP_NM FROM EMP WHERE EMP_NO = C.EMP_NO) AS EMP_NM
+		FROM FIXTURES A
+		LEFT JOIN APBOX B ON A.DFT_NO = B.DFT_NO
+		LEFT JOIN DOC_WRI C ON C.DFT_NO = A.DFT_NO
+		WHERE B.EMP_NO = #{empNo}
+	</select>
+	
+	<!-- 결제문서에 결제 자들-->
+	<select id="deptApboxList" resultType="ApboxVO" parameterType="ApboxVO">
+		SELECT A.EMP_NO,(SELECT EMP_NM FROM EMP E WHERE A.EMP_NO = E.EMP_NO) AS EMP_NM 
+			  ,A.DFT_NO, A.AP_DATE, A.REJ_RSN, A.ARB_ST, A.FIN_AUTH_ST, A.SERIAL_NUMBER, A.APB_PRO
+		FROM APBOX A
+		WHERE DFT_NO = #{dftNo}
+		ORDER BY SERIAL_NUMBER ASC
+	</select>
+	
+	<!-- 결제선 UPDATE -->
+	<update id="updateApbox" parameterType="ApboxVO" >
+		UPDATE APBOX SET AP_DATE=SYSDATE, APB_PRO = #{apbPro} WHERE EMP_NO = #{empNo} AND DFT_NO= #{dftNo}
+	</update>
+	
+	<!-- 중요문서 등록 -->
+	<update id="updateImportant" parameterType="ApboxVO">
+		UPDATE DOC_WRI SET IMPORTANT = #{important} WHERE DFT_NO = #{dftNo} AND EMP_NO = #{empNo}
+	</update>
+	
+	<!-- 알림 INSERT -->
+	<insert id="notificationInsert" parameterType="TbNotificationVO">
+	<selectKey resultType="int" keyProperty="ntcnId" order="BEFORE">
+		SELECT NVL(MAX(NTCN_ID),0)+1 FROM TB_NOTIFICATION
+	</selectKey>
+		INSERT INTO TB_NOTIFICATION(NTCN_ID, NTCN_RCVER_EMP_NO, NTCN_CONTENT, NTCN_URL, NTCN_DT, NTCN_READ_STATUS, NTCN_TITLE)
+		VALUES(#{ntcnId},#{ntcnRcverEmpNo},#{ntcnContent},#{ntcnUrl},SYSDATE,'N',#{ntcnTitle})
+	</insert>
+	
+	<!-- 알림 확인 INSERT -->
+	<insert id="notiCheckInsert" parameterType="TbNotiCheckVO">
+		INSERT INTO TB_NOTI_CHECK(EMP_NO, NTCN_ID, CHECK_DATE)
+		VALUES(#{empNo},#{ntcnId},SYSDATE)
+	</insert>
+	
+	<!-- 알림 SELECT -->
+	<select id="notificationSelect" parameterType="TbNotificationVO">
+		SELECT NTCN_ID, A.NTCN_RCVER_EMP_NO,(SELECT EMP_NM FROM EMP WHERE EMP_NO = A.NTCN_RCVER_EMP_NO) AS EMP_NM, NTCN_CONTENT, NTCN_URL, NTCN_DT, NTCN_READ_STATUS, NTCN_TITLE
+		FROM TB_NOTIFICATION A WHERE NTCN_RCVER_EMP_NO = #{ntcnRcverEmpNo} AND NTCN_READ_STATUS = 'N'
+	</select>
+	
+</mapper>

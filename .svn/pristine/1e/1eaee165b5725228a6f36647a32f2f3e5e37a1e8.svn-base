@@ -1,0 +1,20 @@
+package kr.or.ddit.salary.vo;
+
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
+@Getter
+@Setter
+@ToString
+public class PayVO {
+	private int pyNo;//지급번호
+	private String parentPno;//부모코드
+	private String pyNm;//지급명
+	private int pyAmt;//지급금액
+	private String pyAbst;//지급설명
+	private String pyFml;//산출식
+	private String pyYn;//정산포함여부
+	private String pyLyn;//법정필수여부코드
+	private String pyTax;//과세여부코드
+}
